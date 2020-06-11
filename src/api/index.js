@@ -316,7 +316,11 @@ export default {
 	 * 获取报名时间
 	 */
 	userApplyTime(cid) {
-		console.log("cid====", cid)
+		// console.log("cid====", cid)
+		console.warn('cid');
+		console.log(cid);
+		console.log('\n');
+		
 		return fetch({
 			url: aliloUrl + "course/apply-time",
 			method: "POST",
@@ -364,12 +368,13 @@ export default {
 			}
 		});
 	},
-	getUserVip() {
+	getUserVip () {
+		const userId = localStorage.getItem("user");
 		return fetch({
 			url: aliloUrl + "user/get-vip",
 			method: "GET",
 			params: {
-				userId: localStorage.getItem("user")
+				userId
 			}
 		});
 	},
@@ -421,7 +426,8 @@ export default {
 	/*
 	 * 获取宝宝课程
 	 */
-	getUserCourse(babyid) {
+	getUserCourse (babyid) {
+
 		return fetch({
 			url: aliloUrl + "course-group/my-courses",
 			method: "POST",

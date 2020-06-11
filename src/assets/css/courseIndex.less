@@ -1,23 +1,31 @@
+.app {
+	height: 100%;
+}
+
 .content {
 	width: 100%;
-	background: #fafafa;
+	// background: #fafafa;
 }
+
 .course-box-top {
 	width: 100%;
 	height: 187px;
 	background-color: #ffc396;
 }
+
 .course-header {
 	width: 100%;
 	background: #fff;
 	height: 44px;
 	position: fixed;
 	top: 0;
+
 	.course-box-tab {
 		width: 100%;
 		height: 44px;
 		z-index: 3000;
 		background: #FFFFFF;
+
 		.course-tab-item {
 			width: 60%;
 			height: 100%;
@@ -25,21 +33,28 @@
 			display: flex;
 			// align-items: center;
 			text-align: center;
+
 			div {
 				width: 50%;
 				line-height: 1;
 				margin-top: 17px;
+
 				p {
 					width: 100%;
 					font-size: 16px;
-					color: #000;
+					// color: #000;
+					color: rgba(0, 0, 0, 0.3);
 					padding: 0;
 					margin: 0;
 					display: inline-block;
+					font-family: "SourceHanSansCN-Medium";
+
 				}
+
 				span {
 					padding: 0;
 					margin: 0;
+					margin-top: 11px;
 					display: inline-block;
 					width: 30px;
 					height: 4px;
@@ -50,13 +65,24 @@
 		}
 	}
 }
+
+.active-tab {
+	color: rgba(0, 0, 0, 0.8);
+}
+
+// .inactive-tab {
+// 	color: rgba(0, 0, 0, 0.3);
+// }
+
 .course-content {
 	padding-top: 44px;
 }
+
 .course-card {
 	width: 100%;
 	background: transparent;
 }
+
 .course-user-top {
 	width: 375px;
 	margin: 0 auto;
@@ -64,6 +90,7 @@
 	justify-content: space-between;
 	align-items: center;
 	background-color: #fff4d0;
+
 	p {
 		width: 375px;
 		height: 34px;
@@ -72,39 +99,53 @@
 		color: rgba(0, 0, 0, 0.5);
 		padding: 0 15px;
 	}
+
 	span {
 		display: inline-block;
 		margin-left: auto;
 		width: 16px;
 		height: 16px;
 		margin-right: 16px;
+
 		img {
 			width: 100%;
 			height: 100%;
 		}
 	}
 }
+
 .course-user-day,
 .course-user-all {
 	width: 345px;
 	margin: 20px auto;
+
 	.course-day-title {
 		width: 100%;
 		display: flex;
 		align-items: center;
+
 		p {
 			font-size: 18px;
 			color: rgba(0, 0, 0, 0.8);
+			font-family: "SourceHanSansCN-Medium";
 		}
+
 		span {
 			margin-left: auto;
 			font-size: 12px;
 			color: rgba(0, 0, 0, 0.5);
+			display: flex;
+			align-items: center;
 		}
 	}
 }
+
 .more-img {
+	padding-top: 16px;
+	padding-bottom: 16px;
+	// background-color: #fff000;
 	text-align: center;
+
 	img {
 		display: inline-block;
 		width: 13px;
@@ -112,16 +153,19 @@
 		margin: 0 auto;
 	}
 }
+
 .course-user-tab {
 	width: 345px;
 	margin: 20px auto;
 	display: flex;
+
 	p {
 		display: inline-block;
 		padding-right: 38px;
 		font-size: 15px;
 		color: rgba(0, 0, 0, 0.3);
 		text-align: center;
+
 		span {
 			width: 30px;
 			height: 4px;
@@ -132,18 +176,22 @@
 		}
 	}
 }
+
 .course-user-tab p.tabActive {
 	color: rgba(0, 0, 0, 0.8);
 }
+
 .course-user-null {
 	width: 100%;
 	margin: 0 auto;
 	margin-top: 60px;
 	text-align: center;
+
 	p {
 		font-size: 14px;
 		color: rgba(0, 0, 0, 0.5);
 	}
+
 	span {
 		margin-top: 24px;
 		display: inline-block;
@@ -156,6 +204,7 @@
 		line-height: 48px;
 	}
 }
+
 .course-list {
 	box-shadow: 0px 0px 8px 3px rgba(76, 76, 76, 0.06);
 	border-radius: 8px;
