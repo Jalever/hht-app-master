@@ -10,11 +10,7 @@
         <div class="header">
           <div class="header-title">
             <div class="header-img">
-              <img
-                :src="defaultBaby.head"
-                alt=""
-                v-if="defaultBaby.head != ''"
-              />
+              <img :src="head" v-if="head != ''" />
               <img
                 v-else-if="defaultBaby.sex == 1"
                 src="../../assets/image/my_avatar_boy@3x.png"
@@ -155,6 +151,7 @@ export default {
       defaultBabyArray: [],
       defaultBaby: [],
       isHeader: 0,
+      babyList: [],
     }
   },
   computed: {
@@ -165,10 +162,15 @@ export default {
       'memberInfoVip',
       'userBaby',
     ]),
+
+    head() {
+      return this.defaultBaby && this.defaultBaby.head ? defaultBaby.head : ''
+    },
   },
   created() {
     this.isHeader = this.$route.query.header
     let baby = JSON.parse(localStorage.getItem('babyInfo'))
+
     this.defaultBaby = this.userBaby.length == 0 ? baby : this.userBaby
     if (localStorage.getItem('cid') == null) {
       console.log('没有cid========')
@@ -391,7 +393,7 @@ export default {
         .userApplyTime(localStorage.getItem('cid'))
         .then((res) => {
           if (res.data.code == 1) {
-            console.log('已经报名=====')
+            // console.log('已经报名=====')
             try {
               this.applyTime = this.computedTime(res.data.data.createTime)
               let id = localStorage.getItem('babyId')
@@ -405,7 +407,7 @@ export default {
               array.forEach(function(item, index) {
                 if (res.data.data.babyId == item.id) {
                   self.defaultBaby = item
-                  console.log('self.defaultBaby==========', self.defaultBaby)
+                  // console.log('self.defaultBaby==========', self.defaultBaby)
                   self.$store.dispatch('defaultBaby', item)
                 }
               })
@@ -426,12 +428,30 @@ export default {
         })
         .catch((err) => console.error(err))
     },
-    userApply() {
+    async getBabyList() {
+      this.$axios
+        .getBabyList()
+        .then((res) => {
+          this.babyList = res.data.data
+        })
+        .catch((err) => console.error(err))
+    },
+    async userApply() {
       if (this.memberInfoVip == 0) {
-        this.$router.push({ name: 'index' })
+        // this.$router.push({ name: 'index' })
         this.$toast('请先开通会员')
         return
       }
+
+      await this.getBabyList()
+
+      if (this.babyList.length < 1)
+        return this.$dialog
+          .alert({
+            title: '添加宝宝信息',
+            message: '创建宝贝信息, 以生成适合宝贝成长的智慧早教计划',
+          })
+          .then(() => window.webkit.messageHandlers.addBabys.postMessage(null))
       this.babyBox = true
     },
     computedTime(time) {

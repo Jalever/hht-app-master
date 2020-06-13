@@ -1,16 +1,18 @@
 <template>
-  <div class="app">
-    <v-header :title="courseData.name"></v-header>
+  <div class="course-learning-wrapper">
+    <!-- <v-header :title="courseData.name"></v-header> -->
+
+    <v-header title=""></v-header>
     <div class="loadingding center" v-show="!isLoading">
       <van-loading size="30px" color="#ff6666" vertical>加载中</van-loading>
     </div>
-    <div class="content" v-show="isLoading">
-      <div class="learning-top mbot ptop">
+    <div class="course-learning-content" v-show="isLoading">
+      <div class="learning-top mbot">
         <p>{{ courseData.name }}</p>
         <p>
           共
           <span>{{ courseData.classHourCount }}</span>
-          课时 | 每节课预计
+          课时 | 每节课约
           <span>{{ courseData.avgDuration }}</span>
           分钟
         </p>
@@ -22,20 +24,26 @@
         <span>加入</span>
       </div>
       <div class="learnig-list mbot">
-        <v-title :title="titleNmae"></v-title>
+        <v-title
+          :title="titleNmae"
+          :isShowCourseCount="true"
+          :course-count="courseData.classHourCount"
+        ></v-title>
         <div class="list-box">
-          <ul v-for="(titleItem, index) in courseData.classHours">
+          <ul v-for="titleItem in courseData.classHours" :key="titleItem.index">
             <div class="list-item-title">
               <p>
                 <span>第{{ titleItem.index }}课时</span>
               </p>
               <p>
-                <span v-if="titleItem.newLearning < 0">新学一首</span>
+                <span v-if="titleItem.newLearning > 0"
+                  >新学{{ titleItem.newLearning }}首</span
+                >
                 |
-                <span v-if="titleItem.review < 0">复习一首</span>
+                <span>复习{{ titleItem.review }}首</span>
               </p>
             </div>
-            <li v-for="listItem in titleItem.audios">
+            <li v-for="listItem in titleItem.audios" :key="listItem.name">
               <p class="item-name">{{ listItem.name }}</p>
               <div class="item-time">
                 <p>
@@ -70,7 +78,7 @@ export default {
     return {
       title: '',
       isLoading: false,
-      titleNmae: '今日课程关键词',
+      titleNmae: '课程安排',
       courseData: [],
       babyid: 0,
     }
@@ -87,6 +95,10 @@ export default {
         .then((res) => {
           if (res.data.code == 1) {
             this.courseData = res.data.data
+            // console.warn('this.courseData')
+            // console.log(courseData)
+            // console.log('\n')
+
             this.isLoading = true
           }
         })
@@ -110,14 +122,26 @@ export default {
 .learning-top {
   width: 345px;
   margin: 20px auto;
+  margin-top: 0;
+
+  // background-color: #fff000;
   p {
     &:nth-of-type(1) {
       font-size: 22px;
+      color: rgba(0, 0, 0, 0.8);
+
+      font-family: 'SourceHanSansCN-Medium';
+      font-size: 22px;
+      font-weight: normal;
+      font-stretch: normal;
+      letter-spacing: 0px;
       color: rgba(0, 0, 0, 0.8);
     }
     &:nth-of-type(2) {
       font-size: 13px;
       color: rgba(0, 0, 0, 0.6);
+      margin-left: 2px;
+      margin-top: 7px;
       span {
         font-size: 24px;
         color: #ff8a66;
@@ -126,12 +150,16 @@ export default {
     &:nth-of-type(3) {
       font-size: 13px;
       color: rgba(0, 0, 0, 0.5);
+      margin-left: 2px;
+      margin-top: 16px;
     }
   }
 }
 .learning-wacth {
   width: 345px;
   margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
   display: flex;
   height: 63px;
   align-items: center;
@@ -153,11 +181,18 @@ export default {
     width: 60px;
     height: 25px;
     border-radius: 24px;
-    border: solid 1px #ff6666;
-    font-size: 12px;
-    color: #ff6666;
+    // border: solid 1px #ff6666;
+    // font-size: 12px;
+    // color: #ff6666;
     text-align: center;
     line-height: 25px;
+    background-color: #4dc42a;
+    border-radius: 24px;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    letter-spacing: 0px;
+    color: #ffffff;
   }
 }
 .list-box {

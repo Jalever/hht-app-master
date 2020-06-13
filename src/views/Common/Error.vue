@@ -1,21 +1,16 @@
 <template>
   <div class="app">
-	<van-empty image="error" description="请在火火兔APP中登陆使用" />
+    <van-empty image="error" description="请在火火兔APP中登录使用" />
   </div>
 </template>
 
 <script>
 export default {
   data() {
-    return {
-
-    }
+    return {}
   },
-  components: {
-
-  }
+  components: {},
 }
 </script>
 
-<style lang="stylus" scoped>
-</style>
+<style lang="stylus" scoped></style>

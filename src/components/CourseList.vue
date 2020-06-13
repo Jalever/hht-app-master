@@ -1,5 +1,5 @@
 <template>
-  <div class="app">
+  <div class="course-list-wrapper">
     <div class="empty" v-if="courseData.length == 0 && !isEdu">
       <van-empty
         class="custom-image"
@@ -20,7 +20,7 @@
               分钟
             </p>
           </div>
-          <div class="list-btn" @click="schooltime('', 1)">
+          <div class="list-btn" @click="onDebounceSchoolTime('', 1)">
             <span>上课</span>
           </div>
         </li>
@@ -28,7 +28,8 @@
           <div class="list-name">
             <p>
               {{ item.name }}
-              <span v-if="item.status == 20">已完成</span>
+              <!-- <span v-if="item.status == 10">已完成</span> -->
+              <!-- <span v-if="item.status == 20">已完成</span> -->
             </p>
             <p>
               共
@@ -38,7 +39,7 @@
               分钟
             </p>
           </div>
-          <div class="list-btn" @click="schooltime(item, 0)">
+          <div class="list-btn" @click="onDebounceSchoolTime(item, 0)">
             <span>上课</span>
           </div>
         </li>
@@ -49,7 +50,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { getDayTime } from '../common/util.js'
+import { getDayTime, debounce } from '../common/util.js'
 export default {
   props: {
     courseData: '',
@@ -64,19 +65,25 @@ export default {
   computed: {
     ...mapState(['isEdu', 'system']),
     dataFilter: function() {
-      return this.courseData.filter((item, index) => {
-        if (this.isShow) {
-          return index < 3
-        } else {
-          return item
-        }
-      })
+      return this.courseData
+        .filter((item, index) => {
+          if (this.isShow) {
+            return index < 3
+          } else {
+            return item
+          }
+        })
+        .filter((item) => item.status * 1 !== 20)
     },
   },
   created() {
     this.babyid = localStorage.getItem('courseBaby')
   },
   methods: {
+    onDebounceSchoolTime(item, type) {
+      // return debounce(this.schooltime, 500)(item, type)
+      this.schooltime(item, type)
+    },
     schooltime(item, type) {
       if (type == 0) {
         this.$axios

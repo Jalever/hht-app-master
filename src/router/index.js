@@ -37,11 +37,20 @@ export default new Router({
       },
     },
     {
-      //登陆
+      //登录
       path: '/login',
       name: 'login',
       component: () =>
         import(/* webpackChunkName: "login" */ '@/views/Login/Login.vue'),
+      meta: {
+        keepAlive: true,
+      },
+    },
+    {
+      //课程包登录
+      path: '/course-login',
+      name: '/course-login',
+      component: () => import('@/views/Login/CourseLogin.vue'),
       meta: {
         keepAlive: true,
       },
@@ -183,7 +192,7 @@ export default new Router({
       component: () =>
         import(/* webpackChunkName: "apply" */ '@/views/Course/Learning.vue'),
       meta: {
-        keepAlive: true,
+        keepAlive: false,
       },
     },
     {

@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <!-- <div class="course-card" @click="goEducation()">
+    <div class="course-card" @click="goEducation()">
       <div class="course-card-box">
         <div class="course-img"><img src="../assets/image/2.png" alt="" /></div>
         <div class="card-name"><p>智慧早教课程</p></div>
@@ -15,7 +15,7 @@
           <p class="course-state-btn1" v-else>会员免费</p>
         </div>
       </div>
-    </div> -->
+    </div>
     <div
       class="course-card"
       v-for="item in list"
@@ -76,13 +76,13 @@ export default {
       // }
       this.$router.push({ name: 'course/details', query: { id: id } })
     },
-    // goEducation() {
-    //   if (this.userId == null) {
-    //     this.$toast('请登录火火兔APP')
-    //     return
-    //   }
-    //   this.$router.push({ name: 'education', query: { header: 1 } })
-    // },
+    goEducation() {
+      if (this.userId == null) {
+        this.$toast('请登录火火兔APP')
+        return
+      }
+      this.$router.push({ name: 'education', query: { header: 1 } })
+    },
   },
   components: {},
 }

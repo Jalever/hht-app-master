@@ -65,3 +65,16 @@ export function getDayTime() {
 	var d = dd.getDate();
 	return y + '-' + m + '-' + d;
 }
+
+export function debounce(fun, delay) {
+  return function(args){
+    let _args = args;
+    let that = this;
+
+    clearTimeout(fun.id);
+
+    fun.id = setTimeout(() => {
+      fun.call(that, _args);
+    }, delay)
+  }
+}

@@ -1,10 +1,10 @@
 <template>
   <div class="app">
-    <div class="loadingding center" v-show="!isLoading">
+    <div class="loadingding center" v-if="!isLoading">
       <van-loading size="30px" color="#ff6666" vertical>加载中</van-loading>
     </div>
     <div class="content" v-show="isLoading">
-      <div class="course-header iphonex-bd-top">
+      <div class="course-header">
         <div class="course-box-tab">
           <div class="course-tab-item">
             <div @click="courstTab(1)">
@@ -22,10 +22,9 @@
           </div>
         </div>
       </div>
-      <div class="course-content">
+
+      <!-- <div class="course-content">
         <div class="course-card mbot" v-if="courseTab == 1">
-          <!-- <div class="course-box-top"></div> -->
-          <!-- <div @click="load()">刷新</div> -->
           <v-card :list="lsit" :eduData="educationData"></v-card>
         </div>
         <div v-if="courseTab == 2">
@@ -34,11 +33,9 @@
             @click="deviseText()"
             v-if="isDeviseText"
           >
-            <p>绑定故事机开机后按课程键，即可播放今日课程哦！</p>
+            <p>绑定故事机开机，即可播放今日课程哦！</p>
             <span
-              ><img
-                src="../../assets/image/course/icon_popup_close@2x.png"
-                alt=""
+              ><img src="../../assets/image/course/icon_popup_close@2x.png"
             /></span>
           </div>
           <div class="course-user-day">
@@ -75,14 +72,12 @@
                 @click="courseTabCLick(1)"
               >
                 学习中
-                <!-- <span v-if="courseUserTab == 1"></span> -->
               </p>
               <p
                 :class="courseUserTab == 2 ? 'tabActive' : ''"
                 @click="courseTabCLick(2)"
               >
                 已完成
-                <!-- <span v-if="courseUserTab == 2"></span> -->
               </p>
             </div>
             <div
@@ -101,7 +96,11 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
+
+      <van-button @click="onRedirectVIP()">Test进入VIP页面</van-button>
+      <!-- <div >Reload</div> -->
+      <van-button @click="onRelaod()">Reload</van-button>
     </div>
   </div>
 </template>
@@ -132,15 +131,21 @@ export default {
     this.babyid = localStorage.getItem('courseBaby')
     // console.log(this.babyid)
     this.getUserApply()
-    this.getCourseAll()
+    // this.getCourseAll()
   },
   activated() {
-    // this.getCourseAll()
+    this.getCourseAll()
   },
   mounted() {},
   methods: {
-    load() {
-      location.reload()
+    onRedirectVIP() {
+      // location.reload()
+      const url = 'http://twifi.alilo.com.cn/xiaohai/hht/temp/index.html'
+      // alert(`url: ${url}`)
+      window.open(url, '_self')
+    },
+    onRelaod() {
+      window.location.reload()
     },
     onClickLeft() {
       // Toast('返回');
@@ -196,6 +201,10 @@ export default {
             if (res.data.code == 1) {
               this.$store.dispatch('setUserCourse', res.data.data)
               this.userList = res.data.data
+              console.warn('this.userList')
+              console.log(this.userList)
+              console.log('\n')
+
               this.isLoading = true
             } else {
               this.$toast(res.data.info)

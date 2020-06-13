@@ -54,10 +54,10 @@ export default {
 			window.webkit.messageHandlers.getUserInfo.postMessage(null);
 			window.webkit.messageHandlers.getCurrentBaby.postMessage(null);
 			window['getUserInfo'] = res => {
-				console.log("没有用户信息=====", res)
+				// console.log("没有用户信息=====", res)
 				if (res.uid == "") {
 					router.push({
-						name: 'error'
+						name: '/course-login'
 					})
 					return
 				}
@@ -66,7 +66,7 @@ export default {
 				$axios
 					.getBabyList(res.uid)
 					.then(res => {
-						console.log("获取宝宝类表=========")
+						// console.log("获取宝宝类表=========")
 						commit(types.SET_BABYINFO, res.data.data);
 					})
 					.catch(err => console.error(err));
