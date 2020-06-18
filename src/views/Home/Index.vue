@@ -7,6 +7,7 @@
     </div>
     <div class="content" v-show="isLoading">
       <div><button @click="loca()">刷新</button></div>
+      <div><button @click="xmlay(null, null, 1, 1)">测试喜马拉雅</button></div>
       <div class="member-user">
         <div class="member-user-bg">
           <div class="member-user-img">
@@ -391,7 +392,7 @@ export default {
     /**
      *跳转喜马拉雅小程序
      */
-    xmlay(id, name, type) {
+    xmlay(id, name, type, isTest) {
       let userid = localStorage.getItem('user')
       console.log('id==', id)
       console.log('name==', name)
@@ -417,6 +418,16 @@ export default {
               userid,
           }
         }
+
+        if (isTest) {
+          data = {
+            mini_program_id: 'gh_c7ae9c51172b',
+            path:
+              '/src/other/contact/index?appkey=5a038226a57546a3b8beee9ec12c6ce6&huid=' +
+              userid,
+          }
+        }
+
         // console.log('跳转喜马拉雅===', data)
         if (this.system == 'ios') {
           window.webkit.messageHandlers.redirectMiniProgram.postMessage(data)
