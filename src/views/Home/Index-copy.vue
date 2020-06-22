@@ -7,7 +7,7 @@
     </div>
     <div class="content" v-show="isLoading">
       <div>
-        <!-- <button @click="loca()">刷新</button> -->
+        <button @click="xmlay(null, null, null, 1)">redirect xmly</button>
       </div>
       <div class="member-user">
         <div class="member-user-bg">
@@ -354,10 +354,6 @@ export default {
     const { isHeader } = this.$route.query
     this.isHeader = isHeader
 
-    console.warn('isHeader')
-    console.log(isHeader)
-    console.log('\n')
-
     //判断是否有用户id
     this.userID = localStorage.getItem('user')
     if (this.userID == null) {
@@ -393,7 +389,7 @@ export default {
     /**
      *跳转喜马拉雅小程序
      */
-    xmlay(id, name, type) {
+    xmlay(id, name, type, isTest) {
       let userid = localStorage.getItem('user')
       console.log('id==', id)
       console.log('name==', name)
@@ -416,6 +412,15 @@ export default {
             mini_program_id: 'gh_c7ae9c51172b',
             path:
               '/src/pages/home/index?appkey=5a038226a57546a3b8beee9ec12c6ce6&huid=' +
+              userid,
+          }
+        }
+
+        if (isTest * 1) {
+          data = {
+            mini_program_id: 'gh_c7ae9c51172b',
+            path:
+              '/src/other/contact/index?appkey=5a038226a57546a3b8beee9ec12c6ce6&source=alilo&huid=' +
               userid,
           }
         }

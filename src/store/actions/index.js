@@ -2,6 +2,12 @@ import * as types from "@/store/mutation-type.js";
 import $axios from '@/api/index.js';
 import router from '@/router/index';
 import ROUTEACTIONS from "./route";
+import * as CONSTANTS from "@/constants/index";
+
+
+import {
+  Toast,
+} from 'vant'
 
 export default {
 	...ROUTEACTIONS,
@@ -28,7 +34,7 @@ export default {
 		$axios
 			.userActivityInfo()
 			.then(res => {
-				console.log("获取到cid====", res.data.data.id)
+				// console.log("获取到cid====", res.data.data.id)
 				localStorage.setItem("cid", res.data.data.id);
 				commit(types.SET_USERCID, res.data.data.id);
 			})
@@ -50,37 +56,57 @@ export default {
 	/**
 	 * ios: 获取宝贝信息
 	 * */
-	setBabyInfoAction({
-		commit
-	}, data) {
+	setBabyInfoAction({ commit, dispatch }, data) {
+		// Toast('ios');
 		try {
 			window.webkit.messageHandlers.getUserInfo.postMessage(null);
 			window.webkit.messageHandlers.getCurrentBaby.postMessage(null);
 			window['getUserInfo'] = res => {
-				if (res.uid == "") return router.push({ name: 'course-login' });
+				// if (res.uid == "") return router.push({ name: 'course-login' });
+				if (res.uid == "") return dispatch(CONSTANTS.DISPATCH_REDIRECT, {
+					path: '/course-login',
+				});
 				
 				localStorage.setItem("user", res.uid)
 				commit(types.SET_USERINFO, res);
-				alert(2);
+				// alert(2);
 				$axios
 					.getBabyList(res.uid)
 					.then(res => {
-						alert(3)
+						// alert(3)
 						commit(types.SET_BABYINFO, res.data.data);
 					})
 					.catch(err => console.error(err));
 			};
-			window['getCurrentBaby'] = res => localStorage.setItem("courseBaby", res.babyId)
+			window['getCurrentBaby'] = res => { 
+				Toast(`babyId: ${res.babyId}`);
+				localStorage.setItem("courseBaby", res.babyId)
+			}
 		} catch (e) {
 			console.log("请先登录app")
 		}
 	},
+	// android
 	setBabyInfoADAction({
-		commit
+		commit, dispatch
 	}, data) {
 		try {
 			let user = window.android.getUserInfo();
 			let babyid = window.android.getCurrentBaby();
+
+			// window['getUserInfo'] = res => {
+			// 	if (res.uid == "") return router.push({ name: 'course-login' });
+			// }
+			user = JSON.parse(user);
+			console.warn('user');
+			console.log(user);
+			console.log('\n');
+			// if (res.uid == "") return router.push({ name: 'course-login' });
+			if (user.uid == "") dispatch(CONSTANTS.DISPATCH_REDIRECT, {
+        path: '/course-login',
+      });
+			
+
 			let babyData = JSON.parse(babyid);
 			if (Object.keys(babyData).length === 0 && babyData.constructor === Object) throw new Error('lack of babyId');
 			

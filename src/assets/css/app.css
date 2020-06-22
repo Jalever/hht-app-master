@@ -327,7 +327,7 @@ textarea::-webkit-input-placeholder {
   }
 
   .iphonex-bd-bottom {
-    border-bottom: 84px solid transparent !important;
+    border-bottom: 100px solid transparent !important;
   }
 
   /* iphoneX special topbar height */

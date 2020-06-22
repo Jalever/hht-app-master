@@ -3,8 +3,11 @@ import * as CONSTANTS from "@/constants/index"
 import $axios from '@/api/index.js'
 import ROUTER from '@/router/index'
 import STORE from '@/store/index'
+import { ROUTE_PREFIX} from "@/constants/setting";
+import { Toast } from 'vant'
 
-const prefix = 'http://twifi.alilo.com.cn/xiaohai/hht/temp/index.html#'
+
+
 
 function convertObj(data) {
   var _result = []
@@ -25,7 +28,8 @@ export default {
   /*
    * 路由跳转
    * */
-  redirect({ commit }, payload) {
+  redirect ({ commit }, payload) {
+    
     const { path, query } = payload
     const isDev = window.location.href.indexOf('localhost:') > -1
     if (isDev) return ROUTER.push({ path, query })
@@ -33,8 +37,8 @@ export default {
     let convertQuery
     if (query) convertQuery = convertObj(query)
     const params = query
-      ? { url: `${prefix}${path}?${convertQuery}` }
-      : { url: `${prefix}${path}` }
+      ? { url: `${ROUTE_PREFIX}${path}?${convertQuery}` }
+      : { url: `${ROUTE_PREFIX}${path}` }
 
     let system
     if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
@@ -51,16 +55,11 @@ export default {
   },
 
   [CONSTANTS.DISPATCH_REDIRECT_HOME]: async ({ commit }, payload) => {
-    alert('go home');
+    
     const { path, query } = payload
     const isDev = window.location.href.indexOf('localhost:') > -1
     if (isDev) return ROUTER.push({ path, query })
 
-    let convertQuery
-    if (query) convertQuery = convertObj(query)
-    const params = query
-      ? { url: `${prefix}${path}?${convertQuery}` }
-      : { url: `${prefix}${path}` }
 
     let system
     if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {

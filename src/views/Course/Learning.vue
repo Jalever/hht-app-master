@@ -32,9 +32,11 @@
               </p>
               <p>
                 <span v-if="titleItem.newLearning"
-                  >新学{{ titleItem.newLearning | convertCNNum }}首</span
-                ><span v-if="titleItem.review">
-                  | 复习{{ titleItem.review | convertCNNum }}首</span
+                  >新学{{ titleItem.newLearning }}首</span
+                >
+                <span v-if="titleItem.newLearning && titleItem.review">|</span>
+                <span v-if="titleItem.review"
+                  >复习{{ titleItem.review }}首</span
                 >
               </p>
             </div>
@@ -269,6 +271,7 @@ export default {
           letter-spacing: 0px;
           color: rgba(0, 0, 0, 0.8);
           // vertical-align: bottom;
+          // background-color: #ff0000;
         }
 
         &:nth-of-type(2) {

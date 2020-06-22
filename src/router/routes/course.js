@@ -4,7 +4,8 @@ export default [
     name: 'course/index',
     component: () => import( /* webpackChunkName: "home" */ '@/views/Course/Index.vue'),
     meta: {
-      keepAlive: false
+      keepAlive: false,
+      title: null
     },
   },
   { //智慧早教
@@ -13,6 +14,7 @@ export default [
     component: () => import( /* webpackChunkName: "home" */ '@/views/Course/SmartCourse.vue'),
     meta: {
       keepAlive: false,
+      title: null
     },
   },
   { //我的课程
@@ -21,6 +23,7 @@ export default [
     component: () => import( /* webpackChunkName: "home" */ '@/views/Course/MyCourse.vue'),
     meta: {
       keepAlive: false,
+      title: null
     },
   },
   { //课程包登录页面
@@ -29,6 +32,7 @@ export default [
     component: () => import( /* webpackChunkName: "login" */ '@/views/Login/CourseLogin.vue'),
     meta: {
       keepAlive: false,
+      title: null
     },
   },
   { //详情
@@ -37,6 +41,7 @@ export default [
     component: () => import( /* webpackChunkName: "details" */ '@/views/Course/Details.vue'),
     meta: {
       keepAlive: false,
+      title: null,
     }
   },
   { //报名详情
@@ -45,6 +50,7 @@ export default [
     component: () => import( /* webpackChunkName: "apply" */ '@/views/Course/AddCourse.vue'),
     meta: {
       keepAlive: false,
+      title: null
     }
   },
   { //报名详情
@@ -53,6 +59,7 @@ export default [
     component: () => import( /* webpackChunkName: "apply" */ '@/views/Course/Apply.vue'),
     meta: {
       keepAlive: false,
+      title: null
     }
   },
   { //今日课程更多
@@ -61,6 +68,7 @@ export default [
     component: () => import( /* webpackChunkName: "apply" */ '@/views/Course/CourseMore.vue'),
     meta: {
       keepAlive: false,
+      title: null
     }
   },
   { //学习中详情
@@ -69,6 +77,16 @@ export default [
     component: () => import( /* webpackChunkName: "apply" */ '@/views/Course/Learning.vue'),
     meta: {
       keepAlive: false,
+      title: null
+    }
+  },
+  { //xmly
+    path: '/course/index-copy',
+    name: '/course/learning',
+    component: () => import( /* webpackChunkName: "apply" */ '@/views/Home/Index-copy.vue'),
+    meta: {
+      keepAlive: false,
+      title: null
     }
   },
   {
@@ -92,7 +110,7 @@ export default [
         name: "wisdom-course/index",
         component: () => import("@/views/WisdomCourse/Index"),
         meta: {
-          title: "智慧早教主页",
+          title: null
         },
       },
     ]

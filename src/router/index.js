@@ -2,9 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import MEMBERSHIPROUTE from "./routes/membership";
 import COURSEROUTE from "./routes/course";
+import { Toast } from 'vant'
 Vue.use(Router)
-
-
 
 const router = new Router({
 	mode: 'hash',
@@ -16,9 +15,10 @@ const router = new Router({
 	]
 })
 
-
 router.beforeEach((to, from, next) => {
   if (to.meta.title) document.title = to.meta.title;
+	if (to.meta.title === null) document.title = '\u200E';
+	Toast(`to: ${window.location.href}`);
   next();
 });
 

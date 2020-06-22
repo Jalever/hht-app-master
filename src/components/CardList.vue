@@ -2,11 +2,13 @@
   <div class="card-list-wrapper">
     <div class="card-list-list">
       <ul>
-        <li @click="onRedirect()" v-if="isEdu && status == 0">
-          <div class="item-img"><img src="../assets/image/2.png" /></div>
+        <li @click="onRedirect" v-if="isEdu && status == 0">
+          <div class="item-img">
+            <img src="../assets/image/smart_course_square.png" />
+          </div>
           <div class="item-name">
             <p>智慧早教</p>
-            <p>1课时</p>
+            <p>共1课时</p>
           </div>
         </li>
         <li

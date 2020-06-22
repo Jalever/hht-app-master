@@ -11,11 +11,11 @@
           ><img src="../../assets/image/course/icon_popup_close@2x.png"
         /></span>
       </div>
-      <div class="course-user-day">
+      <div class="course-user-day" v-if="isShowCourseUserDay">
         <div class="course-day-title">
           <p>今日学习</p>
           <span @click="onShowMore" v-if="userList.length != 0">
-            查看更多
+            <i>查看更多</i>
             <van-icon name="arrow" />
           </span>
         </div>
@@ -74,7 +74,6 @@ import * as CONSTANTS from '@/constants/index'
 import Header from '@/components/Header.vue'
 import CourseList from '@/components/CourseList.vue'
 import CradList from '@/components/CardList.vue'
-import Card from '@/components/Card.vue'
 import PullDown from '@/components/Loadmore/PullDown.vue'
 
 export default {
@@ -91,7 +90,14 @@ export default {
       isShow: true,
       babyid: 0,
       isDeviseText: true,
+      signupBabyId: null,
     }
+  },
+  computed: {
+    isShowCourseUserDay() {
+      if (this.isShowSmartCourse) return true
+      return this.userList.length
+    },
   },
   created() {
     this.babyid = localStorage.getItem('courseBaby')
@@ -107,8 +113,8 @@ export default {
       location.reload()
     },
     onAddCourse() {
-      // this.courseTab = 1
-      this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT_HOME, {
+      // this.$toast('success')
+      this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, {
         path: '/course/smart-course',
       })
     },
@@ -121,6 +127,8 @@ export default {
         const cid = localStorage.getItem('cid')
         const { data } = await this.$axios.userApplyTime(cid)
         if (!data.success) throw new Error(data.info)
+        const { babyId } = data.data
+        this.signupBabyId = babyId
 
         this.isShowSmartCourse = true
         this.$store.dispatch('setEduFlag', true)
@@ -152,9 +160,6 @@ export default {
         if (!data.success) throw new Error(data.info)
         const resData = data.data
         this.$store.dispatch('setUserCourse', resData)
-        console.warn('resData')
-        console.log(resData)
-        console.log('\n')
 
         this.userList = resData
         this.isLoading = true
@@ -163,13 +168,6 @@ export default {
         this.$toast.fail(err.message)
       }
     },
-    // courstTab(index) {
-    //   this.isLoading = false
-    //   this.courseTab = index
-    //   setTimeout(() => {
-    //     this.isLoading = true
-    //   }, 200)
-    // },
     courseTabCLick(index) {
       this.courseUserTab = index
       if (index == 2) {
@@ -186,7 +184,6 @@ export default {
   },
   components: {
     'v-header': Header,
-    'v-card': Card,
     'v-course-list': CourseList,
     'v-card-list': CradList,
     'v-pull-down': PullDown,
@@ -195,9 +192,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import './../../assets/css/constants.less';
 .course-index-wrapper {
   width: 100%;
-  border-bottom: 44px solid transparent;
+  border-bottom: @bottom-bar-distance-disk solid transparent;
 }
 
 .content {
@@ -252,7 +250,6 @@ export default {
     width: 100%;
     display: flex;
     align-items: center;
-
     font-family: 'SourceHanSansCN-Medium';
     font-size: 18px;
     font-weight: normal;
@@ -260,42 +257,33 @@ export default {
     letter-spacing: 0px;
     color: rgba(0, 0, 0, 0.8);
 
-    // p {
-    // 	font-size: 18px;
-    // 	color: rgba(0, 0, 0, 0.8);
-    // }
-
     span {
       margin-left: auto;
-      // font-size: 12px;
-      // color: rgba(0, 0, 0, 0.5);
-
-      font-family: 'SourceHanSansCN-Regular';
-      font-size: 12px;
-      font-weight: normal;
-      font-stretch: normal;
-      letter-spacing: 0px;
-      color: rgba(0, 0, 0, 0.5);
-      // background-color: #fff000;
 
       display: flex;
       align-items: center;
+      & > i:first-of-type {
+        font-style: normal;
+        font-family: 'SourceHanSansCN-Regular';
+        font-size: 12px;
+        font-weight: normal;
+        font-stretch: normal;
+        letter-spacing: 0px;
+        color: rgba(0, 0, 0, 0.5);
+      }
 
-      & > i {
+      & > i:nth-of-type(2) {
         width: 11px;
-        height: 10px;
-        position: relative;
-        top: -2px;
+        height: 100%;
+        font-size: 13px;
+        color: rgba(0, 0, 0, 0.5) !important;
       }
     }
   }
 }
 
 .more-img {
-  // background-color: #ff0000;
   margin-top: 2px;
-  // padding-bottom: 16px;
-
   text-align: center;
 
   img {
@@ -343,7 +331,9 @@ export default {
   width: 100%;
   margin: 0 auto;
   margin-top: 60px;
+  margin-bottom: 60px;
   text-align: center;
+  // background-color: #ff0000;
 
   p {
     font-size: 14px;

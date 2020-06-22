@@ -20,11 +20,11 @@
           <div class="list-item-title">
             <span>第{{ titleItem.index }}课时</span>
             <span
-              >新学{{ titleItem.newLearning }}首
-              <i v-if="titleItem.review"
-                >| 复习{{ titleItem.review }}首</i
-              ></span
-            >
+              ><i v-if="titleItem.newLearning"
+                >新学{{ titleItem.newLearning }}首</i
+              ><i v-if="titleItem.newLearning && titleItem.review"> | </i
+              ><i v-if="titleItem.review">复习{{ titleItem.review }}首</i>
+            </span>
           </div>
           <li v-for="listItem in titleItem.audios" :key="listItem.name">
             <p class="item-name">{{ listItem.name }}</p>
@@ -173,9 +173,10 @@ export default {
       // background-color: #00ffff;
       .list-item-title {
         width: 100%;
-        padding-left: 12px;
+        padding-left: 4px;
         display: flex;
         align-items: center;
+        // background-color: #ff0000;
         span {
           &:nth-of-type(1) {
             font-family: 'SourceHanSansCN-Medium';
@@ -190,6 +191,7 @@ export default {
             max-height: 18px;
             display: inline-block;
             margin-left: auto;
+            margin-right: 4px;
             font-size: 12px;
             color: rgba(0, 0, 0, 0.3);
             text-align: right;
@@ -201,8 +203,8 @@ export default {
         }
       }
       li {
-        padding-left: 12px;
-        padding-right: 12px;
+        padding-left: 4px;
+        padding-right: 4px;
         margin-top: 19px;
         .item-name {
           font-family: 'SourceHanSansCN-Normal';
@@ -236,19 +238,37 @@ export default {
     height: 1px;
     margin-top: 18px;
     background-color: #f3f3f3;
+    // background-color: #ff0000;
+    transform: scaleY(0.5);
+    transform-origin: 50% 100%;
   }
+  // .list-box-divider2 {
+  //   width: 100%;
+  //   height: 1px;
+  //   margin-top: 3px;
+  //   background-color: #f3f3f3;
+  //   // background-color: #ff0000;
+  // }
 }
 
 .details-list-tab {
   overflow-x: scroll;
-  // background-color: #ff0000;
-  /deep/ .van-tab--active {
-    // background-color: #fff000;
+  /deep/ .details-list-tab {
+  }
+
+  /deep/ .van-tabs__nav {
+    & > div:first-of-type {
+      padding-left: 15px;
+    }
+    & > div:nth-last-of-type(2) {
+      padding-right: 15px;
+    }
   }
 
   /deep/ .van-tabs__line {
     width: 30px !important;
     // display: none;
+    border-top: 0 !important;
   }
 
   /deep/ .van-tabs__wrap {
@@ -258,6 +278,26 @@ export default {
   /deep/ .van-tab__text {
     overflow-x: auto;
     white-space: nowrap;
+  }
+
+  /deep/ .van-tab {
+    padding: 0 16px !important;
+    font-family: 'SourceHanSansCN-Normal' !important;
+    font-size: 16px !important;
+    font-weight: normal !important;
+    font-stretch: normal !important;
+    letter-spacing: 0px !important;
+    color: rgba(0, 0, 0, 0.7) !important;
+  }
+
+  /deep/ .van-tab--active {
+    // background-color: #fff000;
+    font-family: 'SourceHanSansCN-Medium' !important;
+    font-size: 19px !important;
+    font-weight: normal !important;
+    font-stretch: normal !important;
+    letter-spacing: 0px !important;
+    color: rgba(0, 0, 0, 0.8) !important;
   }
 }
 </style>

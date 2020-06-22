@@ -1,6 +1,7 @@
 import axios from "axios";
 import qs from "qs";
 import Router from '@/router/index';
+import { aliloUrl} from "@/constants/setting";
 let AUTH_TOKEN = (function() {
 	return localStorage.getItem("token");
 })();
@@ -80,8 +81,8 @@ export function fetch(options) {
 			});
 	});
 }
-const cloudUrl = "https://cloud.alilo.com.cn/baby/api/wx/";
-const aliloUrl = "http://api.tcloud.alilo.com.cn/api/v4/";
+// const cloudUrl = "https://cloud.alilo.com.cn/baby/api/wx/";
+// const aliloUrl = "http://api.tcloud.alilo.com.cn/api/v4/";
 // const aliloUrl = "http://hhtv3.api.zhishangsoft.com/api/v4/"
 //banner轮播图
 export default {
@@ -104,7 +105,7 @@ export default {
 	 * */
 	userLogin() {
 		return fetch({
-			url: "http://api.tcloud.alilo.com.cn/api/v4/login/get-token",
+			url: aliloUrl + "login/get-token",
 			method: "get",
 			params: {
 				appKey: "hht",

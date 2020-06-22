@@ -40,16 +40,11 @@ export default {
 .title {
   width: 345px;
   margin: 0 auto;
-  // margin-top: 36px;
-  // margin-bottom: 20px;
   position: relative;
-  // background-color: #fff000;
-  // box-shadow:-4px 0px 0 0 #ff6666;
-  // box-shadow:inset 4px 0 0 0 #ff6666;
   &::after {
     content: '';
     width: 4px;
-    height: 22px;
+    height: 16px;
     border-radius: 2px;
     position: absolute;
     top: 50%;

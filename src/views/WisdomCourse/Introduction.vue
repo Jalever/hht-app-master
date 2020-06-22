@@ -20,6 +20,7 @@
 import * as CONSTANTS from '@/constants/index'
 import { mapState } from 'vuex'
 import BabaList from '@/components/BabyList.vue'
+import { getCookies, setCookies } from '@/common/cookie'
 export default {
   props: {},
   components: {
@@ -75,6 +76,14 @@ export default {
     },
     // 取消报名
     async onDelCourse() {
+      const params = {
+        title: '删除课程',
+        message: '确认要取消该课程的学习吗？',
+        confirmButtonText: '确定',
+      }
+      const res = await this.$dialog.confirm(params)
+      if (res !== 'confirm') return
+
       let cid = window.localStorage.getItem('cid')
       let user = window.localStorage.getItem('user')
       let courseBaby = window.localStorage.getItem('courseBaby')
@@ -93,6 +102,8 @@ export default {
         const resData = data.data
         this.$toast.success('取消成功')
 
+        this.onDelCourseCookie()
+
         this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT_HOME, {
           path: '/course/smart-course',
         })
@@ -100,6 +111,17 @@ export default {
         console.log(err)
         this.$toast.fail(err.message)
       }
+    },
+
+    onDelCourseCookie() {
+      let schoolTimeCookie = getCookies(CONSTANTS.LABEL_COOKIE_SCHOOLTIME)
+      if (!schoolTimeCookie) return
+      schoolTimeCookie = schoolTimeCookie && JSON.parse(schoolTimeCookie)
+      delete schoolTimeCookie['isClickSmartCourse']
+      setCookies(
+        CONSTANTS.LABEL_COOKIE_SCHOOLTIME,
+        JSON.stringify(schoolTimeCookie)
+      )
     },
 
     //获取用户报名智慧早教的时间
@@ -111,9 +133,9 @@ export default {
         if (!data.success) throw new Error(data.info)
         const resData = data.data
         const { babyId } = resData
-        let signupBabyId = window.localStorage.getItem('babyId')
-        signupBabyId = JSON.parse(signupBabyId)
-        if (babyId * 1 === signupBabyId * 1) this.isSignup = true
+        // let signupBabyId = window.localStorage.getItem('babyId')
+        // signupBabyId = JSON.parse(signupBabyId)
+        this.isSignup = true
       } catch (err) {
         console.log(err)
       }

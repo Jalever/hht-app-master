@@ -326,7 +326,7 @@ export default {
         this.sumDay = resData.clockDays
       } catch (err) {
         console.log(err)
-        this.$toast.fail(err.message)
+        // this.$toast.fail(err.message)
       }
     },
     async getAsyncBabyPeriod() {
@@ -645,6 +645,8 @@ export default {
     font-stretch: normal;
     letter-spacing: 0px;
     color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
     & > i {
       width: 6px;
       height: 6px;

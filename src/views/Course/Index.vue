@@ -33,7 +33,7 @@
       </div>
       <div class="course-content mbot iphonex-bd-top iphonex-course-content">
         <div class="course-card mbot iphonex-course-card" v-if="courseTab == 1">
-          <div @click="onLoad()">测试服刷新</div>
+          <!-- <div @click="onLoad()">测试服刷新</div> -->
           <v-card :list="lsit" :eduData="educationData"></v-card>
         </div>
         <div v-if="courseTab == 2">
@@ -128,6 +128,7 @@ export default {
       isShow: true,
       babyid: 0,
       isDeviseText: true,
+      signupBabyId: null,
     }
   },
   created() {
@@ -154,6 +155,9 @@ export default {
       try {
         const cid = localStorage.getItem('cid')
         const { data } = await this.$axios.userApplyTime(cid)
+        const { babyId } = data.data
+        // const {babyId} = resData;
+        this.signupBabyId = babyId
         if (!data.success) throw new Error(data.info)
 
         this.educationData = true

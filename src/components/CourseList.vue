@@ -1,7 +1,6 @@
 <template>
   <div class="course-list-wrapper">
-    <!-- {{ courseData }} -->
-    <div class="empty" v-if="courseListWith.length == 0 && !isEdu">
+    <div class="empty" v-if="courseListWith.length == 0 && !eduData">
       <van-empty
         class="custom-image"
         :image="emptyImg"
@@ -10,20 +9,22 @@
     </div>
     <div class="list" v-else>
       <ul>
-        <li v-if="isEdu">
+        <li v-if="eduData">
           <div class="list-name">
             <p>智慧早教课程</p>
-            <p>第<span>30</span>天计划 | 约<span>30</span>分钟</p>
+            <p>
+              第<span>{{ applyTime }}</span
+              >天计划 | 约<span>30</span>分钟
+            </p>
           </div>
-          <div class="list-btn" @click="schooltime('', 1)">
-            <span>上课<i></i></span>
+          <div class="list-btn" @click="onSchoolTime('', 1)">
+            <span>上课<i v-if="isShowReddot"></i></span>
           </div>
         </li>
         <li v-for="item in dataWithIndex" :key="item.id">
           <div class="list-name">
             <p>
               {{ item.name }}
-              <!-- <span v-if="item.status == 20">已完成</span> -->
             </p>
             <p>
               第{{ item.classHoursIdx }}/<span>{{ item.classHourCount }}</span
@@ -31,7 +32,7 @@
               >分钟
             </p>
           </div>
-          <div class="list-btn" @click="schooltime(item, 0)">
+          <div class="list-btn" @click="onSchoolTime(item, 0)">
             <span>上课<i v-if="item.isShowReddot"></i></span>
           </div>
         </li>
@@ -56,19 +57,22 @@ export default {
   props: {
     courseData: '',
     isShow: false,
+    eduData: Boolean,
   },
   data() {
     return {
       emptyImg: require('../assets/image/course/qsy@2x.png'),
       babyid: 0,
       isLockSchooltime: false,
-      // courseList: this.courseData,
+      courseListWithCookie: [], //course data with cookie so that displaying reddot
+      isShowReddot: true,
+      applyTime: 0,
     }
   },
   computed: {
-    ...mapState(['isEdu', 'system']),
+    ...mapState(['system']),
     courseListWith() {
-      return this.courseData.map((item) => {
+      return this.courseListWithCookie.map((item) => {
         const { currentHourDuration } = item
         const curDuration = Math.ceil((currentHourDuration * 1) / 60)
 
@@ -80,7 +84,7 @@ export default {
     },
     dataFilter: function() {
       return this.courseListWith.filter((item, index) =>
-        this.isShow ? index < 3 : item
+        this.isShow ? (this.eduData ? index < 2 : index < 3) : item
       )
     },
     dataWith() {
@@ -106,13 +110,37 @@ export default {
     },
   },
   async created() {
-    // setCookiesWithExpiresTime(
-    //   CONSTANTS.LABEL_COOKIE_SCHOOLTIME,
-    //   {},
-    //   CONSTANTS.LABEL_COOKIE_EXPIRES
-    // )
     await this.getSumTime()
     this.babyid = localStorage.getItem('courseBaby')
+  },
+
+  mounted() {},
+  watch: {
+    courseData: {
+      immediate: true,
+      deep: true,
+      handler(v) {
+        let schoolTimeCookie = getCookies(CONSTANTS.LABEL_COOKIE_SCHOOLTIME)
+        if (!schoolTimeCookie) {
+          this.courseListWithCookie = this.courseData
+          return setCookies(
+            CONSTANTS.LABEL_COOKIE_SCHOOLTIME,
+            {},
+            CONSTANTS.LABEL_COOKIE_EXPIRES
+          )
+        }
+
+        schoolTimeCookie = JSON.parse(schoolTimeCookie)
+        this.isShowReddot = !schoolTimeCookie['isClickSmartCourse']
+        this.courseListWithCookie = this.courseData.map((item) => {
+          let isShowReddot = !schoolTimeCookie[item.id]
+          return {
+            ...item,
+            isShowReddot,
+          }
+        })
+      },
+    },
   },
   methods: {
     async getSumTime() {
@@ -125,12 +153,12 @@ export default {
         this.applyTime = computedTime(createTime)
       } catch (err) {
         console.log(err)
-        this.$toast.fail(err.message)
       }
     },
-    async schooltime(item, type) {
-      this.onSetReddot(item)
-      return
+    // '上课'
+    async onSchoolTime(item, type) {
+      this.onSetReddot(item, type)
+
       if (this.isLockSchooltime) return
       this.isLockSchooltime = true
       // 普通课程
@@ -145,12 +173,14 @@ export default {
                 courseId: item.id,
                 babyId: this.babyid,
                 course: [],
+                classHoursIdx: item.classHoursIdx,
               }
               let audioData = res.data.data.audios
               this.setAudioData(audioData, array)
             }
           })
           .catch((err) => {
+            this.isLockSchooltime = false
             console.error(err)
             this.$toast.fail(err)
           })
@@ -160,13 +190,13 @@ export default {
         this.$axios
           .getDayCourse(currentTime)
           .then((res) => {
-            // console.log('点击====')
             let array = {
               title: '智慧早教第' + this.applyTime + '天',
               coursePackId: 0,
               courseId: localStorage.getItem('cid'),
               babyId: localStorage.getItem('babyId'),
               course: [],
+              classHoursIdx: '',
             }
             // let array = [];
             if (res.data.code == 1) {
@@ -177,6 +207,7 @@ export default {
             }
           })
           .catch((err) => {
+            this.isLockSchooltime = false
             console.error(err)
             this.$toast.fail(err)
           })
@@ -205,8 +236,26 @@ export default {
       }
     },
     //点击设置小红点
-    onSetReddot(item) {
-      item.isShowReddot = true
+    onSetReddot(item, isSmartCourse = 0) {
+      let { id } = item
+      if (isSmartCourse) id = 'isClickSmartCourse'
+      let schoolTimeCookie = getCookies(CONSTANTS.LABEL_COOKIE_SCHOOLTIME)
+
+      if (!schoolTimeCookie) schoolTimeCookie = initCookies()
+
+      schoolTimeCookie = schoolTimeCookie && JSON.parse(schoolTimeCookie)
+
+      schoolTimeCookie = {
+        ...schoolTimeCookie,
+        [id]: true,
+      }
+
+      setCookies(
+        CONSTANTS.LABEL_COOKIE_SCHOOLTIME,
+        JSON.stringify(schoolTimeCookie)
+      )
+
+      isSmartCourse ? (this.isShowReddot = false) : (item.isShowReddot = false)
       this.$forceUpdate()
     },
     //获取正在学习中的课时index

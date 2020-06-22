@@ -25,7 +25,7 @@
                 }}岁
               </p>
               <p>
-                <img src="../../assets/image/course/icon_time@2x.png" alt="" />
+                <img src="../../assets/image/course/time@2x.png" alt="" />
                 共{{ detailsList.classHour }}课时
               </p>
               <p>
@@ -85,6 +85,12 @@ import Header from '@/components/Header.vue'
 import DetailsIntro from '@/components/DetailsIntro.vue'
 import DetailsList from '@/components/DetailsList.vue'
 import { getQueryStringValue } from '@/common/util'
+import {
+  getCookies,
+  setCookies,
+  initCookies,
+  setCookiesWithExpiresTime,
+} from '@/common/cookie'
 import { mapState } from 'vuex'
 export default {
   data() {
@@ -207,6 +213,7 @@ export default {
         .confirm({
           title: '删除课程',
           message: '确认要取消该课程的学习吗？',
+          confirmButtonText: '确定',
         })
         .then(() => {
           // on confirm
@@ -214,12 +221,20 @@ export default {
             message: '删除中...',
             forbidClick: true,
           })
+
           const id = this.coursePackageId
+          const { courseList } = this.detailsList
+          const ids = courseList.map((i) => i.id)
+
+          // ------------
+
           this.$axios
             .getCourseDel(id, this.babyid)
             .then((res) => {
               if (res.data.code == 1) {
                 this.$toast.success('删除成功')
+
+                this.delCourseCookies(ids)
 
                 this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT_HOME, {
                   path: '/course/smart-course',
@@ -231,9 +246,22 @@ export default {
               this.$toast.fail(err)
             })
         })
-        .catch(() => {
-          // on cancel
-        })
+        .catch(() => {})
+    },
+    delCourseCookies(ids = []) {
+      let schoolTimeCookie = getCookies(CONSTANTS.LABEL_COOKIE_SCHOOLTIME)
+      if (!schoolTimeCookie) return
+      schoolTimeCookie = schoolTimeCookie && JSON.parse(schoolTimeCookie)
+
+      for (let item in schoolTimeCookie) {
+        let isExist = ids.find((id) => id * 1 === item * 1)
+        if (isExist) delete schoolTimeCookie[item]
+      }
+
+      setCookies(
+        CONSTANTS.LABEL_COOKIE_SCHOOLTIME,
+        JSON.stringify(schoolTimeCookie)
+      )
     },
     //添加课程限制 Modal
     async showOverloadCourseModal() {

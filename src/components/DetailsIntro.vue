@@ -6,11 +6,7 @@
       <div class="intro-itme">
         <div class="list">
           <ul>
-            <li
-              v-for="item in courseList"
-              :key="item.id"
-              @click="goLearning(item.id)"
-            >
+            <li v-for="item in courseList" :key="item.id">
               <div class="item-img"><img :src="item.coverImage" /></div>
               <div class="item-name">
                 <p>{{ item.name }}</p>
@@ -56,9 +52,9 @@ export default {
   },
   created() {},
   methods: {
-    goLearning(id) {
-      this.$router.push({ name: 'course/learning', query: { id: id } })
-    },
+    // goLearning(id) {
+    //   this.$router.push({ name: 'course/learning', query: { id: id } })
+    // },
   },
   components: {
     'v-title': Title,

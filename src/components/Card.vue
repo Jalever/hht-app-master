@@ -1,10 +1,12 @@
 <template>
   <div class="card-wrapper iphonex-bd-bottom">
-    <div class="course-card" @click="onRedirect" v-show="listWith.length">
+    <div class="course-card" @click="onRedirect" v-if="isShowSmartCourse">
       <div class="course-card-box">
         <div class="course-img"><img src="../assets/image/2.png" alt="" /></div>
         <div class="card-name"><p>智慧早教课程</p></div>
-        <div class="card-name-subhead"><p>智慧早教</p></div>
+        <div class="card-name-subhead">
+          <p>0-6岁+宝宝通识早教课，覆盖宝宝成长关键期</p>
+        </div>
         <div class="course-state">
           <p class="course-state-btn2" v-if="eduData">已添加</p>
           <p class="course-state-btn1" v-else>会员免费</p>
@@ -51,10 +53,12 @@ export default {
   props: {
     list: '',
     eduData: false,
+    signupBabyId: [String, Number],
   },
   data() {
     return {
       userId: null,
+      isShowSmartCourse: false,
     }
   },
   computed: {
@@ -72,10 +76,18 @@ export default {
   created() {
     this.userId = localStorage.getItem('courseBaby')
   },
+  mounted() {
+    let babyId = this.signupBabyId
+    let courseBaby = window.localStorage.getItem('courseBaby')
+    this.isShowSmartCourse = this.getIsShowSmartCourse(babyId, courseBaby)
+  },
   methods: {
+    getIsShowSmartCourse(babyId, courseBaby) {
+      if (!this.listWith && !this.listWith.length) return false
+      if (this.eduData && babyId !== courseBaby * 1) return false
+      return true
+    },
     detailsRouter(id) {
-      // this.$router.push({ name: 'course/details', query: { id: id } })
-
       this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, {
         path: '/course/details',
         query: {
@@ -85,7 +97,7 @@ export default {
     },
     onRedirect() {
       if (!this.userId) return this.$toast('请登录火火兔APP')
-      // this.$router.push({ name: 'wisdom-course/introduction' })
+
       this.$store.dispatch('redirect', {
         path: '/wisdom-course/introduction',
       })
@@ -96,8 +108,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import './../assets/css/constants.less';
 .card-wrapper {
-  border-bottom: 44px solid transparent;
+  margin-top: 10px;
+  border-bottom: @bottom-bar-distance-disk solid transparent;
 }
 .course-card {
   width: 349px;
@@ -106,6 +120,7 @@ export default {
   border-radius: 8px;
   margin: 0 auto;
   margin-bottom: 20px;
+  // background-color: #ff0000;
 }
 .course-card:last-child {
   margin-bottom: 0px;
@@ -114,6 +129,7 @@ export default {
   width: 317px;
   margin: 0 auto;
   padding: 10px 0;
+  padding-bottom: 15px;
   .course-img {
     width: 321px;
     height: 146px;
@@ -197,17 +213,9 @@ export default {
   .course-state {
     margin-top: 20px;
     p {
-      // width: 104px;
-      // height: 30px;
-      // border-radius: 15px;
       text-align: center;
-      // line-height: 30px;
-      // font-size: 16px;
     }
     .course-state-btn1 {
-      // background-color: #f9c003;
-      // color: #fff;
-
       width: 104px;
       height: 30px;
       background-color: #f9c003;

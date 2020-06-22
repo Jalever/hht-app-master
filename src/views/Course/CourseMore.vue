@@ -5,7 +5,6 @@
     </div>
     <div class="content" v-show="isLoading">
       <div class="course-data">
-        <!-- <v-header-icon></v-header-icon> -->
         <div class="header"></div>
         <v-data></v-data>
       </div>
@@ -13,6 +12,7 @@
         <v-course-list
           :isShow="isShow"
           :courseData="userCourseList"
+          :eduData="isShowSmartCourse"
           v-if="userCourseList.lenght != 0"
         ></v-course-list>
         <div class="empty" v-else>
@@ -38,16 +38,51 @@ export default {
       isLoading: true,
       emptyImg: require('../../assets/image/course/qsy@2x.png'),
       isShow: false,
+      userCourseList: [],
+      isShowSmartCourse: false,
     }
   },
   computed: {
-    ...mapState(['userCourseList', 'isEdu']),
+    ...mapState(['isEdu']),
   },
-  created() {},
+  async created() {
+    await this.getAsyncUserCourse()
+    await this.getSignupTime()
+  },
   components: {
     'v-data': Data,
     'v-course-list': CourseList,
     'v-header-icon': HeaderIcon,
+  },
+  methods: {
+    async getAsyncUserCourse() {
+      try {
+        const id = window.localStorage.getItem('courseBaby')
+        const { data } = await this.$axios.getUserCourse(id)
+        if (!data.success) throw new Error(data.info)
+        this.userCourseList = data.data
+      } catch (err) {
+        console.log(err)
+        this.$toast.fail(err.message)
+      }
+    },
+    // 获取报名时间
+    async getSignupTime() {
+      try {
+        const cid = localStorage.getItem('cid')
+        const { data } = await this.$axios.userApplyTime(cid)
+        if (!data.success) throw new Error(data.info)
+        const { babyId } = data.data
+        // this.signupBabyId = babyId
+
+        this.isShowSmartCourse = true
+        // this.$store.dispatch('setEduFlag', true)
+      } catch (err) {
+        this.isShowSmartCourse = false
+        // this.$store.dispatch('setEduFlag', false)
+        console.log(err)
+      }
+    },
   },
 }
 </script>

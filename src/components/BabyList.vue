@@ -84,6 +84,13 @@ export default {
       max-height: 308px;
       overflow-y: auto;
     }
+
+    & > .van-radio-group {
+      & > div:first-of-type {
+        max-height: 308px;
+        overflow-y: auto;
+      }
+    }
     li {
       width: 95%;
       margin: 0 auto;

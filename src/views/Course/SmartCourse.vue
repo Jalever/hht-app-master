@@ -4,13 +4,17 @@
       <van-loading size="30px" color="#ff6666" vertical>加载中</van-loading>
     </div>
 
-    <div @click="onLoad">测试服刷新</div>
-    <v-card :list="lsit" :eduData="educationData"></v-card>
+    <v-card
+      :list="lsit"
+      :eduData="educationData"
+      :signup-baby-id="signupBabyId"
+    ></v-card>
   </div>
 </template>
 
 <script>
 import Card from '@/components/Card.vue'
+import * as CONSTANTS from '@/constants/index'
 
 export default {
   data() {
@@ -26,6 +30,7 @@ export default {
       isShow: true,
       babyid: 0,
       isDeviseText: true,
+      signupBabyId: null,
     }
   },
   created() {
@@ -38,11 +43,10 @@ export default {
   },
   mounted() {},
   methods: {
-    onLoad() {
-      location.reload()
-    },
-    addCourse() {
-      this.courseTab = 1
+    onRedirectXMLY() {
+      this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, {
+        path: '/course/index-copy',
+      })
     },
     deviseText() {
       this.isDeviseText = !this.isDeviseText
@@ -53,7 +57,8 @@ export default {
         const cid = localStorage.getItem('cid')
         const { data } = await this.$axios.userApplyTime(cid)
         if (!data.success) throw new Error(data.info)
-
+        const { babyId } = data.data
+        this.signupBabyId = babyId
         this.educationData = true
         this.$store.dispatch('setEduFlag', true)
       } catch (err) {

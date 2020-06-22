@@ -28,13 +28,6 @@ export default {
     }
     this.$store.dispatch('setUserInfoAction')
     this.$store.dispatch('getUserActivityInfo')
-
-    //我的课程-红点cookie
-    // setCookiesWithExpiresTime(
-    //   CONSTANTS.LABEL_COOKIE_SCHOOLTIME,
-    //   {},
-    //   CONSTANTS.LABEL_COOKIE_EXPIRES
-    // )
   },
   methods: {
     getSystem() {
