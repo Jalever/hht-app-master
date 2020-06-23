@@ -14,7 +14,7 @@ export default [
     component: () => import( /* webpackChunkName: "home" */ '@/views/Course/SmartCourse.vue'),
     meta: {
       keepAlive: false,
-      title: null
+      title: '智慧早教'
     },
   },
   { //我的课程

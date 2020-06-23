@@ -197,7 +197,7 @@ export default {
 
       if (this.system == 'ios')
         return window.webkit.messageHandlers.addBabys.postMessage(null)
-      else return window.android.addBabys('addBabys', '')
+      else return window.android.playCourse('addBabys', '')
     },
     cloneBox() {
       this.babyBox = false

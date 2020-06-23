@@ -300,6 +300,11 @@ export default {
   line-height: 50px;
 }
 .calendar span {
+  font-family: 'SourceHanSansCN-Regular';
+  font-size: 17px;
+  font-weight: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
 }
 .calendar .sign_tab {
   width: 100%;
@@ -352,8 +357,18 @@ export default {
 .calendar .sign_tab td span.cur_day {
   width: 24px;
   height: 24px;
-  background: rgba(255, 255, 255, 0.3);
+  // background: rgba(255, 255, 255, 0.3);
+  // background-color: #ff0000;
   border-radius: 50%;
+  background-color: #ffffff;
+  box-shadow: 0px 0px 3px 2px rgba(255, 102, 102, 0.09);
+
+  font-family: 'SourceHanSansCN-Regular';
+  font-size: 17px;
+  font-weight: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  color: #ff8a66;
 }
 .showTime {
   display: block;

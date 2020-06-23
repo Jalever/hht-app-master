@@ -51,7 +51,8 @@ import {
   Skeleton,
   Empty,
   Row,
-  Col
+  Col,
+  Image
 } from 'vant'
 Vue.use(Tab)
   .use(Tabs)
@@ -78,6 +79,7 @@ Vue.use(Tab)
   .use(Empty)
   .use(Row)
   .use(Col)
+  .use(Image)
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
 new Vue({

@@ -20,7 +20,7 @@
           </span>
         </div>
         <div class="course-list">
-          <v-course-list
+          <course-list
             :isShow="isShow"
             :courseData="userList"
             :eduData="isShowSmartCourse"
@@ -31,7 +31,7 @@
                 @click="onShowMore"
               />
             </div>
-          </v-course-list>
+          </course-list>
         </div>
       </div>
       <div class="course-user-all">
@@ -62,6 +62,7 @@
             :status="status"
             :audioData="userList"
             :isLearning="learning"
+            :isShowSmartCourse="isShowSmartCourse"
           ></v-card-list>
         </div>
       </div>
@@ -78,6 +79,7 @@ import PullDown from '@/components/Loadmore/PullDown.vue'
 
 export default {
   data() {
+    let status = CONSTANTS.STATUS_COURSE_LEARNING
     return {
       isLoading: false,
       courseTab: 1,
@@ -86,7 +88,7 @@ export default {
       userList: [],
       learning: true,
       isShowSmartCourse: false,
-      status: 0,
+      status,
       isShow: true,
       babyid: 0,
       isDeviseText: true,
@@ -121,19 +123,22 @@ export default {
     deviseText() {
       this.isDeviseText = !this.isDeviseText
     },
-    // 获取报名时间
+    // 获取'智慧早教'报名时间
     async getSignupTime() {
       try {
+        const curUserId = window.localStorage.getItem(
+          CONSTANTS.LOCALSTORAGE_COURSEBABY
+        )
         const cid = localStorage.getItem('cid')
         const { data } = await this.$axios.userApplyTime(cid)
         if (!data.success) throw new Error(data.info)
         const { babyId } = data.data
         this.signupBabyId = babyId
 
-        this.isShowSmartCourse = true
+        if (curUserId * 1 === babyId * 1) this.isShowSmartCourse = true
         this.$store.dispatch('setEduFlag', true)
       } catch (err) {
-        this.isShowSmartCourse = false
+        this.isShowSmartCourse = false //该用户没有任何一个宝宝报名智慧早教
         this.$store.dispatch('setEduFlag', false)
         console.log(err)
       }
@@ -171,9 +176,9 @@ export default {
     courseTabCLick(index) {
       this.courseUserTab = index
       if (index == 2) {
-        this.status = 30
+        this.status = CONSTANTS.STATUS_COURSE_FINISHED
       } else {
-        this.status = 0
+        this.status = CONSTANTS.STATUS_COURSE_LEARNING
       }
     },
     onShowMore() {
@@ -184,7 +189,7 @@ export default {
   },
   components: {
     'v-header': Header,
-    'v-course-list': CourseList,
+    CourseList,
     'v-card-list': CradList,
     'v-pull-down': PullDown,
   },

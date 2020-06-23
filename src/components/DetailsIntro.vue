@@ -88,6 +88,7 @@ export default {
 .list {
   width: 345px;
   margin: 0 auto;
+  // background-color: #ff0000;
 
   ul {
     display: flex;
@@ -144,6 +145,10 @@ export default {
           }
         }
       }
+    }
+
+    & > li:first-child {
+      padding-top: 0;
     }
 
     // & > li:nth-child(2) {

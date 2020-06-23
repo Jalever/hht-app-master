@@ -29,7 +29,7 @@
         </div>
         <div class="card-time">
           <p>
-            <img src="../assets/image/course/icon_time@2x.png" alt="" />
+            <img src="../assets/image/course/time@2x.png" alt="" />
             共{{ item.classHour }}课时
           </p>
           <p>
@@ -58,7 +58,6 @@ export default {
   data() {
     return {
       userId: null,
-      isShowSmartCourse: false,
     }
   },
   computed: {
@@ -72,21 +71,16 @@ export default {
         }
       })
     },
+    isShowSmartCourse() {
+      if (!this.signupBabyId) return true
+      return this.signupBabyId * 1 === this.userId * 1
+    },
   },
   created() {
     this.userId = localStorage.getItem('courseBaby')
   },
-  mounted() {
-    let babyId = this.signupBabyId
-    let courseBaby = window.localStorage.getItem('courseBaby')
-    this.isShowSmartCourse = this.getIsShowSmartCourse(babyId, courseBaby)
-  },
+  mounted() {},
   methods: {
-    getIsShowSmartCourse(babyId, courseBaby) {
-      if (!this.listWith && !this.listWith.length) return false
-      if (this.eduData && babyId !== courseBaby * 1) return false
-      return true
-    },
     detailsRouter(id) {
       this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, {
         path: '/course/details',

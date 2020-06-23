@@ -3,7 +3,7 @@
     <div class="loadingding center" v-show="!isLoading">
       <van-loading size="30px" color="#ff6666" vertical>加载中</van-loading>
     </div>
-
+    <!-- <button @click="onRedirect">测试服会员中心</button> -->
     <v-card
       :list="lsit"
       :eduData="educationData"
@@ -43,6 +43,10 @@ export default {
   },
   mounted() {},
   methods: {
+    onRedirect() {
+      let url = 'http://twifi.alilo.com.cn/xiaohai/hht/app/index.html'
+      window.open(url, '_self')
+    },
     onRedirectXMLY() {
       this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, {
         path: '/course/index-copy',

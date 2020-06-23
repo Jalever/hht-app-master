@@ -18,7 +18,7 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   if (to.meta.title) document.title = to.meta.title;
 	if (to.meta.title === null) document.title = '\u200E';
-	Toast(`to: ${window.location.href}`);
+	// Toast(`测试专用, 非BUG: ${window.location.href}`);
   next();
 });
 

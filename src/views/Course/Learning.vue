@@ -4,18 +4,18 @@
       <van-loading size="30px" color="#ff6666" vertical>加载中</van-loading>
     </div>
     <div class="learning-content" v-show="isLoading">
-      <div class=" mbot learning-top">
+      <div class="mbot learning-top">
         <p>{{ courseData.name }}</p>
         <p>
-          共 <span>{{ courseData.classHourCount }}</span> 课时 | 每节课约
-          <span>{{ courseData.avgDuration }}</span> 分钟
+          共 <span>{{ courseData.classHourCount }}</span> 课时
+          <span></span> 每节课约 <span>{{ courseData.avgDuration }}</span> 分钟
         </p>
         <p>艾宾浩斯曲线学习计划</p>
       </div>
       <div class="learning-wacth">
         <img src="../../assets/image/course/icon_weixin@2x.png" alt="" />
         <p>点击加入微信专业交流群</p>
-        <span>加入</span>
+        <span @click="onShowQRCode">加入</span>
       </div>
       <div class="learnig-list mbot">
         <v-title
@@ -130,7 +130,6 @@ export default {
         if (!data.success) throw new Error(data.info)
         const resData = data.data
         this.$toast.success('重新报名成功')
-        // this.$router.push({ name: 'course/index' })
 
         this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT_HOME, {
           path: '/course/smart-course',
@@ -139,6 +138,19 @@ export default {
         console.log(err)
         this.$toast.fail(err.message)
       }
+    },
+    async onShowQRCode() {
+      const dialog = await this.$createDialog(
+        () => import('@/views/Course/QrCodeModal.vue'),
+        {
+          destroyOnClose: true,
+          on: {
+            close: (v) => {
+              dialog.close()
+            },
+          },
+        }
+      )
     },
   },
   components: {
@@ -179,7 +191,22 @@ export default {
       position: relative;
       top: -7px;
 
-      span {
+      & > span:first-of-type {
+        font-family: 'SourceHanSansCN-Medium';
+        font-size: 24px;
+        font-weight: normal;
+        font-stretch: normal;
+        letter-spacing: 0px;
+        color: #ff8a66;
+      }
+      & > span:nth-of-type(2) {
+        display: inline-block;
+        width: 1px;
+        height: 10px;
+        border-radius: 1px;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+      & > span:last-of-type {
         font-family: 'SourceHanSansCN-Medium';
         font-size: 24px;
         font-weight: normal;
@@ -189,8 +216,6 @@ export default {
       }
     }
     &:nth-of-type(3) {
-      // position: relative;
-      // top: -4px;
       font-size: 13px;
       color: rgba(0, 0, 0, 0.5);
     }

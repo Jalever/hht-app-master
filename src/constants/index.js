@@ -1,5 +1,11 @@
 
 
+export const LOCALSTORAGE_BABYID = "babyId";//报名智慧早教的babyId
+export const LOCALSTORAGE_COURSEBABY = 'courseBaby';
+
+//status
+export const STATUS_COURSE_LEARNING = 10;
+export const STATUS_COURSE_FINISHED = 20;
 
 
 

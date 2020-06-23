@@ -44,7 +44,7 @@ export default {
   &::after {
     content: '';
     width: 4px;
-    height: 16px;
+    height: 14px;
     border-radius: 2px;
     position: absolute;
     top: 50%;

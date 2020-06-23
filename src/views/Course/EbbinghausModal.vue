@@ -41,7 +41,6 @@ export default {
 <style lang="less" scoped>
 .ebbinghaus-modal-wrapper {
   width: 270px;
-  // height: 158px;
   border-radius: 8px;
   background-color: #fff;
   & > p:first-of-type {

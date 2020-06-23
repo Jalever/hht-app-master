@@ -302,7 +302,6 @@ export default {
 	 * 报名
 	 */
 	userApply(id) {
-		// console.log("报名id=========", id)
 		return fetch({
 			url: aliloUrl + "course/apply",
 			method: "POST",

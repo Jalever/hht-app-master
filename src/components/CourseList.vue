@@ -14,7 +14,7 @@
             <p>智慧早教课程</p>
             <p>
               第<span>{{ applyTime }}</span
-              >天计划 | 约<span>30</span>分钟
+              >天计划<rec-radius></rec-radius>约<span>30</span>分钟
             </p>
           </div>
           <div class="list-btn" @click="onSchoolTime('', 1)">
@@ -28,7 +28,7 @@
             </p>
             <p>
               第{{ item.classHoursIdx }}/<span>{{ item.classHourCount }}</span
-              >课时 | <span>约{{ item.curDuration }}</span
+              >课时<rec-radius></rec-radius><span>约{{ item.curDuration }}</span
               >分钟
             </p>
           </div>
@@ -46,6 +46,7 @@
 import { mapState } from 'vuex'
 import { getDayTime, computedTime } from '@/common/util'
 import * as CONSTANTS from '@/constants/index'
+import RecRadius from '@/components/RecRadius'
 import {
   getCookies,
   setCookies,
@@ -265,7 +266,9 @@ export default {
       return list[idx * 1 + 1]['index']
     },
   },
-  components: {},
+  components: {
+    RecRadius,
+  },
 }
 </script>
 

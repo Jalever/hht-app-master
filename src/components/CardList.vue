@@ -2,7 +2,7 @@
   <div class="card-list-wrapper">
     <div class="card-list-list">
       <ul>
-        <li @click="onRedirect" v-if="isEdu && status == 0">
+        <li @click="onRedirect" v-if="isShowWisdomCouse">
           <div class="item-img">
             <img src="../assets/image/smart_course_square.png" />
           </div>
@@ -24,8 +24,6 @@
                 / 已学{{ item.finishedClassHoursLen }}课时</span
               >
             </p>
-
-            <!-- <p>{{ item.audiosCount }}首 / {{ item.classHourCount }}课时</p> -->
           </div>
         </li>
       </ul>
@@ -40,20 +38,27 @@ export default {
   props: {
     audioData: '',
     isLearning: '',
-    status: 0,
+    status: [String, Number],
+    isShowSmartCourse: Boolean,
   },
   computed: {
-    ...mapState(['isEdu']),
+    // ...mapState(['isEdu']),
     isFinishCourse() {
-      return this.status * 1 !== 30
+      return this.status * 1 !== CONSTANTS.STATUS_COURSE_FINISHED
+    },
+    isShowWisdomCouse() {
+      return (
+        this.isShowSmartCourse &&
+        this.status * 1 == CONSTANTS.STATUS_COURSE_LEARNING
+      )
     },
     courseData: function() {
       return this.audioData.filter((item, index) => {
         console.log(this.status)
-        if (this.status == 0) {
-          return item.status != 20
-        } else if (this.status == 30) {
-          return item.status == 20
+        if (this.status == CONSTANTS.STATUS_COURSE_LEARNING) {
+          return item.status != CONSTANTS.STATUS_COURSE_FINISHED
+        } else if (this.status == CONSTANTS.STATUS_COURSE_FINISHED) {
+          return item.status == CONSTANTS.STATUS_COURSE_FINISHED
         }
       })
     },

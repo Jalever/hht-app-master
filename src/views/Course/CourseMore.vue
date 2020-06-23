@@ -32,6 +32,7 @@ import { mapState } from 'vuex'
 import Data from '@/components/Data.vue'
 import CourseList from '@/components/CourseList.vue'
 import HeaderIcon from '@/components/HeaderIcon.vue'
+import * as CONSTANTS from '@/constants/index'
 export default {
   data() {
     return {
@@ -43,7 +44,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['isEdu']),
+    // ...mapState(['isEdu']),
   },
   async created() {
     await this.getAsyncUserCourse()
@@ -69,17 +70,18 @@ export default {
     // 获取报名时间
     async getSignupTime() {
       try {
+        const curUserId = window.localStorage.getItem(
+          CONSTANTS.LOCALSTORAGE_COURSEBABY
+        )
         const cid = localStorage.getItem('cid')
         const { data } = await this.$axios.userApplyTime(cid)
         if (!data.success) throw new Error(data.info)
         const { babyId } = data.data
         // this.signupBabyId = babyId
 
-        this.isShowSmartCourse = true
-        // this.$store.dispatch('setEduFlag', true)
+        if (curUserId * 1 === babyId * 1) this.isShowSmartCourse = true
       } catch (err) {
         this.isShowSmartCourse = false
-        // this.$store.dispatch('setEduFlag', false)
         console.log(err)
       }
     },

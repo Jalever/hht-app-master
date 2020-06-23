@@ -24,7 +24,7 @@
       <div class="learning-wacth">
         <img src="../../assets/image/course/icon_weixin@2x.png" alt="" />
         <p>点击加入微信专业交流群</p>
-        <span>加入</span>
+        <span @click="onShowQRCode">加入</span>
       </div>
 
       <!-- 今日课程关键词 -->
@@ -71,8 +71,7 @@
         <div v-else class="content-null"><p>暂无关键期</p></div>
       </div>
     </div>
-
-    <van-row class="bottom-bar"><p @click="onDelCourse">删除课程</p></van-row>
+    <fixed-button @clk="onDelCourse" text="删除课程"></fixed-button>
   </div>
 </template>
 
@@ -81,6 +80,7 @@ import Title from '@/components/Title.vue'
 import Data from '@/components/Data.vue'
 import Pie from '@/components/Pie.vue'
 import Header from '@/components/Header.vue'
+import FixedButton from '@/components/FixedButton'
 import { computedTime } from '@/common/util'
 import { mapActions, mapMutations, mapState, mapGetters } from 'vuex'
 export default {
@@ -99,7 +99,7 @@ export default {
       applyTime: 0,
       babyYear: 0,
       babyMonth: 0,
-      isSignupWisdom: false,
+      // isSignupWisdom: false,
       babyBox: false,
       isEmptyBabyModal: false,
       babyArray: [],
@@ -170,12 +170,25 @@ export default {
         this.$toast('报名成功')
         this.getUserDayCourse()
         this.getSumTime()
-        this.isSignupWisdom = true
+        // this.isSignupWisdom = true
         this.babyBox = !this.babyBox
       } catch (err) {
         console.log(err)
         this.$toast.fail(err.message)
       }
+    },
+    async onShowQRCode() {
+      const dialog = await this.$createDialog(
+        () => import('@/views/Course/QrCodeModal.vue'),
+        {
+          destroyOnClose: true,
+          on: {
+            close: (v) => {
+              dialog.close()
+            },
+          },
+        }
+      )
     },
     countAge(year, month) {
       var sum = year * 12 + month
@@ -362,15 +375,16 @@ export default {
               })
               this.getUserDayCourse()
               this.isLoading = true
-              this.isSignupWisdom = true
+              // this.isSignupWisdom = true
             } catch (e) {
               console.log(e)
             }
           } else {
+            //该用户暂无报名智慧早教
             localStorage.removeItem('babyInfo')
             localStorage.removeItem('babyId')
             this.isLoading = true
-            this.isSignupWisdom = false
+            // this.isSignupWisdom = false
           }
         })
         .catch((err) => {
@@ -504,6 +518,7 @@ export default {
     'v-title': Title,
     'v-pie': Pie,
     'v-header': Header,
+    FixedButton,
   },
 }
 </script>
@@ -675,8 +690,6 @@ export default {
     height: 28px;
   }
   p {
-    // font-size: 16px;
-    // color: rgba(0, 0, 0, 0.8);
     padding-left: 18px;
 
     font-family: 'SourceHanSansCN-Normal';
@@ -692,9 +705,6 @@ export default {
     width: 60px;
     height: 25px;
     border-radius: 24px;
-    // border: solid 1px #ff6666;
-    // font-size: 12px;
-    // color: #ff6666;
     text-align: center;
     line-height: 25px;
     vertical-align: middle;
@@ -781,30 +791,39 @@ export default {
     }
   }
 }
-.bottom-bar {
-  width: 100%;
-  height: @fixed-bottom-bar;
-  text-align: center;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  text-align: center;
-  background-color: #fff;
-  & > p {
-    width: 345px;
-    height: 48px;
-    line-height: 48px;
-    margin: 14px 15px;
-    // font-family: 'SourceHanSansCN-Medium';
-    font-weight: normal;
-    font-stretch: normal;
-    letter-spacing: 0px;
-    border-radius: 24px;
-    border: solid 1px rgba(0, 0, 0, 0.4);
-    // opacity: 0.5;
-    font-family: 'SourceHanSansCN-Medium';
-    font-size: 17px;
-    color: rgba(0, 0, 0, 0.6);
-  }
-}
+// .bottom-bar {
+//   width: 100%;
+//   height: @fixed-bottom-bar;
+//   text-align: center;
+//   position: fixed;
+//   bottom: 0;
+//   left: 0;
+//   text-align: center;
+//   background-color: #fff;
+//   & > p {
+//     width: 345px;
+//     height: 48px;
+//     line-height: 48px;
+//     margin: 14px 15px;
+//     // font-family: 'SourceHanSansCN-Medium';
+//     font-weight: normal;
+//     font-stretch: normal;
+//     letter-spacing: 0px;
+//     border-radius: 24px;
+//     border: solid 1px rgba(0, 0, 0, 0.4);
+//     opacity: 0.5;
+//     // font-family: 'SourceHanSansCN-Medium';
+//     // font-size: 17px;
+//     // color: rgba(0, 0, 0, 0.6);
+//     & > span {
+//       font-family: 'SourceHanSansCN-Medium';
+//       font-size: 17px;
+//       font-weight: normal;
+//       font-stretch: normal;
+//       letter-spacing: 0px;
+//       color: rgba(0, 0, 0, 0.6);
+//       opacity: 1;
+//     }
+//   }
+// }
 </style>

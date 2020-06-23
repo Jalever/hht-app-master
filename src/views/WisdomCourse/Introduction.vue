@@ -68,7 +68,7 @@ export default {
               dialog.close()
               if (this.system == 'ios')
                 return window.webkit.messageHandlers.addBabys.postMessage(null)
-              else return window.android.addBabys('addBabys', '')
+              else return window.android.playCourse('addBabys', '')
             },
           },
         }
@@ -112,7 +112,7 @@ export default {
         this.$toast.fail(err.message)
       }
     },
-
+    //删除'智慧早教'cookie
     onDelCourseCookie() {
       let schoolTimeCookie = getCookies(CONSTANTS.LABEL_COOKIE_SCHOOLTIME)
       if (!schoolTimeCookie) return
@@ -132,6 +132,7 @@ export default {
         const { data } = await this.$axios.userApplyTime(cid)
         if (!data.success) throw new Error(data.info)
         const resData = data.data
+        if (!resData) throw new Error("current user doesn't signed course")
         const { babyId } = resData
         // let signupBabyId = window.localStorage.getItem('babyId')
         // signupBabyId = JSON.parse(signupBabyId)
@@ -164,7 +165,6 @@ export default {
         const { data } = await this.$axios.userApply(id)
         if (!data.success) throw new Error(data.info)
 
-        this.$store.dispatch('defaultBaby', data)
         this.$toast('报名成功')
         this.isSignup = true
 

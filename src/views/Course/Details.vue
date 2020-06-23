@@ -16,20 +16,17 @@
             </div>
             <div class="card-time">
               <p>
-                <img
-                  src="../../assets/image/course/icon_people@2x.png"
-                  alt=""
-                />
+                <img src="../../assets/image/course/renshu@2x.png" alt="" />
                 适合{{ detailsList.suitedMinAge }}-{{
                   detailsList.suitedMaxAge
                 }}岁
               </p>
               <p>
                 <img src="../../assets/image/course/time@2x.png" alt="" />
-                共{{ detailsList.classHour }}课时
+                共 {{ detailsList.classHour }} 课时
               </p>
               <p>
-                <img src="../../assets/image/course/icon_study@2x.png" alt="" />
+                <img src="../../assets/image/course/xuexi@2x.png" alt="" />
                 {{ participants }}人学习
               </p>
             </div>
@@ -68,13 +65,12 @@
       >
         <p>会员免费加入</p>
       </div>
-      <div
-        class="details-btn1"
-        @click="onDelCourse"
+
+      <fixed-button
+        @clk="onDelCourse"
+        text="从我的课程中删除"
         v-if="detailsList.learningState == 20"
-      >
-        <p>从我的课程中删除</p>
-      </div>
+      ></fixed-button>
     </div>
   </div>
 </template>
@@ -85,6 +81,7 @@ import Header from '@/components/Header.vue'
 import DetailsIntro from '@/components/DetailsIntro.vue'
 import DetailsList from '@/components/DetailsList.vue'
 import { getQueryStringValue } from '@/common/util'
+import FixedButton from '@/components/FixedButton'
 import {
   getCookies,
   setCookies,
@@ -187,7 +184,7 @@ export default {
               dialog.close()
               if (this.system == 'ios')
                 return window.webkit.messageHandlers.addBabys.postMessage(null)
-              else return window.android.addBabys('addBabys', '')
+              else return window.android.playCourse('addBabys', '')
             },
           },
         }
@@ -282,6 +279,7 @@ export default {
     'v-header': Header,
     'v-details-intro': DetailsIntro,
     'v-details-list': DetailsList,
+    FixedButton,
   },
 }
 </script>
@@ -289,13 +287,11 @@ export default {
 <style lang="less" scoped>
 @import './../../assets/css/constants.less';
 .details-wrapper {
-  // background-color: #ff0000;
-  // margin-bottom: @fixed-bottom-bar;
   border-bottom: @fixed-bottom-bar solid transparent;
 }
 .details-content {
   width: 100%;
-  background: #fff;
+  background: #fafafa;
 }
 
 .course-box-top {
@@ -310,7 +306,7 @@ export default {
 
 .course-card-details {
   width: 100%;
-  background: #fff;
+  background: #fafafa;
   padding-top: 22px;
 
   .course-card {
@@ -397,8 +393,7 @@ export default {
 .details-tab {
   width: 100%;
   padding-top: 50px;
-  // margin-bottom: 84px;
-  background: #fff;
+  background: #fafafa;
 
   .details-tab-itme {
     width: 50%;
@@ -425,6 +420,7 @@ export default {
 
 .tab-content {
   margin-top: 20px;
+  background-color: #fff;
 }
 
 .details-btn {
