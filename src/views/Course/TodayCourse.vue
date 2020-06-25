@@ -1,38 +1,50 @@
 <template>
   <div class="course-list-wrapper">
-    <div class="empty" v-if="courseListWith.length == 0 && !eduData">
+    <div
+      class="empty"
+      v-if="courseListWith.length == 0 && !eduData"
+    >
       <van-empty
         class="custom-image"
         :image="emptyImg"
         description="你今天没有课程安排哦～"
       />
     </div>
-    <div class="list" v-else>
+    <div
+      class="list"
+      v-else
+    >
       <ul>
         <li v-if="eduData">
           <div class="list-name">
             <p>智慧早教课程</p>
             <p>
-              第<span>{{ applyTime }}</span
-              >天计划<rec-radius></rec-radius>约<span>30</span>分钟
+              第<span>{{ applyTime }}</span>天计划<rec-radius></rec-radius>约<span>30</span>分钟
             </p>
           </div>
-          <div class="list-btn" @click="onSchoolTime('', 1)">
+          <div
+            class="list-btn"
+            @click="onSchoolTime('', 1)"
+          >
             <span>上课<i v-if="isShowReddot"></i></span>
           </div>
         </li>
-        <li v-for="item in dataWithIndex" :key="item.id">
+        <li
+          v-for="item in dataWithIndex"
+          :key="item.id"
+        >
           <div class="list-name">
             <p>
               {{ item.name }}
             </p>
             <p>
-              第{{ item.classHoursIdx }}/<span>{{ item.classHourCount }}</span
-              >课时<rec-radius></rec-radius><span>约{{ item.curDuration }}</span
-              >分钟
+              第{{ item.classHoursIdx }}/<span>{{ item.classHourCount }}</span>课时<rec-radius></rec-radius><span>约{{ item.curDuration }}</span>分钟
             </p>
           </div>
-          <div class="list-btn" @click="onSchoolTime(item, 0)">
+          <div
+            class="list-btn"
+            @click="onSchoolTime(item, 0)"
+          >
             <span>上课<i v-if="item.isShowReddot"></i></span>
           </div>
         </li>
@@ -47,12 +59,7 @@ import { mapState } from 'vuex'
 import { getDayTime, computedTime } from '@/common/util'
 import * as CONSTANTS from '@/constants/index'
 import RecRadius from '@/components/RecRadius'
-import {
-  getCookies,
-  setCookies,
-  initCookies,
-  setCookiesWithExpiresTime,
-} from '@/common/cookie'
+import { getCookies, setCookies, initCookies } from '@/common/cookie'
 import Cookies from 'js-cookie'
 export default {
   props: {
@@ -60,9 +67,9 @@ export default {
     isShow: false,
     eduData: Boolean,
   },
-  data() {
+  data () {
     return {
-      emptyImg: require('../assets/image/course/qsy@2x.png'),
+      emptyImg: require('@/assets/image/course/qsy@2x.png'),
       babyid: 0,
       isLockSchooltime: false,
       courseListWithCookie: [], //course data with cookie so that displaying reddot
@@ -72,7 +79,7 @@ export default {
   },
   computed: {
     ...mapState(['system']),
-    courseListWith() {
+    courseListWith () {
       return this.courseListWithCookie.map((item) => {
         const { currentHourDuration } = item
         const curDuration = Math.ceil((currentHourDuration * 1) / 60)
@@ -83,15 +90,15 @@ export default {
         }
       })
     },
-    dataFilter: function() {
+    dataFilter: function () {
       return this.courseListWith.filter((item, index) =>
         this.isShow ? (this.eduData ? index < 2 : index < 3) : item
       )
     },
-    dataWith() {
+    dataWith () {
       return this.dataFilter.filter((item) => item.status * 1 !== 20)
     },
-    dataWithIndex() {
+    dataWithIndex () {
       return this.dataWith.map((item) => {
         let classHoursIdx
         const list = item.classHours
@@ -110,25 +117,24 @@ export default {
       })
     },
   },
-  async created() {
+  async created () {
     await this.getSumTime()
     this.babyid = localStorage.getItem('courseBaby')
   },
 
-  mounted() {},
+  mounted () { },
   watch: {
     courseData: {
       immediate: true,
       deep: true,
-      handler(v) {
-        let schoolTimeCookie = getCookies(CONSTANTS.LABEL_COOKIE_SCHOOLTIME)
+      handler (v) {
+        const curUserId = window.localStorage.getItem(
+          CONSTANTS.LOCALSTORAGE_COURSEBABY
+        )
+        let schoolTimeCookie = getCookies(curUserId)
         if (!schoolTimeCookie) {
           this.courseListWithCookie = this.courseData
-          return setCookies(
-            CONSTANTS.LABEL_COOKIE_SCHOOLTIME,
-            {},
-            CONSTANTS.LABEL_COOKIE_EXPIRES
-          )
+          return setCookies(curUserId, {})
         }
 
         schoolTimeCookie = JSON.parse(schoolTimeCookie)
@@ -144,7 +150,7 @@ export default {
     },
   },
   methods: {
-    async getSumTime() {
+    async getSumTime () {
       try {
         const cid = localStorage.getItem('cid')
         const { data } = await this.$axios.userApplyTime(cid)
@@ -157,7 +163,7 @@ export default {
       }
     },
     // '上课'
-    async onSchoolTime(item, type) {
+    async onSchoolTime (item, type) {
       this.onSetReddot(item, type)
 
       if (this.isLockSchooltime) return
@@ -214,8 +220,8 @@ export default {
           })
       }
     },
-    setAudioData(audioData, array) {
-      audioData.forEach(function(data, index) {
+    setAudioData (audioData, array) {
+      audioData.forEach(function (data, index) {
         let obj = {
           url: data.url,
           id: data.id,
@@ -237,30 +243,26 @@ export default {
       }
     },
     //点击设置小红点
-    onSetReddot(item, isSmartCourse = 0) {
+    onSetReddot (item, isSmartCourse = 0) {
+      const curUserId = window.localStorage.getItem(
+        CONSTANTS.LOCALSTORAGE_COURSEBABY
+      )
       let { id } = item
       if (isSmartCourse) id = 'isClickSmartCourse'
-      let schoolTimeCookie = getCookies(CONSTANTS.LABEL_COOKIE_SCHOOLTIME)
-
-      if (!schoolTimeCookie) schoolTimeCookie = initCookies()
-
+      let schoolTimeCookie = getCookies(curUserId)
+      if (!schoolTimeCookie) schoolTimeCookie = initCookies(curUserId)
       schoolTimeCookie = schoolTimeCookie && JSON.parse(schoolTimeCookie)
-
       schoolTimeCookie = {
         ...schoolTimeCookie,
         [id]: true,
       }
 
-      setCookies(
-        CONSTANTS.LABEL_COOKIE_SCHOOLTIME,
-        JSON.stringify(schoolTimeCookie)
-      )
-
+      setCookies(curUserId, JSON.stringify(schoolTimeCookie))
       isSmartCourse ? (this.isShowReddot = false) : (item.isShowReddot = false)
       this.$forceUpdate()
     },
     //获取正在学习中的课时index
-    getLearningItemIdx(list = [], prop, conditional) {
+    getLearningItemIdx (list = [], prop, conditional) {
       let statusList = list.map((item) => item.status * 1)
       let idx = statusList.lastIndexOf(20)
       return list[idx * 1 + 1]['index']
@@ -274,28 +276,33 @@ export default {
 
 <style lang="less" scoped>
 .course-list-wrapper {
-  padding-top: 21px;
-  padding-bottom: 16px;
-  background-color: #ffffff;
-  // box-shadow: 0px 0px 8px 3px rgba(76, 76, 76, 0.06);
-  border-radius: 8px;
+  // padding-top: 21px;
+  // padding-bottom: 16px;
+  // background-color: #ffffff;
+  // border-radius: 8px;
+  background-color: #ff0000;
 }
 .list {
   width: 100%;
-  // padding: 10px 0;
   ul {
     width: 345px;
     margin: 0 auto;
-    // background-color: #fff000;
     li {
-      // height: 41px;
-      margin: 14px 12px;
+      margin: 16px 12px;
       display: flex;
       align-items: center;
       .list-name {
         p {
+          // title
           &:nth-of-type(1) {
             font-size: 16px;
+            line-height: 16px;
+            color: rgba(0, 0, 0, 0.8);
+            font-family: "SourceHanSansCN-Medium";
+            font-size: 16px;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0px;
             color: rgba(0, 0, 0, 0.8);
             span {
               font-size: 12px;
@@ -303,12 +310,18 @@ export default {
               padding-left: 10px;
             }
           }
+
+          // 第N天计划 | 约xx分钟
           &:nth-of-type(2) {
             font-size: 13px;
             color: rgba(0, 0, 0, 0.5);
+            margin-top: 5px;
+            letter-spacing: 1px;
           }
         }
       }
+
+      // 上课button
       .list-btn {
         margin-left: auto;
         width: 67px;
@@ -325,6 +338,9 @@ export default {
         position: relative;
         // background-color: #ff0000;
         & > span {
+          display: flex;
+          align-items: center;
+          justify-content: center;
           & > i {
             position: absolute;
             top: 0;

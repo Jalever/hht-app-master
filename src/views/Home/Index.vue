@@ -2,17 +2,30 @@
   <div class="app">
     <v-header-icon v-if="isHeader == 1"></v-header-icon>
     <!-- <v-header :title="title" v-if="isHeader == 1"></v-header> -->
-    <div class="loadingding center" v-show="!isLoading">
-      <van-loading size="30px" color="#ff6666" vertical>加载中...</van-loading>
+    <div
+      class="loadingding center"
+      v-show="!isLoading"
+    >
+      <van-loading
+        size="30px"
+        color="#ff6666"
+        vertical
+      >加载中...</van-loading>
     </div>
-    <div class="content" v-show="isLoading">
+    <div
+      class="content"
+      v-show="isLoading"
+    >
       <div>
         <!-- <button @click="loca()">刷新</button> -->
       </div>
       <div class="member-user">
         <div class="member-user-bg">
           <div class="member-user-img">
-            <img src="../../assets/image/icon_headportrait@3x.png" alt="" />
+            <img
+              src="../../assets/image/icon_headportrait@3x.png"
+              alt=""
+            />
           </div>
           <div class="member-user-name">
             <p>
@@ -37,7 +50,10 @@
           </div>
         </div>
       </div>
-      <div class="member-pay" v-if="memberInfoVip == 0">
+      <div
+        class="member-pay"
+        v-if="memberInfoVip == 0"
+      >
         <div class="member-header">
           <p style="color: #fff;">VIP会员权益包</p>
           <p @click="setRouter('membership', true)">使用兑换码</p>
@@ -59,7 +75,10 @@
           </div>
         </div>
         <div class="member-pay-btn">
-          <div class="member-pay-btn-text" @click="memberBtn">
+          <div
+            class="member-pay-btn-text"
+            @click="memberBtn"
+          >
             <p>
               立即开通
               <span>赠送早教机</span>
@@ -85,12 +104,18 @@
             v-if="index < 6"
             :key="index"
           >
-            <img :src="item.pics" alt="" />
+            <img
+              :src="item.pics"
+              alt=""
+            />
             <p>{{ item.name }}</p>
           </div>
         </div>
       </div>
-      <div class="xmlyimg" @click="getXMLY">
+      <div
+        class="xmlyimg"
+        @click="getXMLY"
+      >
         <img
           src="../../assets/image/2F7C245C-9828-4136-B77D-B1170092E48B.png"
           alt=""
@@ -113,7 +138,10 @@
             v-if="index < 3"
           >
             <div class="list-item-img">
-              <img :src="item.img" alt="" />
+              <img
+                :src="item.img"
+                alt=""
+              />
               <!-- <p class="list-item-img-sum">
 								<img src="../../assets/image/home_conner_iconalbum@2x.png" alt="" />
 								共{{ item.childResCount }}首
@@ -152,7 +180,10 @@
             v-if="index < 3"
           >
             <div class="list-item-img">
-              <img :src="item.img" alt="" />
+              <img
+                :src="item.img"
+                alt=""
+              />
               <!-- <p class="list-item-img-sum">
 								<img src="../../assets/image/home_conner_iconalbum@2x.png" alt="" />
 								共{{ item.childResCount }}首
@@ -190,20 +221,24 @@
             @click="musicDaile(item.url)"
           >
             <div class="list-item-img">
-              <img :src="item.img" alt="" />
+              <img
+                :src="item.img"
+                alt=""
+              />
               <!-- <p class="list-item-img-sum">
 								<img src="../../assets/image/home_conner_iconalbum@2x.png" alt="" />
 								共{{ item.childResCount }}首
 							</p> -->
             </div>
             <div class="member-exclusive-pic">
-              <p class="van-multi-ellipsis" :style="{ color: item.color }">
+              <p
+                class="van-multi-ellipsis"
+                :style="{ color: item.color }"
+              >
                 {{ item.name }}
               </p>
               <p>
-                <span :style="{ color: item.color }"
-                  >原价¥{{ item.subheading }}</span
-                >
+                <span :style="{ color: item.color }">原价¥{{ item.subheading }}</span>
               </p>
               <p :style="{ background: item.color }">会员畅听</p>
             </div>
@@ -211,16 +246,27 @@
         </div>
       </div>
       <div class="member-exclusive">
-        <div class="member-header"><p>VIP专享课程</p></div>
-        <div class="member-early" @click="setRouter('education', true)">
-          <img src="../../assets/image/2.png" alt="" />
+        <div class="member-header">
+          <p>VIP专享课程</p>
+        </div>
+        <div
+          class="member-early"
+          @click="setRouter('education', true)"
+        >
+          <img
+            src="../../assets/image/2.png"
+            alt=""
+          />
         </div>
         <div class="member-early-text">
           <p>智慧早教课程</p>
           <p>根据宝宝成长关键期，每日更新课程内容</p>
         </div>
       </div>
-      <div class="member-introduce" v-if="activeActivityList.length != 0">
+      <div
+        class="member-introduce"
+        v-if="activeActivityList.length != 0"
+      >
         <div class="member-header">
           <p>VIP会员活动</p>
           <p
@@ -237,16 +283,27 @@
             v-for="(item, index) in activeActivityList"
             @click="activityRouter(item.links)"
           >
-            <img :src="item.coverImage" alt="" />
+            <img
+              :src="item.coverImage"
+              alt=""
+            />
             <p>{{ item.name }}</p>
           </div>
         </div>
       </div>
       <div class="member-introduce">
-        <div class="member-header"><p>VIP专属客服</p></div>
+        <div class="member-header">
+          <p>VIP专属客服</p>
+        </div>
         <div class="member-service-list">
-          <div class="member-service-list-item" @click="serviceBox()">
-            <img src="../../assets/image/boy_customer@3x.png" alt="" />
+          <div
+            class="member-service-list-item"
+            @click="serviceBox()"
+          >
+            <img
+              src="../../assets/image/boy_customer@3x.png"
+              alt=""
+            />
             <p>
               <span>火火兔客服</span>
               <span>工作日 8:30—18:00在线</span>
@@ -268,7 +325,10 @@
         </div>
         <div class="member-help-list">
           <!-- <p v-for="(item, index) in helpList" :key="index">{{ index + 1 }}.{{ item.name }}</p> -->
-          <van-collapse v-model="activeName" accordion>
+          <van-collapse
+            v-model="activeName"
+            accordion
+          >
             <van-collapse-item
               v-for="(item, index) in activeHelp"
               :key="index"
@@ -280,7 +340,10 @@
           </van-collapse>
         </div>
       </div>
-      <div class="member-buy" v-if="memberInfoVip == 0 && buyArray.length != 0">
+      <div
+        class="member-buy"
+        v-if="memberInfoVip == 0 && buyArray.length != 0"
+      >
         <div class="member-buy-box">
           <div class="member-buy-left">
             <p>{{ buyArray.name }}</p>
@@ -289,7 +352,9 @@
               {{ buyArray.giftName }}
             </p>
           </div>
-          <div class="member-buy-right"><p>立刻开通</p></div>
+          <div class="member-buy-right">
+            <p>立刻开通</p>
+          </div>
         </div>
       </div>
     </div>
@@ -302,7 +367,7 @@ import Header from '@/components/Header.vue'
 import Global from '@/common/global.js'
 import HeaderIcon from '@/components/HeaderIcon.vue'
 export default {
-  data() {
+  data () {
     return {
       isLoading: false,
       activityList: [],
@@ -333,14 +398,14 @@ export default {
       'userInfo',
       'memberInfoTime',
     ]),
-    activeHelp: function() {
-      return this.helpList.filter(function(item, index) {
+    activeHelp: function () {
+      return this.helpList.filter(function (item, index) {
         return index < 4
       })
     },
-    activeActivityList: function() {
+    activeActivityList: function () {
       var idx = 0
-      return this.activityList.filter(function(item, index, array) {
+      return this.activityList.filter(function (item, index, array) {
         if (item.activityStateStr == '进行中') {
           idx += 1
           if (idx < 3) {
@@ -350,7 +415,7 @@ export default {
       })
     },
   },
-  created() {
+  created () {
     const { isHeader } = this.$route.query
     this.isHeader = isHeader
 
@@ -366,10 +431,10 @@ export default {
     }
     this.getVipAll()
   },
-  mounted() {},
+  mounted () { },
   methods: {
     // ...mapActions(['setUserInfoAction', 'setEquityAction']),
-    cardClick(index, url, data) {
+    cardClick (index, url, data) {
       this.cardIndex = index
       this.buyLink = url
       this.buyArray = data
@@ -377,7 +442,7 @@ export default {
       this.buyOnePic = data.price
       this.$store.dispatch('setEquityAction', this.buyOneArray.id)
     },
-    timestampToTime(cjsj) {
+    timestampToTime (cjsj) {
       var date = new Date(cjsj) //时间戳为10位需*1000，时间戳为13位的话不需乘1000
       var Y = date.getFullYear() + '-'
       var M =
@@ -393,7 +458,7 @@ export default {
     /**
      *跳转喜马拉雅小程序
      */
-    xmlay(id, name, type) {
+    xmlay (id, name, type) {
       let userid = localStorage.getItem('user')
       console.log('id==', id)
       console.log('name==', name)
@@ -434,7 +499,7 @@ export default {
     /**
      * 开通会员卡跳转有赞
      * */
-    memberBtn() {
+    memberBtn () {
       try {
         let data = {
           url: this.buyLink,
@@ -450,7 +515,7 @@ export default {
       }
     },
     //客服
-    serviceBox() {
+    serviceBox () {
       if (this.memberInfoVip == 0) {
         this.$toast('请先开通会员')
         return
@@ -472,7 +537,7 @@ export default {
           )
         })
     },
-    activityRouter(url) {
+    activityRouter (url) {
       console.log(this.memberInfoVip)
       if (this.memberInfoVip == 0) {
         this.$toast('请先开通会员')
@@ -480,7 +545,7 @@ export default {
       }
       location.href = url
     },
-    setPhone(tel) {
+    setPhone (tel) {
       try {
         return tel.replace(tel.substring(3, 7), '****')
       } catch (e) {
@@ -488,11 +553,10 @@ export default {
         //TODO handle the exception
       }
     },
-    loca() {
+    loca () {
       location.reload()
-      // this.$router.push({ name: 'course/index' });
     },
-    cardPayBtn() {
+    cardPayBtn () {
       console.log('调用支付===========', this.babyInfo)
       if (this.buyLink == null) {
         this.$toast('请选择要开通的会员卡')
@@ -500,17 +564,17 @@ export default {
       }
       this.$router.push({ name: 'purchase-help', query: { url: this.buyLink } })
     },
-    setRouter(val, flag) {
+    setRouter (val, flag) {
       if (this.memberInfoVip == 0 && !flag) {
         this.$toast('请先开通会员')
         return
       }
       this.$router.push({ name: val })
     },
-    helpClick(index) {
+    helpClick (index) {
       this.$router.push({ name: 'member-equity', query: { id: index } })
     },
-    getXMLY() {
+    getXMLY () {
       if (this.memberInfoVip == 0) {
         this.$toast('请先开通会员')
         return
@@ -543,7 +607,7 @@ export default {
           this.$toast.fail(err)
         })
     },
-    async getVipAll() {
+    async getVipAll () {
       console.log('调用接口', localStorage.getItem('user'))
       // await this.$store.dispatch('setUserInfoAction');
       await this.$axios
@@ -591,7 +655,7 @@ export default {
       }, 300)
     },
     //专属内容
-    musicDaile(url, isVip) {
+    musicDaile (url, isVip) {
       if (this.memberInfoVip == 0 && isVip) {
         this.$toast('请先开通会员')
         return
@@ -611,7 +675,7 @@ export default {
         //TODO handle the exception
       }
     },
-    ToText(HTML) {
+    ToText (HTML) {
       var input = HTML
       return input
         .replace(/<(style|script|iframe)[^>]*?>[\s\S]+?<\/\1\s*>/gi, '')
@@ -626,7 +690,7 @@ export default {
     'v-header-icon': HeaderIcon,
   },
   watch: {
-    a(val, oldVal) {
+    a (val, oldVal) {
       //普通的watch监听
       console.log('a:===========' + val, oldVal)
     },
@@ -634,5 +698,5 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-@import '../../assets/css/index.less';
+@import "../../assets/css/index.less";
 </style>

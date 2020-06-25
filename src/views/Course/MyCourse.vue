@@ -1,41 +1,61 @@
 <template>
   <div class="course-index-wrapper iphonex-bd-bottom">
-    <div class="loadingding center" v-show="!isLoading">
-      <van-loading size="30px" color="#ff6666" vertical>加载中</van-loading>
+    <div
+      class="loadingding center"
+      v-show="!isLoading"
+    >
+      <van-loading
+        size="30px"
+        color="#ff6666"
+        vertical
+      >加载中</van-loading>
     </div>
 
     <div class="course-index-content">
-      <div class="course-user-top" @click="deviseText()" v-if="isDeviseText">
+      <div
+        class="course-user-top"
+        @click="deviseText()"
+        v-if="isDeviseText"
+      >
         <p>绑定故事机开机，即可播放今日课程哦！</p>
-        <span
-          ><img src="../../assets/image/course/icon_popup_close@2x.png"
-        /></span>
+        <span><img src="../../assets/image/course/icon_popup_close@2x.png" /></span>
       </div>
-      <div class="course-user-day" v-if="isShowCourseUserDay">
+      <div
+        class="course-user-day course-user-day-top"
+        v-if="isShowCourseUserDay"
+      >
         <div class="course-day-title">
-          <p>今日学习</p>
-          <span @click="onShowMore" v-if="userList.length != 0">
+          <p>今日课表</p>
+          <span
+            @click="onShowMore"
+            v-if="userList.length != 0"
+          >
             <i>查看更多</i>
             <van-icon name="arrow" />
           </span>
         </div>
         <div class="course-list">
-          <course-list
+          <today-course
             :isShow="isShow"
             :courseData="userList"
             :eduData="isShowSmartCourse"
           >
-            <div class="more-img" v-if="userList.length != 0">
+            <div
+              class="more-img"
+              v-if="userList.length != 0"
+            >
               <img
                 src="../../assets/image/course/icon_device_spreadoutblue@2x.png"
                 @click="onShowMore"
               />
             </div>
-          </course-list>
+          </today-course>
         </div>
       </div>
       <div class="course-user-all">
-        <div class="course-day-title"><p>已报名课程</p></div>
+        <div class="course-day-title">
+          <p>已报名课程</p>
+        </div>
         <div class="course-user-tab">
           <p
             :class="courseUserTab == 1 ? 'tabActive' : ''"
@@ -57,7 +77,10 @@
           <p>没有正在学习课程噢，快去添加吧～</p>
           <span @click="onAddCourse">添加课程</span>
         </div>
-        <div class="course-user-list" v-else>
+        <div
+          class="course-user-list"
+          v-else
+        >
           <v-card-list
             :status="status"
             :audioData="userList"
@@ -73,12 +96,12 @@
 <script>
 import * as CONSTANTS from '@/constants/index'
 import Header from '@/components/Header.vue'
-import CourseList from '@/components/CourseList.vue'
+import TodayCourse from '@/views/Course/TodayCourse.vue'
 import CradList from '@/components/CardList.vue'
 import PullDown from '@/components/Loadmore/PullDown.vue'
 
 export default {
-  data() {
+  data () {
     let status = CONSTANTS.STATUS_COURSE_LEARNING
     return {
       isLoading: false,
@@ -96,35 +119,35 @@ export default {
     }
   },
   computed: {
-    isShowCourseUserDay() {
+    isShowCourseUserDay () {
       if (this.isShowSmartCourse) return true
       return this.userList.length
     },
   },
-  created() {
+  created () {
     this.babyid = localStorage.getItem('courseBaby')
     this.getSignupTime()
     this.getCourseAll()
   },
-  activated() {
+  activated () {
     this.getCourseAll()
   },
-  mounted() {},
+  mounted () { },
   methods: {
-    onLoad() {
+    onLoad () {
       location.reload()
     },
-    onAddCourse() {
+    onAddCourse () {
       // this.$toast('success')
       this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, {
         path: '/course/smart-course',
       })
     },
-    deviseText() {
+    deviseText () {
       this.isDeviseText = !this.isDeviseText
     },
     // 获取'智慧早教'报名时间
-    async getSignupTime() {
+    async getSignupTime () {
       try {
         const curUserId = window.localStorage.getItem(
           CONSTANTS.LOCALSTORAGE_COURSEBABY
@@ -143,11 +166,11 @@ export default {
         console.log(err)
       }
     },
-    async getCourseAll() {
+    async getCourseAll () {
       await this.getAsyncCoursePackage()
       await this.getAsyncUserCourse()
     },
-    async getAsyncCoursePackage() {
+    async getAsyncCoursePackage () {
       try {
         const { data } = await this.$axios.getCoursePack(this.babyid)
         if (!data.success) throw new Error(data.info)
@@ -159,7 +182,7 @@ export default {
         this.$toast.fail(err.message)
       }
     },
-    async getAsyncUserCourse() {
+    async getAsyncUserCourse () {
       try {
         const { data } = await this.$axios.getUserCourse(this.babyid)
         if (!data.success) throw new Error(data.info)
@@ -173,7 +196,7 @@ export default {
         this.$toast.fail(err.message)
       }
     },
-    courseTabCLick(index) {
+    courseTabCLick (index) {
       this.courseUserTab = index
       if (index == 2) {
         this.status = CONSTANTS.STATUS_COURSE_FINISHED
@@ -181,7 +204,7 @@ export default {
         this.status = CONSTANTS.STATUS_COURSE_LEARNING
       }
     },
-    onShowMore() {
+    onShowMore () {
       this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, {
         path: '/course/course-more',
       })
@@ -189,7 +212,7 @@ export default {
   },
   components: {
     'v-header': Header,
-    CourseList,
+    TodayCourse,
     'v-card-list': CradList,
     'v-pull-down': PullDown,
   },
@@ -197,7 +220,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import './../../assets/css/constants.less';
+@import "./../../assets/css/constants.less";
 .course-index-wrapper {
   width: 100%;
   border-bottom: @bottom-bar-distance-disk solid transparent;
@@ -223,7 +246,7 @@ export default {
     color: rgba(0, 0, 0, 0.5);
     padding: 0 15px;
 
-    font-family: 'SourceHanSansCN-Normal';
+    font-family: "SourceHanSansCN-Normal";
     font-size: 13px;
     font-weight: normal;
     font-stretch: normal;
@@ -247,15 +270,18 @@ export default {
 
 .course-user-day,
 .course-user-all {
-  width: 345px;
-  margin: 20px auto;
+  width: calc(100% - 30px);
+
+  margin: 28px auto;
+  margin-top: 29px;
   margin-bottom: 0;
+  // background-color: #ff0000;
 
   .course-day-title {
     width: 100%;
     display: flex;
     align-items: center;
-    font-family: 'SourceHanSansCN-Medium';
+    font-family: "SourceHanSansCN-Medium";
     font-size: 18px;
     font-weight: normal;
     font-stretch: normal;
@@ -269,7 +295,7 @@ export default {
       align-items: center;
       & > i:first-of-type {
         font-style: normal;
-        font-family: 'SourceHanSansCN-Regular';
+        font-family: "SourceHanSansCN-Regular";
         font-size: 12px;
         font-weight: normal;
         font-stretch: normal;
@@ -287,21 +313,25 @@ export default {
   }
 }
 
+.course-user-day-top {
+  margin-top: 18px;
+}
+
 .more-img {
   margin-top: 2px;
   text-align: center;
 
   img {
     display: inline-block;
-    width: 13px;
-    height: 13px;
+    width: 18px;
+    height: 18px;
     margin: 0 auto;
   }
 }
 
 .course-user-tab {
   width: 345px;
-  margin: 21px auto 8px auto;
+  margin: 13px auto 2px auto;
   display: flex;
 
   p {
@@ -324,7 +354,7 @@ export default {
 
 .course-user-tab p.tabActive {
   color: rgba(0, 0, 0, 0.8);
-  font-family: 'SourceHanSansCN-Regular';
+  font-family: "SourceHanSansCN-Regular";
   font-size: 15px;
   font-weight: normal;
   font-stretch: normal;
@@ -361,6 +391,6 @@ export default {
 .course-list {
   box-shadow: 0px 0px 8px 3px rgba(76, 76, 76, 0.06);
   border-radius: 8px;
-  margin-top: 20px;
+  margin-top: 16px;
 }
 </style>

@@ -41,10 +41,10 @@
       <div class="details-tab">
         <div class="details-tab-itme">
           <p @click="detalsTab(1)" :class="tabAction == 1 ? 'tabAction' : ''">
-            简介
+            课程简介
           </p>
           <p @click="detalsTab(2)" :class="tabAction == 2 ? 'tabAction' : ''">
-            计划
+            课程计划
           </p>
         </div>
         <div class="tab-content">
@@ -82,12 +82,7 @@ import DetailsIntro from '@/components/DetailsIntro.vue'
 import DetailsList from '@/components/DetailsList.vue'
 import { getQueryStringValue } from '@/common/util'
 import FixedButton from '@/components/FixedButton'
-import {
-  getCookies,
-  setCookies,
-  initCookies,
-  setCookiesWithExpiresTime,
-} from '@/common/cookie'
+import { getCookies, setCookies } from '@/common/cookie'
 import { mapState } from 'vuex'
 export default {
   data() {
@@ -246,7 +241,10 @@ export default {
         .catch(() => {})
     },
     delCourseCookies(ids = []) {
-      let schoolTimeCookie = getCookies(CONSTANTS.LABEL_COOKIE_SCHOOLTIME)
+      const curUserId = window.localStorage.getItem(
+        CONSTANTS.LOCALSTORAGE_COURSEBABY
+      )
+      let schoolTimeCookie = getCookies(curUserId)
       if (!schoolTimeCookie) return
       schoolTimeCookie = schoolTimeCookie && JSON.parse(schoolTimeCookie)
 
@@ -255,10 +253,7 @@ export default {
         if (isExist) delete schoolTimeCookie[item]
       }
 
-      setCookies(
-        CONSTANTS.LABEL_COOKIE_SCHOOLTIME,
-        JSON.stringify(schoolTimeCookie)
-      )
+      setCookies(curUserId, JSON.stringify(schoolTimeCookie))
     },
     //添加课程限制 Modal
     async showOverloadCourseModal() {
@@ -307,7 +302,7 @@ export default {
 .course-card-details {
   width: 100%;
   background: #fafafa;
-  padding-top: 22px;
+  padding-top: 18px;
 
   .course-card {
     width: 349px;
@@ -319,13 +314,10 @@ export default {
 
   .course-card-box {
     width: 100%;
-    // height: 123px;
     margin: 0 auto;
     position: relative;
 
     .card-name {
-      // font-size: 20px;
-      // color: rgba(0, 0, 0, 0.8);
       font-family: 'SourceHanSansCN-Medium';
       font-size: 20px;
       font-weight: normal;
@@ -342,21 +334,21 @@ export default {
     .card-lable {
       display: flex;
       margin-top: 10px;
-      font-family: 'SourceHanSansCN-Normal';
-      font-size: 13px;
-      font-weight: normal;
-      font-stretch: normal;
-      letter-spacing: 0px;
-      color: #ff6666;
+      border-radius: 12px;
 
       span {
         display: inline-block;
         background-color: rgba(255, 138, 102, 0.08);
         border-radius: 12px;
-        color: #ff8a66;
-        font-size: 13px;
         padding: 0px 8px;
         margin-right: 11px;
+
+        font-family: 'SourceHanSansCN-Normal';
+        font-size: 13px;
+        font-weight: normal;
+        font-stretch: normal;
+        letter-spacing: 0px;
+        color: #ff6666;
       }
     }
 
@@ -367,10 +359,9 @@ export default {
 
       p {
         font-size: 14px;
-        color: rgba(0, 0, 0, 0.3);
+        color: rgba(0, 0, 0, 0.5);
         display: flex;
         align-items: center;
-        // background-color: #fff000;
 
         img {
           width: 15px;

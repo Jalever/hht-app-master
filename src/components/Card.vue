@@ -134,6 +134,7 @@ export default {
     }
   }
   .card-name {
+    // height: 20px;
     font-family: 'SourceHanSansCN-Medium';
     font-size: 20px;
     font-weight: normal;
@@ -143,6 +144,7 @@ export default {
     padding-top: 10px;
   }
   .card-name-subhead {
+    margin-top: 8px;
     margin-left: 2px;
     color: rgba(0, 0, 0, 0.5);
     font-family: 'SourceHanSansCN-Normal';
@@ -205,7 +207,7 @@ export default {
     }
   }
   .course-state {
-    margin-top: 20px;
+    margin-top: 15px;
     p {
       text-align: center;
     }

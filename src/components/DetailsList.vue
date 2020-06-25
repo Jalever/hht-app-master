@@ -22,7 +22,8 @@
             <span
               ><i v-if="titleItem.newLearning"
                 >新学{{ titleItem.newLearning }}首</i
-              ><i v-if="titleItem.newLearning && titleItem.review"> | </i
+              ><i v-if="titleItem.newLearning && titleItem.review">
+                <rec-radius></rec-radius> </i
               ><i v-if="titleItem.review">复习{{ titleItem.review }}首</i>
             </span>
           </div>
@@ -30,12 +31,15 @@
             <p class="item-name">{{ listItem.name }}</p>
             <div class="item-time">
               <p>
-                <img src="../assets/image/course/icon_time@2x.png" alt="" />
+                <img
+                  src="../assets/image/course/home_search_time@2x.png"
+                  alt=""
+                />
                 {{ timeCycle(listItem.timeLength) }}
               </p>
               <p>
                 <img
-                  src="../assets/image/course/icon_listen备份@2x.png"
+                  src="../assets/image/course/home_search_listen@2x.png"
                   alt=""
                 />
                 {{ tranNumber(listItem.browseCount, 1) }}
@@ -50,6 +54,7 @@
 </template>
 
 <script>
+import RecRadius from '@/components/RecRadius'
 export default {
   props: {
     data: '',
@@ -127,7 +132,9 @@ export default {
       )
     },
   },
-  components: {},
+  components: {
+    RecRadius,
+  },
 }
 </script>
 
@@ -139,7 +146,7 @@ export default {
 .list-content {
   width: 345px;
   margin: 0 auto;
-  margin-top: 20px;
+  margin-top: 13px;
   .list-content-title {
     font-size: 12px;
     color: rgba(0, 0, 0, 0.3);
@@ -170,13 +177,11 @@ export default {
       width: 100%;
       padding: 18px 12px;
       padding-bottom: 0;
-      // background-color: #00ffff;
       .list-item-title {
         width: 100%;
         padding-left: 4px;
         display: flex;
         align-items: center;
-        // background-color: #ff0000;
         span {
           &:nth-of-type(1) {
             font-family: 'SourceHanSansCN-Medium';
@@ -197,7 +202,6 @@ export default {
             text-align: right;
             & > i {
               font-style: normal;
-              // background-color: #ff0000;
             }
           }
         }
@@ -215,6 +219,7 @@ export default {
           color: rgba(0, 0, 0, 0.8);
         }
         .item-time {
+          margin-top: 4px;
           display: flex;
           align-items: center;
           p {
@@ -224,8 +229,8 @@ export default {
               padding-left: 16px;
             }
             img {
-              width: 14px;
-              height: 14px;
+              width: 18px;
+              height: 18px;
               margin-top: -1px;
             }
           }
@@ -291,7 +296,6 @@ export default {
   }
 
   /deep/ .van-tab--active {
-    // background-color: #fff000;
     font-family: 'SourceHanSansCN-Medium' !important;
     font-size: 19px !important;
     font-weight: normal !important;

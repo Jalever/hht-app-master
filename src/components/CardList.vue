@@ -122,7 +122,7 @@ export default {
     flex-wrap: wrap;
     li {
       width: 100%;
-      height: 80px;
+      height: 86px;
       display: flex;
       align-items: center;
       // padding: 10px 0;
@@ -152,6 +152,7 @@ export default {
             color: rgba(0, 0, 0, 0.74);
           }
           &:nth-of-type(2) {
+            margin-top: 5px;
             font-family: 'SourceHanSansCN-Normal';
             font-size: 13px;
             font-weight: normal;

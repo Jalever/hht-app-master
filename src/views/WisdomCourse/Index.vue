@@ -2,11 +2,21 @@
   <div class="wisdom-course-index-wrapper">
     <!-- <v-header title=""></v-header> -->
 
-    <div class="loadingding center" v-show="!isLoading">
-      <van-loading size="30px" color="#ff6666" vertical>加载中...</van-loading>
+    <div
+      class="loadingding center"
+      v-show="!isLoading"
+    >
+      <van-loading
+        size="30px"
+        color="#ff6666"
+        vertical
+      >加载中...</van-loading>
     </div>
 
-    <div class="wisdom-course-index-content" v-show="isLoading">
+    <div
+      class="wisdom-course-index-content"
+      v-show="isLoading"
+    >
       <p>火火兔智慧早教</p>
 
       <div class="sign-day">
@@ -22,7 +32,10 @@
       </div>
 
       <div class="learning-wacth">
-        <img src="../../assets/image/course/icon_weixin@2x.png" alt="" />
+        <img
+          src="../../assets/image/course/icon_weixin@2x.png"
+          alt=""
+        />
         <p>点击加入微信专业交流群</p>
         <span @click="onShowQRCode">加入</span>
       </div>
@@ -32,21 +45,37 @@
         <v-title :title="title[0]"></v-title>
         <div class="key-list">
           <ul v-if="keyArray.length != 0">
-            <li v-for="item in keyArray" :key="item">
+            <li
+              v-for="item in keyArray"
+              :key="item"
+            >
               <span>{{ item }}</span>
             </li>
           </ul>
-          <div v-else class="content-null"><p>暂无关键词</p></div>
+          <div
+            v-else
+            class="content-null"
+          >
+            <p>暂无关键词</p>
+          </div>
         </div>
       </div>
 
       <!-- 今日强化重点 -->
       <div class="course-emphasis">
         <v-title :title="title[1]"></v-title>
-        <div class="key-list" v-if="isPie">
+        <div
+          class="key-list"
+          v-if="isPie"
+        >
           <v-pie :pieData="keyList"></v-pie>
         </div>
-        <div v-else class="content-null"><p>暂无强化重点</p></div>
+        <div
+          v-else
+          class="content-null"
+        >
+          <p>暂无强化重点</p>
+        </div>
       </div>
 
       <!-- 宝宝关键期 -->
@@ -55,9 +84,15 @@
           :title="title[2]"
           :age="countAge(babyYear, babyMonth)"
         ></v-title>
-        <div class="period-list" v-if="periodList.length != 0">
+        <div
+          class="period-list"
+          v-if="periodList.length != 0"
+        >
           <ul>
-            <li v-for="(item, index) in periodList" :key="index">
+            <li
+              v-for="(item, index) in periodList"
+              :key="index"
+            >
               <div class="period-img">
                 <img :src="item.level1_logo" />
               </div>
@@ -68,10 +103,18 @@
             </li>
           </ul>
         </div>
-        <div v-else class="content-null"><p>暂无关键期</p></div>
+        <div
+          v-else
+          class="content-null"
+        >
+          <p>暂无关键期</p>
+        </div>
       </div>
     </div>
-    <fixed-button @clk="onDelCourse" text="删除课程"></fixed-button>
+    <fixed-button
+      @clk="onDelCourse"
+      text="删除课程"
+    ></fixed-button>
   </div>
 </template>
 
@@ -82,9 +125,10 @@ import Pie from '@/components/Pie.vue'
 import Header from '@/components/Header.vue'
 import FixedButton from '@/components/FixedButton'
 import { computedTime } from '@/common/util'
+import * as CONSTANTS from '@/constants/index'
 import { mapActions, mapMutations, mapState, mapGetters } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
       isLoading: false,
       title: ['今日课程关键词', '今日强化重点', '宝宝关键期'],
@@ -119,7 +163,7 @@ export default {
       'userBaby',
     ]),
   },
-  created() {
+  created () {
     this.isHeader = this.$route.query.header
     let baby = JSON.parse(localStorage.getItem('babyInfo'))
     this.defaultBaby = this.userBaby.length == 0 ? baby : this.userBaby
@@ -129,7 +173,7 @@ export default {
     this.current()
   },
   methods: {
-    async getBabyList() {
+    async getBabyList () {
       try {
         const { data } = await this.$axios.getBabyList()
         if (!data.success) throw new Error(data.info)
@@ -138,7 +182,7 @@ export default {
         console.log(err)
       }
     },
-    getActivity() {
+    getActivity () {
       this.$axios
         .userActivityInfo()
         .then((res) => {
@@ -151,7 +195,7 @@ export default {
           this.$toast.fail(err)
         })
     },
-    async setBabyId(list) {
+    async setBabyId (list) {
       this.babyArray = list
 
       this.$toast.loading({
@@ -177,7 +221,7 @@ export default {
         this.$toast.fail(err.message)
       }
     },
-    async onShowQRCode() {
+    async onShowQRCode () {
       const dialog = await this.$createDialog(
         () => import('@/views/Course/QrCodeModal.vue'),
         {
@@ -190,7 +234,7 @@ export default {
         }
       )
     },
-    countAge(year, month) {
+    countAge (year, month) {
       var sum = year * 12 + month
       // console.log('nianling,', sum);
       if (sum < 13) {
@@ -212,7 +256,7 @@ export default {
     /**
      * 计算宝宝年龄
      * */
-    getGrowAge(birthday) {
+    getGrowAge (birthday) {
       var time
       try {
         time = birthday
@@ -278,7 +322,7 @@ export default {
       // console.log('dateStr....', dateStr)
       return dateStr
     },
-    getDaysOfMonth(dateStr) {
+    getDaysOfMonth (dateStr) {
       var date = new Date(dateStr)
       var year = date.getFullYear()
       var mouth = date.getMonth() + 1
@@ -301,16 +345,16 @@ export default {
       }
       return day
     },
-    isLeapYear(year) {
+    isLeapYear (year) {
       return (year % 4 == 0 && year % 100 != 0) || year % 400 == 0
     },
-    async getUserDayCourse() {
+    async getUserDayCourse () {
       let self = this
       this.$axios
         .getDayKey(this.currentTime)
         .then((res) => {
           let pieData = res.data.data.emphasis
-          pieData.forEach(function(Data, index) {
+          pieData.forEach(function (Data, index) {
             let v = Data.rate.replace('%', '')
             let obj = {
               name: Data.ability + Data.rate,
@@ -331,7 +375,7 @@ export default {
       await this.getAsyncBabyPeriod()
       await this.getAsyncSumTime()
     },
-    async getAsyncSumTime() {
+    async getAsyncSumTime () {
       try {
         const { data } = await this.$axios.sumTime(this.currentMouth)
         if (!data.success) throw new Error(data.info)
@@ -342,7 +386,7 @@ export default {
         // this.$toast.fail(err.message)
       }
     },
-    async getAsyncBabyPeriod() {
+    async getAsyncBabyPeriod () {
       try {
         const { data } = await this.$axios.getBabyPeriod(this.currentTime)
         if (!data.success) throw new Error(data.info)
@@ -353,7 +397,7 @@ export default {
         this.$toast.fail(err.message)
       }
     },
-    getSumTime() {
+    getSumTime () {
       let self = this
       this.$axios
         .userApplyTime(localStorage.getItem('cid'))
@@ -367,7 +411,7 @@ export default {
                 localStorage.setItem('babyId', res.data.data.babyId)
               }
               let array = this.babyInfo
-              array.forEach(function(item, index) {
+              array.forEach(function (item, index) {
                 if (res.data.data.babyId == item.id) {
                   self.defaultBaby = item
                   self.$store.dispatch('defaultBaby', item)
@@ -392,7 +436,7 @@ export default {
           this.$toast.fail(err)
         })
     },
-    async onUserApply() {
+    async onUserApply () {
       if (this.memberInfoVip == 0) {
         this.$router.push({
           name: 'index',
@@ -409,12 +453,12 @@ export default {
       if (!this.babyList.length) return this.onRedirectModal()
       this.babyBox = true
     },
-    async onRedirectModal() {
+    async onRedirectModal () {
       this.isHeader = 0 //隐藏header-icon
       this.isEmptyBabyModal = true
     },
     // 取消报名
-    async onDelCourse() {
+    async onDelCourse () {
       let cid = window.localStorage.getItem('cid')
       let user = window.localStorage.getItem('user')
       let courseBaby = window.localStorage.getItem('courseBaby')
@@ -432,28 +476,17 @@ export default {
         if (!data.success) throw new Error(data.info)
         const resData = data.data
         this.$toast.success('取消成功')
-        this.$router.push({
-          name: 'course/index',
+
+        this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, {
+          path: '/course/smart-course',
+
         })
       } catch (err) {
         console.log(err)
         this.$toast.fail(err.message)
       }
     },
-    // computedTime(time) {
-    //   //传入之前的时间  时间格式为(YY-MM-DD HH:MM:SS)
-    //   let t = time.split(' ')
-    //   console.log('t===', t)
-    //   let oldTimeFormat = new Date(t[0])
-    //   let nowDate = new Date()
-    //   if (nowDate.getTime() - oldTimeFormat.getTime() > 0) {
-    //     let times = nowDate.getTime() - oldTimeFormat.getTime()
-    //     let days = parseInt(times / (60 * 60 * 24 * 1000))
-    //     console.log('days', days)
-    //     return days + 1
-    //   }
-    // },
-    current() {
+    current () {
       var dd = new Date()
       var y = dd.getFullYear()
       var m = dd.getMonth() + 1 //获取当前月份的日期
@@ -461,7 +494,7 @@ export default {
       this.currentTime = y + '-' + m + '-' + d
       this.currentMouth = m
     },
-    education() {
+    education () {
       this.$toast.loading({
         message: '获取课程中...',
         forbidClick: true,
@@ -480,7 +513,7 @@ export default {
           // let array = [];
           if (res.data.code == 1 && res.data.data.length != 0) {
             let item = res.data.data
-            item.forEach(function(data, index) {
+            item.forEach(function (data, index) {
               let obj = {
                 url: data.url,
                 id: data.id,
@@ -510,9 +543,6 @@ export default {
           this.$toast.fail(err)
         })
     },
-    // onDelCourse() {
-    //   this.$toast('deleting')
-    // },
   },
   components: {
     'v-title': Title,
@@ -524,7 +554,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import './../../assets/css/constants.less';
+@import "./../../assets/css/constants.less";
 .wisdom-course-index-content {
   // margin-top: @header-comp-height;
   margin-bottom: @fixed-bottom-bar;
@@ -535,7 +565,7 @@ export default {
     width: 345px;
     margin: 0 auto;
     margin-top: 6px;
-    font-family: 'SourceHanSansCN-Medium';
+    font-family: "SourceHanSansCN-Medium";
     font-size: 22px;
     font-weight: normal;
     font-stretch: normal;
@@ -587,7 +617,7 @@ export default {
         display: flex;
         align-items: center;
         &:nth-of-type(1) {
-          font-family: 'SourceHanSansCN-Medium';
+          font-family: "SourceHanSansCN-Medium";
           font-size: 17px;
           color: rgba(0, 0, 0, 0.7);
           img {
@@ -603,7 +633,7 @@ export default {
           }
         }
         &:nth-of-type(2) {
-          font-family: 'SourceHanSansCN-Regular';
+          font-family: "SourceHanSansCN-Regular";
           font-size: 12px;
           color: rgba(0, 0, 0, 0.5);
         }
@@ -624,7 +654,7 @@ export default {
       height: 24px;
       line-height: 30px;
 
-      font-family: 'SourceHanSansCN-Regular';
+      font-family: "SourceHanSansCN-Regular";
       font-size: 13px;
       font-weight: normal;
       font-stretch: normal;
@@ -643,7 +673,7 @@ export default {
         position: absolute;
         right: 0;
 
-        font-family: 'SourceHanSansCN-Regular';
+        font-family: "SourceHanSansCN-Regular";
         font-size: 13px;
         font-weight: normal;
         font-stretch: normal;
@@ -654,7 +684,7 @@ export default {
   }
   .day-sum {
     margin-top: 16px;
-    font-family: 'SourceHanSansCN-Normal';
+    font-family: "SourceHanSansCN-Normal";
     font-size: 13px;
     font-weight: normal;
     font-stretch: normal;
@@ -692,7 +722,7 @@ export default {
   p {
     padding-left: 18px;
 
-    font-family: 'SourceHanSansCN-Normal';
+    font-family: "SourceHanSansCN-Normal";
     font-size: 16px;
     font-weight: normal;
     font-stretch: normal;
@@ -710,7 +740,7 @@ export default {
     vertical-align: middle;
     background-color: #4dc42a;
 
-    font-family: 'SourceHanSansCN-Regular';
+    font-family: "SourceHanSansCN-Regular";
     font-size: 12px;
     font-weight: normal;
     font-stretch: normal;

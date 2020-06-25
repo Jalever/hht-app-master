@@ -114,14 +114,14 @@ export default {
     },
     //删除'智慧早教'cookie
     onDelCourseCookie() {
-      let schoolTimeCookie = getCookies(CONSTANTS.LABEL_COOKIE_SCHOOLTIME)
+      const curUserId = window.localStorage.getItem(
+        CONSTANTS.LOCALSTORAGE_COURSEBABY
+      )
+      let schoolTimeCookie = getCookies(curUserId)
       if (!schoolTimeCookie) return
       schoolTimeCookie = schoolTimeCookie && JSON.parse(schoolTimeCookie)
       delete schoolTimeCookie['isClickSmartCourse']
-      setCookies(
-        CONSTANTS.LABEL_COOKIE_SCHOOLTIME,
-        JSON.stringify(schoolTimeCookie)
-      )
+      setCookies(curUserId, JSON.stringify(schoolTimeCookie))
     },
 
     //获取用户报名智慧早教的时间

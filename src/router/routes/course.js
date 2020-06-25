@@ -1,13 +1,4 @@
 export default [
-  { //首页
-    path: '/course/index',
-    name: 'course/index',
-    component: () => import( /* webpackChunkName: "home" */ '@/views/Course/Index.vue'),
-    meta: {
-      keepAlive: false,
-      title: null
-    },
-  },
   { //智慧早教
     path: '/course/smart-course',
     name: 'course/smart-course',

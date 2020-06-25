@@ -4,7 +4,7 @@
       <van-loading size="30px" color="#ff6666" vertical>加载中</van-loading>
     </div>
     <div class="learning-content" v-show="isLoading">
-      <div class="mbot learning-top">
+      <div class="learning-top">
         <p>{{ courseData.name }}</p>
         <p>
           共 <span>{{ courseData.classHourCount }}</span> 课时
@@ -20,7 +20,7 @@
       <div class="learnig-list mbot">
         <v-title
           :title="titleNmae"
-          top="34"
+          top="26"
           bottom="14"
           :courseCount="courseData.classHourCount"
         ></v-title>
@@ -44,12 +44,14 @@
               <p class="item-name">{{ listItem.name }}</p>
               <div class="item-time">
                 <p>
-                  <img src="../../assets/image/course/icon_time@2x.png" />
+                  <img
+                    src="../../assets/image/course/home_search_time@2x.png"
+                  />
                   {{ time(listItem.timeLength) }}
                 </p>
                 <p>
                   <img
-                    src="../../assets/image/course/icon_listen备份@2x.png"
+                    src="../../assets/image/course/home_search_listen@2x.png"
                     alt=""
                   />
                   {{ browse(listItem.browseCount, 1) }}
@@ -172,6 +174,7 @@ export default {
   width: 345px;
   margin-top: 5px;
   margin-left: 18px;
+  margin-bottom: 24px;
   p {
     &:nth-of-type(1) {
       font-family: 'SourceHanSansCN-Medium';
@@ -182,6 +185,7 @@ export default {
       color: rgba(0, 0, 0, 0.8);
     }
     &:nth-of-type(2) {
+      margin-top: 4px;
       font-family: 'SourceHanSansCN-Regular';
       font-size: 13px;
       font-weight: normal;
@@ -277,7 +281,7 @@ export default {
   margin: 0 auto;
   ul {
     width: 100%;
-    padding: 18px 15px 18px 24px;
+    padding: 18px 15px 18px 15px;
     border-bottom: 1px #f3f3f3 solid;
     // background-color: #fff000;
     .list-item-title {
@@ -322,8 +326,8 @@ export default {
         align-items: center;
         margin-top: 5px;
         img {
-          width: 14px;
-          height: 14px;
+          width: 18px;
+          height: 18px;
           margin-top: -2px;
         }
         p {
@@ -334,7 +338,7 @@ export default {
           letter-spacing: 0px;
           color: rgba(0, 0, 0, 0.4);
           &:nth-of-type(2) {
-            padding-left: 30px;
+            padding-left: 14px;
           }
         }
       }

@@ -1,9 +1,16 @@
 <template>
   <div class="course-index-wrapper">
-    <div class="loadingding center" v-show="!isLoading">
-      <van-loading size="30px" color="#ff6666" vertical>加载中</van-loading>
+    <div
+      class="loadingding center"
+      v-show="!isLoading"
+    >
+      <van-loading
+        size="30px"
+        color="#ff6666"
+        vertical
+      >加载中</van-loading>
     </div>
-    <!-- <button @click="onRedirect">测试服会员中心</button> -->
+    <button @click="onRedirect">会员中心</button>
     <v-card
       :list="lsit"
       :eduData="educationData"
@@ -17,7 +24,7 @@ import Card from '@/components/Card.vue'
 import * as CONSTANTS from '@/constants/index'
 
 export default {
-  data() {
+  data () {
     return {
       isLoading: false,
       courseTab: 1,
@@ -33,30 +40,25 @@ export default {
       signupBabyId: null,
     }
   },
-  created() {
+  created () {
     this.babyid = localStorage.getItem('courseBaby')
     this.getSignupTime()
     this.getCourseAll()
   },
-  activated() {
+  activated () {
     this.getCourseAll()
   },
-  mounted() {},
+  mounted () { },
   methods: {
-    onRedirect() {
-      let url = 'http://twifi.alilo.com.cn/xiaohai/hht/app/index.html'
+    onRedirect () {
+      let url = 'http://wifi.alilo.com.cn/xiaohai/hht/dist/index.html'
       window.open(url, '_self')
     },
-    onRedirectXMLY() {
-      this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, {
-        path: '/course/index-copy',
-      })
-    },
-    deviseText() {
+    deviseText () {
       this.isDeviseText = !this.isDeviseText
     },
     // 获取报名时间
-    async getSignupTime() {
+    async getSignupTime () {
       try {
         const cid = localStorage.getItem('cid')
         const { data } = await this.$axios.userApplyTime(cid)
@@ -71,11 +73,11 @@ export default {
         console.log(err)
       }
     },
-    async getCourseAll() {
+    async getCourseAll () {
       await this.getAsyncCoursePackage()
       await this.getAsyncUserCourse()
     },
-    async getAsyncCoursePackage() {
+    async getAsyncCoursePackage () {
       try {
         const { data } = await this.$axios.getCoursePack(this.babyid)
         if (!data.success) throw new Error(data.info)
@@ -87,7 +89,7 @@ export default {
         this.$toast.fail(err.message)
       }
     },
-    async getAsyncUserCourse() {
+    async getAsyncUserCourse () {
       try {
         const { data } = await this.$axios.getUserCourse(this.babyid)
         if (!data.success) throw new Error(data.info)
@@ -108,7 +110,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import './../../assets/css/constants.less';
+@import "./../../assets/css/constants.less";
 .course-index-wrapper {
   width: 100%;
 }
@@ -154,7 +156,7 @@ export default {
           width: 100%;
           max-height: 16px;
           font-size: 16px;
-          font-family: 'SourceHanSansCN-Medium';
+          font-family: "SourceHanSansCN-Medium";
           color: rgba(0, 0, 0, 0.8);
           padding: 0;
           margin: 0;
@@ -201,7 +203,7 @@ export default {
     color: rgba(0, 0, 0, 0.5);
     padding: 0 15px;
 
-    font-family: 'SourceHanSansCN-Normal';
+    font-family: "SourceHanSansCN-Normal";
     font-size: 13px;
     font-weight: normal;
     font-stretch: normal;
@@ -233,7 +235,7 @@ export default {
     display: flex;
     align-items: center;
 
-    font-family: 'SourceHanSansCN-Medium';
+    font-family: "SourceHanSansCN-Medium";
     font-size: 18px;
     font-weight: normal;
     font-stretch: normal;
@@ -250,7 +252,7 @@ export default {
       // font-size: 12px;
       // color: rgba(0, 0, 0, 0.5);
 
-      font-family: 'SourceHanSansCN-Regular';
+      font-family: "SourceHanSansCN-Regular";
       font-size: 12px;
       font-weight: normal;
       font-stretch: normal;
@@ -311,7 +313,7 @@ export default {
 
 .course-user-tab p.tabActive {
   color: rgba(0, 0, 0, 0.8);
-  font-family: 'SourceHanSansCN-Regular';
+  font-family: "SourceHanSansCN-Regular";
   font-size: 15px;
   font-weight: normal;
   font-stretch: normal;
