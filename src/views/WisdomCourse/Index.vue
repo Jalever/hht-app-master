@@ -26,16 +26,13 @@
             <span>{{ applyTime || 0 }}</span>
             天计划
           </p>
-          <p>目标30min</p>
+          <p>目标30min<span></span></p>
         </div>
         <p class="day-sum"><i></i>累计坚持{{ sumDay }}天</p>
       </div>
 
       <div class="learning-wacth">
-        <img
-          src="../../assets/image/course/icon_weixin@2x.png"
-          alt=""
-        />
+        <img src="../../assets/image/course/icon_weixin@2x.png" />
         <p>点击加入微信专业交流群</p>
         <span @click="onShowQRCode">加入</span>
       </div>
@@ -48,8 +45,7 @@
             <li
               v-for="item in keyArray"
               :key="item"
-            >
-              <span>{{ item }}</span>
+            >{{ item }}
             </li>
           </ul>
           <div
@@ -64,10 +60,7 @@
       <!-- 今日强化重点 -->
       <div class="course-emphasis">
         <v-title :title="title[1]"></v-title>
-        <div
-          class="key-list"
-          v-if="isPie"
-        >
+        <div v-if="isPie">
           <v-pie :pieData="keyList"></v-pie>
         </div>
         <div
@@ -556,15 +549,14 @@ export default {
 <style lang="less" scoped>
 @import "./../../assets/css/constants.less";
 .wisdom-course-index-content {
-  // margin-top: @header-comp-height;
+  width: calc(100% - 36px);
+  margin: 0 18px;
+  margin-top: 6px;
   margin-bottom: @fixed-bottom-bar;
   height: 100%;
-  // background-color: #ff0000;
 
   & > p:first-of-type {
-    width: 345px;
-    margin: 0 auto;
-    margin-top: 6px;
+    line-height: 22px;
     font-family: "SourceHanSansCN-Medium";
     font-size: 22px;
     font-weight: normal;
@@ -580,7 +572,6 @@ export default {
   background: url(../../assets/image/vip_smartedu_topimg1@3x.png) no-repeat;
   background-size: 100%;
   position: relative;
-  // z-index: 2000;
   .header-ranking {
     position: absolute;
     width: 64px;
@@ -642,48 +633,57 @@ export default {
   }
 }
 .sign-day {
-  width: 345px;
-  margin: 11px auto;
   .day {
+    margin-top: 16px;
     display: flex;
     position: relative;
-    height: 30px;
 
     p {
-      color: rgba(0, 0, 0, 0.8);
-      height: 24px;
-      line-height: 30px;
-
-      font-family: "SourceHanSansCN-Regular";
-      font-size: 13px;
-      font-weight: normal;
-      font-stretch: normal;
-      letter-spacing: 0px;
-      color: rgba(0, 0, 0, 0.6);
-
+      // 智慧早教第N天计划
       &:nth-of-type(1) {
-        font-size: 15px;
-        color: rgba(0, 0, 0, 0.8);
+        line-height: 13px;
+        font-family: "SourceHanSansCN-Regular";
+        font-size: 13px;
+        font-weight: normal;
+        font-stretch: normal;
+        letter-spacing: 0px;
+        color: rgba(0, 0, 0, 0.6);
         span {
+          line-height: 24px;
+          font-family: "SourceHanSansCN-Medium";
           font-size: 24px;
+          font-weight: normal;
+          font-stretch: normal;
+          letter-spacing: 0px;
           color: #ff8a66;
         }
       }
+
+      // 目标30min
       &:nth-of-type(2) {
         position: absolute;
         right: 0;
-
         font-family: "SourceHanSansCN-Regular";
         font-size: 13px;
         font-weight: normal;
         font-stretch: normal;
         letter-spacing: 0px;
         color: rgba(0, 0, 0, 0.5);
+        & > span {
+          line-height: 24px;
+          font-family: "SourceHanSansCN-Medium";
+          font-size: 24px;
+          font-weight: normal;
+          font-stretch: normal;
+          letter-spacing: 0px;
+          color: #ff8a66;
+        }
       }
     }
   }
   .day-sum {
-    margin-top: 16px;
+    line-height: 13px;
+    margin-top: 18px;
     font-family: "SourceHanSansCN-Normal";
     font-size: 13px;
     font-weight: normal;
@@ -705,13 +705,13 @@ export default {
 }
 
 .learning-wacth {
-  width: 94%;
-  margin: 0 auto;
+  width: 100%;
+  height: 63px;
   margin-top: 28px;
   padding: 0 20px;
   display: flex;
-  height: 63px;
   align-items: center;
+  justify-content: space-between;
   background-color: #ffffff;
   box-shadow: 0px 2px 8px 3px rgba(76, 76, 76, 0.06);
   border-radius: 8px;
@@ -720,8 +720,7 @@ export default {
     height: 28px;
   }
   p {
-    padding-left: 18px;
-
+    line-height: 16px;
     font-family: "SourceHanSansCN-Normal";
     font-size: 16px;
     font-weight: normal;
@@ -730,10 +729,9 @@ export default {
     color: rgba(0, 0, 0, 0.8);
   }
   span {
-    margin-left: auto;
-    display: inline-block;
     width: 60px;
     height: 25px;
+    display: inline-block;
     border-radius: 24px;
     text-align: center;
     line-height: 25px;
@@ -764,20 +762,22 @@ export default {
   }
 }
 .key-list {
-  width: 95%;
-  margin: 0 auto;
+  height: 24px;
   ul {
     display: flex;
     flex-wrap: wrap;
     li {
       background-color: rgba(0, 0, 0, 0.04);
       border-radius: 12px;
-      margin: 6px 10px;
-      span {
-        font-size: 12px;
-        color: rgba(0, 0, 0, 0.6);
-        padding: 5px 7px 4px 9px;
-      }
+      margin-right: 8px;
+      padding: 5px 9px;
+      line-height: 15px;
+      font-family: "SourceHanSansCN-Regular";
+      font-size: 15px;
+      font-weight: normal;
+      font-stretch: normal;
+      letter-spacing: 0px;
+      color: rgba(0, 0, 0, 0.6);
     }
   }
 }
@@ -785,8 +785,8 @@ export default {
   margin-bottom: 40px;
 }
 .period-list {
-  width: 345px;
-  margin: 0 auto;
+  // width: 345px;
+  // margin: 0 auto;
   ul {
     width: 100%;
     li {

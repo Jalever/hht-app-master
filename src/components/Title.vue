@@ -6,10 +6,7 @@
     <p>
       {{ title }}
       <span v-if="age">{{ age }}</span>
-      <span v-if="courseCount"
-        >共<i>{{ courseCount }}</i
-        >课时</span
-      >
+      <span v-if="courseCount">共<i>{{ courseCount }}</i>课时</span>
     </p>
   </div>
 </template>
@@ -38,11 +35,9 @@ export default {
 
 <style lang="less" scoped>
 .title {
-  width: 345px;
-  margin: 0 auto;
   position: relative;
   &::after {
-    content: '';
+    content: "";
     width: 4px;
     height: 14px;
     border-radius: 2px;
@@ -53,14 +48,14 @@ export default {
     transform: translateY(-50%);
   }
   p {
-    // font-size: 15px;
     padding-left: 10px;
-    // color: rgba(0, 0, 0, 0.8);
-    font-family: 'SourceHanSansCN-Medium';
-    font-size: 18px;
+    line-height: 15px;
+    font-family: "SourceHanSansCN-Medium";
+    font-size: 15px;
     font-weight: normal;
     font-stretch: normal;
     letter-spacing: 0px;
+    color: rgba(0, 0, 0, 0.8);
     display: flex;
     align-items: center;
     position: relative;
@@ -73,17 +68,18 @@ export default {
 
     & > span:last-of-type {
       margin-left: auto;
-
-      font-family: 'SourceHanSansCN-Normal';
+      line-height: 13px;
+      font-family: "SourceHanSansCN-Normal";
       font-size: 13px;
       font-weight: normal;
       font-stretch: normal;
       letter-spacing: 0px;
       color: rgba(0, 0, 0, 0.6);
+
       & > i {
         font-style: normal;
-
-        font-family: 'SourceHanSansCN-Medium';
+        line-height: 15px;
+        font-family: "SourceHanSansCN-Medium";
         font-size: 15px;
         font-weight: normal;
         font-stretch: normal;

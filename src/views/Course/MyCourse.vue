@@ -2,7 +2,7 @@
   <div class="course-index-wrapper iphonex-bd-bottom">
     <div
       class="loadingding center"
-      v-show="!isLoading"
+      v-show="isLoading"
     >
       <van-loading
         size="30px"
@@ -14,11 +14,10 @@
     <div class="course-index-content">
       <div
         class="course-user-top"
-        @click="deviseText()"
         v-if="isDeviseText"
       >
         <p>绑定故事机开机，即可播放今日课程哦！</p>
-        <span><img src="../../assets/image/course/icon_popup_close@2x.png" /></span>
+        <span @click="deviseText()"><img src="../../assets/image/course/icon_popup_close@2x.png" /></span>
       </div>
       <div
         class="course-user-day course-user-day-top"
@@ -34,11 +33,16 @@
             <van-icon name="arrow" />
           </span>
         </div>
-        <div class="course-list">
+        <div
+          class="course-list"
+          :class="{paddingBottom21: isShowPaddingBottom}"
+        >
           <today-course
             :isShow="isShow"
             :courseData="userList"
             :eduData="isShowSmartCourse"
+            margin-left="12"
+            margin-right="12"
           >
             <div
               class="more-img"
@@ -72,22 +76,18 @@
         </div>
         <div
           class="course-user-null"
-          v-if="userList.length == 0 && !isShowSmartCourse"
+          v-if="isShowAddCourseBtn"
         >
           <p>没有正在学习课程噢，快去添加吧～</p>
           <span @click="onAddCourse">添加课程</span>
         </div>
-        <div
-          class="course-user-list"
+        <v-card-list
           v-else
-        >
-          <v-card-list
-            :status="status"
-            :audioData="userList"
-            :isLearning="learning"
-            :isShowSmartCourse="isShowSmartCourse"
-          ></v-card-list>
-        </div>
+          :status="status"
+          :audioData="userList"
+          :isLearning="learning"
+          :isShowSmartCourse="isShowSmartCourse"
+        ></v-card-list>
       </div>
     </div>
   </div>
@@ -123,11 +123,18 @@ export default {
       if (this.isShowSmartCourse) return true
       return this.userList.length
     },
+    isShowPaddingBottom () {
+      let len = this.userList.length;
+      return !len && this.isShowSmartCourse;
+    },
+    isShowAddCourseBtn () {
+      return this.userList.length == 0 && !this.isShowSmartCourse;
+    }
   },
-  created () {
+  async created () {
     this.babyid = localStorage.getItem('courseBaby')
-    this.getSignupTime()
-    this.getCourseAll()
+    await this.getSignupTime()
+    await this.getCourseAll()
   },
   activated () {
     this.getCourseAll()
@@ -172,11 +179,12 @@ export default {
     },
     async getAsyncCoursePackage () {
       try {
+        this.isLoading = true;
         const { data } = await this.$axios.getCoursePack(this.babyid)
         if (!data.success) throw new Error(data.info)
         const resData = data.data
         this.lsit = resData
-        this.isLoading = true
+        this.isLoading = false
       } catch (err) {
         console.log(err)
         this.$toast.fail(err.message)
@@ -184,13 +192,14 @@ export default {
     },
     async getAsyncUserCourse () {
       try {
+        this.isLoading = true;
         const { data } = await this.$axios.getUserCourse(this.babyid)
         if (!data.success) throw new Error(data.info)
         const resData = data.data
         this.$store.dispatch('setUserCourse', resData)
 
         this.userList = resData
-        this.isLoading = true
+        this.isLoading = false
       } catch (err) {
         console.log(err)
         this.$toast.fail(err.message)
@@ -231,21 +240,16 @@ export default {
 }
 
 .course-user-top {
-  width: 375px;
+  width: 100%;
+  height: 34px;
   margin: 0 auto;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   background-color: #fff4d0;
 
   p {
-    width: 375px;
-    height: 34px;
-    line-height: 34px;
-    font-size: 13px;
-    color: rgba(0, 0, 0, 0.5);
-    padding: 0 15px;
-
+    margin-left: 15px;
+    line-height: 13px;
     font-family: "SourceHanSansCN-Normal";
     font-size: 13px;
     font-weight: normal;
@@ -257,9 +261,9 @@ export default {
   span {
     display: inline-block;
     margin-left: auto;
-    width: 16px;
-    height: 16px;
-    margin-right: 16px;
+    width: 12px;
+    height: 12px;
+    margin-right: 11px;
 
     img {
       width: 100%;
@@ -271,29 +275,31 @@ export default {
 .course-user-day,
 .course-user-all {
   width: calc(100% - 30px);
-
-  margin: 28px auto;
-  margin-top: 29px;
-  margin-bottom: 0;
-  // background-color: #ff0000;
+  margin: 24px auto 0 auto;
 
   .course-day-title {
     width: 100%;
     display: flex;
     align-items: center;
-    font-family: "SourceHanSansCN-Medium";
-    font-size: 18px;
-    font-weight: normal;
-    font-stretch: normal;
-    letter-spacing: 0px;
-    color: rgba(0, 0, 0, 0.8);
+    // background-color: #fff000;
+    & > p {
+      line-height: 18px;
+      font-family: "SourceHanSansCN-Medium";
+      font-size: 18px;
+      font-weight: normal;
+      font-stretch: normal;
+      letter-spacing: 0px;
+      color: rgba(0, 0, 0, 0.8);
+    }
 
-    span {
+    & > span {
+      height: 12px;
       margin-left: auto;
-
       display: flex;
       align-items: center;
+      // background-color: #ff0000;
       & > i:first-of-type {
+        line-height: 12px;
         font-style: normal;
         font-family: "SourceHanSansCN-Regular";
         font-size: 12px;
@@ -305,55 +311,42 @@ export default {
 
       & > i:nth-of-type(2) {
         width: 11px;
-        height: 100%;
-        font-size: 13px;
+        height: 10px;
+        font-size: 12px !important;
+        line-height: 12px !important;
         color: rgba(0, 0, 0, 0.5) !important;
       }
     }
   }
 }
 
-.course-user-day-top {
-  margin-top: 18px;
-}
-
-.more-img {
-  margin-top: 2px;
-  text-align: center;
-
-  img {
-    display: inline-block;
-    width: 18px;
-    height: 18px;
-    margin: 0 auto;
-  }
-}
-
 .course-user-tab {
-  width: 345px;
-  margin: 13px auto 2px auto;
+  height: 15px;
+  line-height: 15px;
+  margin-top: 24px;
   display: flex;
 
   p {
     display: inline-block;
-    padding-right: 38px;
-    font-size: 15px;
-    color: rgba(0, 0, 0, 0.3);
     text-align: center;
+    height: 15px;
+    line-height: 15px;
+    font-family: "SourceHanSansCN-Regular";
+    font-size: 15px;
+    font-weight: normal;
+    font-stretch: normal;
+    letter-spacing: 0px;
+    color: rgba(0, 0, 0, 0.3);
+  }
 
-    span {
-      width: 30px;
-      height: 4px;
-      display: block;
-      background-color: #ff6666;
-      border-radius: 2px;
-      margin: 0 auto;
-    }
+  & > p:first-of-type {
+    margin-right: 38px;
   }
 }
 
 .course-user-tab p.tabActive {
-  color: rgba(0, 0, 0, 0.8);
+  height: 15px;
+  line-height: 15px;
   font-family: "SourceHanSansCN-Regular";
   font-size: 15px;
   font-weight: normal;
@@ -368,7 +361,6 @@ export default {
   margin-top: 60px;
   margin-bottom: 60px;
   text-align: center;
-  // background-color: #ff0000;
 
   p {
     font-size: 14px;
@@ -391,6 +383,25 @@ export default {
 .course-list {
   box-shadow: 0px 0px 8px 3px rgba(76, 76, 76, 0.06);
   border-radius: 8px;
-  margin-top: 16px;
+  margin-top: 20px;
+  padding-top: 2px;
+}
+
+.course-user-day-top {
+  margin-top: 18px;
+}
+
+.more-img {
+  padding: 16px 0;
+  text-align: center;
+  img {
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    margin: 0 auto;
+  }
+}
+.paddingBottom21 {
+  padding-bottom: 21px;
 }
 </style>

@@ -1,18 +1,23 @@
 <template>
   <div class="details-intro-wrapper">
-    <div class="intro-img"><img :src="list.introduce" alt="" /></div>
+    <div class="intro-img"><img
+        :src="list.introduce"
+        alt=""
+      /></div>
     <div class="intro-list">
       <v-title :title="title"></v-title>
       <div class="intro-itme">
         <div class="list">
           <ul>
-            <li v-for="item in courseList" :key="item.id">
+            <li
+              v-for="item in courseList"
+              :key="item.id"
+            >
               <div class="item-img"><img :src="item.coverImage" /></div>
               <div class="item-name">
                 <p>{{ item.name }}</p>
                 <p>
-                  {{ item.audiosCount }}首<span>/</span
-                  >{{ item.classHourCount }}课时
+                  {{ item.audiosCount }}首<span>/</span>{{ item.classHourCount }}课时
                 </p>
               </div>
             </li>
@@ -25,19 +30,18 @@
 
 <script>
 import Title from '@/components/Title.vue'
-import CradList from '@/components/CardList.vue'
 export default {
   props: {
     list: '',
   },
-  data() {
+  data () {
     return {
       title: '课程包内容',
       isstatus: 0,
     }
   },
   computed: {
-    courseList() {
+    courseList () {
       if (!this.list || !this.list.courseList) return []
       return this.list.courseList.map((item) => {
         const { classHours } = item
@@ -50,15 +54,11 @@ export default {
       })
     },
   },
-  created() {},
+  created () { },
   methods: {
-    // goLearning(id) {
-    //   this.$router.push({ name: 'course/learning', query: { id: id } })
-    // },
   },
   components: {
-    'v-title': Title,
-    'v-card-list': CradList,
+    'v-title': Title
   },
 }
 </script>
@@ -121,7 +121,7 @@ export default {
             // font-size: 16px;
             // color: rgba(0, 0, 0, 0.8);
 
-            font-family: 'SourceHanSansCN-Regular';
+            font-family: "SourceHanSansCN-Regular";
             font-size: 15px;
             font-weight: normal;
             font-stretch: normal;
@@ -132,7 +132,7 @@ export default {
             // font-size: 13px;
             // color: rgba(0, 0, 0, 0.4);
 
-            font-family: 'SourceHanSansCN-Normal';
+            font-family: "SourceHanSansCN-Normal";
             font-size: 13px;
             font-weight: normal;
             font-stretch: normal;

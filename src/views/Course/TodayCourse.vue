@@ -1,5 +1,8 @@
 <template>
-  <div class="course-list-wrapper">
+  <div
+    class="course-list-wrapper"
+    :style="{'margin-left': marginLeft+'px','margin-right': marginRight+'px',}"
+  >
     <div
       class="empty"
       v-if="courseListWith.length == 0 && !eduData"
@@ -66,6 +69,14 @@ export default {
     courseData: '',
     isShow: false,
     eduData: Boolean,
+    marginLeft: {
+      type: [Number, String],
+      default: 15
+    },
+    marginRight: {
+      type: [Number, String],
+      default: 15
+    }
   },
   data () {
     return {
@@ -276,19 +287,15 @@ export default {
 
 <style lang="less" scoped>
 .course-list-wrapper {
-  // padding-top: 21px;
-  // padding-bottom: 16px;
-  // background-color: #ffffff;
-  // border-radius: 8px;
-  background-color: #ff0000;
+  margin: 18px 15px;
+  margin-bottom: 0;
 }
 .list {
   width: 100%;
   ul {
-    width: 345px;
     margin: 0 auto;
     li {
-      margin: 16px 12px;
+      margin-top: 28px;
       display: flex;
       align-items: center;
       .list-name {
@@ -313,10 +320,14 @@ export default {
 
           // 第N天计划 | 约xx分钟
           &:nth-of-type(2) {
+            margin-top: 14px;
+            line-height: 13px;
+            font-family: "SourceHanSansCN-Regular";
             font-size: 13px;
-            color: rgba(0, 0, 0, 0.5);
-            margin-top: 5px;
-            letter-spacing: 1px;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0px;
+            color: rgba(0, 0, 0, 0.4);
           }
         }
       }
@@ -336,11 +347,17 @@ export default {
         align-items: center;
         justify-content: center;
         position: relative;
-        // background-color: #ff0000;
         & > span {
+          line-height: 15px;
           display: flex;
           align-items: center;
           justify-content: center;
+          font-family: "SourceHanSansCN-Regular";
+          font-size: 15px;
+          font-weight: normal;
+          font-stretch: normal;
+          letter-spacing: 0px;
+          color: #ff8a66;
           & > i {
             position: absolute;
             top: 0;

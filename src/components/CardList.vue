@@ -2,13 +2,16 @@
   <div class="card-list-wrapper">
     <div class="card-list-list">
       <ul>
-        <li @click="onRedirect" v-if="isShowWisdomCouse">
+        <li
+          @click="onRedirect"
+          v-if="isShowWisdomCouse"
+        >
           <div class="item-img">
             <img src="../assets/image/smart_course_square.png" />
           </div>
           <div class="item-name">
             <p>智慧早教</p>
-            <p>共1课时</p>
+            <p>第{{applyTime}}天计划</p>
           </div>
         </li>
         <li
@@ -21,8 +24,7 @@
             <p>{{ item.name }}</p>
             <p>
               共{{ item.classHourCount }}课时<span v-if="isFinishCourse">
-                / 已学{{ item.finishedClassHoursLen }}课时</span
-              >
+                / 已学{{ item.finishedClassHoursLen }}课时</span>
             </p>
           </div>
         </li>
@@ -34,6 +36,7 @@
 <script>
 import * as CONSTANTS from '@/constants/index'
 import { mapState } from 'vuex'
+import { computedTime } from '@/common/util'
 export default {
   props: {
     audioData: '',
@@ -43,16 +46,16 @@ export default {
   },
   computed: {
     // ...mapState(['isEdu']),
-    isFinishCourse() {
+    isFinishCourse () {
       return this.status * 1 !== CONSTANTS.STATUS_COURSE_FINISHED
     },
-    isShowWisdomCouse() {
+    isShowWisdomCouse () {
       return (
         this.isShowSmartCourse &&
         this.status * 1 == CONSTANTS.STATUS_COURSE_LEARNING
       )
     },
-    courseData: function() {
+    courseData: function () {
       return this.audioData.filter((item, index) => {
         console.log(this.status)
         if (this.status == CONSTANTS.STATUS_COURSE_LEARNING) {
@@ -62,7 +65,7 @@ export default {
         }
       })
     },
-    courseList() {
+    courseList () {
       if (!this.courseData || !this.courseData) return []
       return this.courseData.map((item) => {
         const { classHours } = item
@@ -75,7 +78,7 @@ export default {
       })
     },
     //classHours + 已完成课时length
-    courseListWith() {
+    courseListWith () {
       return this.courseList.map((item) => {
         let { classHours } = item
         let finishedClassHours = classHours.filter((i) => i.status * 1)
@@ -87,15 +90,19 @@ export default {
       })
     },
   },
-  data() {
-    return {}
+  data () {
+    return {
+      applyTime: 0
+    }
   },
-  created() {},
+  async created () {
+    await this.getApplyTime();
+  },
   methods: {
-    moveErrorImg: function(event) {
+    moveErrorImg: function (event) {
       event.currentTarget.src = '../assets/image/course/qsy@2x.png'
     },
-    goLearning(id) {
+    goLearning (id) {
       this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, {
         path: '/course/learning',
         query: {
@@ -103,10 +110,22 @@ export default {
         },
       })
     },
-    onRedirect() {
+    onRedirect () {
       this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, {
         path: '/wisdom-course/index',
       })
+    },
+    async getApplyTime () {
+      try {
+        const cid = localStorage.getItem('cid')
+        const { data } = await this.$axios.userApplyTime(cid)
+        if (!data.success) throw new Error(data.info)
+        const resData = data.data
+        const { createTime } = resData
+        this.applyTime = computedTime(createTime)
+      } catch (err) {
+        console.log(err)
+      }
     },
   },
   components: {},
@@ -114,26 +133,25 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.card-list-wrapper {
+  margin-top: 21px;
+}
 .card-list-list {
-  width: 345px;
-  margin: 0 auto;
   ul {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     li {
       width: 100%;
-      height: 86px;
+      height: 54px !important;
+      margin-top: 26px;
       display: flex;
       align-items: center;
-      // padding: 10px 0;
       .item-img {
         width: 54px;
         height: 54px;
         img {
           width: 100%;
           height: 100%;
-          // border-radius: 8px;
-
           background-image: linear-gradient(90deg),
             linear-gradient(#ffdd84, #ffdd84);
           background-blend-mode: normal, normal;
@@ -141,10 +159,11 @@ export default {
         }
       }
       .item-name {
-        padding-left: 12px;
+        padding-left: 8px;
         p {
           &:nth-of-type(1) {
-            font-family: 'SourceHanSansCN-Regular';
+            line-height: 15px;
+            font-family: "SourceHanSansCN-Regular";
             font-size: 15px;
             font-weight: normal;
             font-stretch: normal;
@@ -152,8 +171,9 @@ export default {
             color: rgba(0, 0, 0, 0.74);
           }
           &:nth-of-type(2) {
-            margin-top: 5px;
-            font-family: 'SourceHanSansCN-Normal';
+            line-height: 13px;
+            margin-top: 10px;
+            font-family: "SourceHanSansCN-Normal";
             font-size: 13px;
             font-weight: normal;
             font-stretch: normal;
@@ -162,6 +182,10 @@ export default {
           }
         }
       }
+    }
+
+    & > li:first-child {
+      margin-top: 0px;
     }
   }
 }

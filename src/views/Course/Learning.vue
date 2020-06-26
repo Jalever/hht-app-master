@@ -1,19 +1,28 @@
 <template>
   <div class="learning-wrapper">
-    <div class="loadingding center" v-show="!isLoading">
-      <van-loading size="30px" color="#ff6666" vertical>加载中</van-loading>
+    <div
+      class="loadingding center"
+      v-show="!isLoading"
+    >
+      <van-loading
+        size="30px"
+        color="#ff6666"
+        vertical
+      >加载中</van-loading>
     </div>
-    <div class="learning-content" v-show="isLoading">
+    <div
+      class="learning-content"
+      v-show="isLoading"
+    >
       <div class="learning-top">
         <p>{{ courseData.name }}</p>
         <p>
-          共 <span>{{ courseData.classHourCount }}</span> 课时
-          <span></span> 每节课约 <span>{{ courseData.avgDuration }}</span> 分钟
+          共 <span>{{ courseData.classHourCount }}</span> 课时<span></span>每节课约 <span>{{ courseData.avgDuration }}</span> 分钟
         </p>
         <p>艾宾浩斯曲线学习计划</p>
       </div>
       <div class="learning-wacth">
-        <img src="../../assets/image/course/icon_weixin@2x.png" alt="" />
+        <img src="../../assets/image/course/icon_weixin@2x.png" />
         <p>点击加入微信专业交流群</p>
         <span @click="onShowQRCode">加入</span>
       </div>
@@ -24,58 +33,27 @@
           bottom="14"
           :courseCount="courseData.classHourCount"
         ></v-title>
-        <div class="list-box">
-          <ul v-for="titleItem in courseData.classHours" :key="titleItem.id">
-            <div class="list-item-title">
-              <p>
-                <span>第{{ titleItem.index }}课时</span>
-              </p>
-              <p>
-                <span v-if="titleItem.newLearning"
-                  >新学{{ titleItem.newLearning }}首</span
-                >
-                <span v-if="titleItem.newLearning && titleItem.review">|</span>
-                <span v-if="titleItem.review"
-                  >复习{{ titleItem.review }}首</span
-                >
-              </p>
-            </div>
-            <li v-for="listItem in titleItem.audios" :key="listItem.name">
-              <p class="item-name">{{ listItem.name }}</p>
-              <div class="item-time">
-                <p>
-                  <img
-                    src="../../assets/image/course/home_search_time@2x.png"
-                  />
-                  {{ time(listItem.timeLength) }}
-                </p>
-                <p>
-                  <img
-                    src="../../assets/image/course/home_search_listen@2x.png"
-                    alt=""
-                  />
-                  {{ browse(listItem.browseCount, 1) }}
-                </p>
-              </div>
-            </li>
-          </ul>
-        </div>
+        <class-hours-list :class-hours="courseData.classHours"></class-hours-list>
+
       </div>
     </div>
 
-    <div class="retake-course-btn" v-if="isShowRetakeBtn">
+    <div
+      class="retake-course-btn"
+      v-if="isShowRetakeBtn"
+    >
       <p @click="onRetakeCourse">重新加入学习</p>
     </div>
   </div>
 </template>
 <script>
 import * as CONSTANTS from '@/constants/index'
-import Header from '@/components/Header.vue'
 import Title from '@/components/Title.vue'
 import { tranNumber, timeCycle } from '../../common/util.js'
 import { mapState } from 'vuex'
+import ClassHoursList from '@/views/Course/ClassHoursList'
 export default {
-  data() {
+  data () {
     return {
       title: '',
       isLoading: false,
@@ -85,16 +63,16 @@ export default {
     }
   },
   computed: {
-    isShowRetakeBtn() {
+    isShowRetakeBtn () {
       return this.courseData && this.courseData.status * 1 === 20
     },
   },
-  created() {
+  created () {
     this.babyid = localStorage.getItem('courseBaby')
     this.getCourseDeta(this.$route.query.id)
   },
   methods: {
-    getCourseDeta(id) {
+    getCourseDeta (id) {
       this.$axios
         .getCourseDeta(id, this.babyid)
         .then((res) => {
@@ -108,14 +86,14 @@ export default {
           this.$toast.fail(err)
         })
     },
-    browse(num, point) {
+    browse (num, point) {
       return tranNumber(num, point)
     },
-    time(val) {
+    time (val) {
       return timeCycle(val)
     },
     //重修
-    async onRetakeCourse() {
+    async onRetakeCourse () {
       const { id, courseGroupId } = this.courseData
       let babyId = localStorage.getItem('courseBaby')
       let userId = localStorage.getItem('user')
@@ -141,7 +119,7 @@ export default {
         this.$toast.fail(err.message)
       }
     },
-    async onShowQRCode() {
+    async onShowQRCode () {
       const dialog = await this.$createDialog(
         () => import('@/views/Course/QrCodeModal.vue'),
         {
@@ -156,28 +134,34 @@ export default {
     },
   },
   components: {
-    'v-header': Header,
     'v-title': Title,
+    ClassHoursList
   },
 }
 </script>
 
 <style lang="less" scoped>
-@import './../../assets/css/constants.less';
+@import "./../../assets/css/constants.less";
 .learning-wrapper {
-  // margin-top: @header-comp-height;
+  margin: 0 14px;
 }
 .learning-content {
   margin-bottom: 84px;
 }
 .learning-top {
-  width: 345px;
   margin-top: 5px;
-  margin-left: 18px;
-  margin-bottom: 24px;
   p {
+    line-height: 13px;
+    font-family: "SourceHanSansCN-Regular";
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    letter-spacing: 0px;
+    color: rgba(0, 0, 0, 0.6);
+
     &:nth-of-type(1) {
-      font-family: 'SourceHanSansCN-Medium';
+      line-height: 22px;
+      font-family: "SourceHanSansCN-Medium";
       font-size: 22px;
       font-weight: normal;
       font-stretch: normal;
@@ -185,18 +169,18 @@ export default {
       color: rgba(0, 0, 0, 0.8);
     }
     &:nth-of-type(2) {
-      margin-top: 4px;
-      font-family: 'SourceHanSansCN-Regular';
+      margin-top: 7px;
+      line-height: 13px;
+      font-family: "SourceHanSansCN-Regular";
       font-size: 13px;
       font-weight: normal;
       font-stretch: normal;
       letter-spacing: 0px;
       color: rgba(0, 0, 0, 0.6);
-      position: relative;
-      top: -7px;
 
       & > span:first-of-type {
-        font-family: 'SourceHanSansCN-Medium';
+        line-height: 24px;
+        font-family: "SourceHanSansCN-Medium";
         font-size: 24px;
         font-weight: normal;
         font-stretch: normal;
@@ -207,11 +191,12 @@ export default {
         display: inline-block;
         width: 1px;
         height: 10px;
+        margin: 0 8px;
         border-radius: 1px;
-        background-color: rgba(0, 0, 0, 0.5);
+        background-color: #666666;
       }
       & > span:last-of-type {
-        font-family: 'SourceHanSansCN-Medium';
+        font-family: "SourceHanSansCN-Medium";
         font-size: 24px;
         font-weight: normal;
         font-stretch: normal;
@@ -220,18 +205,25 @@ export default {
       }
     }
     &:nth-of-type(3) {
+      margin-top: 18px;
+      line-height: 13px;
+      font-family: "SourceHanSansCN-Normal";
       font-size: 13px;
+      font-weight: normal;
+      font-stretch: normal;
+      letter-spacing: 0px;
       color: rgba(0, 0, 0, 0.5);
     }
   }
 }
 .learning-wacth {
-  width: 94%;
-  margin: 0 auto;
+  width: 100%;
+  height: 63px;
+  margin-top: 28px;
   padding: 20px 20px;
   display: flex;
-  height: 63px;
   align-items: center;
+  justify-content: space-between;
   background-color: #ffffff;
   box-shadow: 0px 2px 8px 3px rgba(76, 76, 76, 0.06);
   border-radius: 8px;
@@ -240,11 +232,7 @@ export default {
     height: 24px;
   }
   p {
-    // font-size: 16px;
-    // color: rgba(0, 0, 0, 0.8);
-    padding-left: 18px;
-
-    font-family: 'SourceHanSansCN-Normal';
+    font-family: "SourceHanSansCN-Normal";
     font-size: 16px;
     font-weight: normal;
     font-stretch: normal;
@@ -252,20 +240,15 @@ export default {
     color: rgba(0, 0, 0, 0.8);
   }
   span {
-    margin-left: auto;
     display: inline-block;
     width: 60px;
     height: 25px;
     border-radius: 24px;
-    // border: solid 1px #ff6666;
-    // font-size: 12px;
-    // color: #ff6666;
     text-align: center;
     line-height: 25px;
     vertical-align: middle;
     background-color: #4dc42a;
-
-    font-family: 'SourceHanSansCN-Regular';
+    font-family: "SourceHanSansCN-Regular";
     font-size: 12px;
     font-weight: normal;
     font-stretch: normal;
@@ -293,7 +276,7 @@ export default {
           // font-size: 15px;
           // color: rgba(0, 0, 0, 0.8);
 
-          font-family: 'SourceHanSansCN-Medium';
+          font-family: "SourceHanSansCN-Medium";
           font-size: 15px;
           font-weight: normal;
           font-stretch: normal;
@@ -314,7 +297,7 @@ export default {
     li {
       margin-top: 14px;
       .item-name {
-        font-family: 'SourceHanSansCN-Normal';
+        font-family: "SourceHanSansCN-Normal";
         font-size: 16px;
         font-weight: normal;
         font-stretch: normal;
@@ -331,7 +314,7 @@ export default {
           margin-top: -2px;
         }
         p {
-          font-family: 'SourceHanSansCN-Normal';
+          font-family: "SourceHanSansCN-Normal";
           font-size: 12px;
           font-weight: normal;
           font-stretch: normal;
@@ -371,7 +354,7 @@ export default {
     border-radius: 24px;
     border: solid 1px rgba(0, 0, 0, 0.4);
     // opacity: 0.5;
-    font-family: 'SourceHanSansCN-Medium';
+    font-family: "SourceHanSansCN-Medium";
     font-size: 17px;
     color: rgba(0, 0, 0, 0.6);
   }
