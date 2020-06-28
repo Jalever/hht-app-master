@@ -1,6 +1,6 @@
 <template>
   <div class="course-index-wrapper iphonex-bd-bottom">
-    <div
+    <!-- <div
       class="loadingding center"
       v-show="isLoading"
     >
@@ -9,7 +9,7 @@
         color="#ff6666"
         vertical
       >加载中</van-loading>
-    </div>
+    </div> -->
 
     <div class="course-index-content">
       <div
@@ -30,7 +30,8 @@
             v-if="userList.length != 0"
           >
             <i>查看更多</i>
-            <van-icon name="arrow" />
+            <!-- <van-icon name="arrow" />-->
+            <img src="../../assets/image/course/show_more.png" />
           </span>
         </div>
         <div
@@ -178,8 +179,8 @@ export default {
       await this.getAsyncUserCourse()
     },
     async getAsyncCoursePackage () {
+      this.isLoading = true;
       try {
-        this.isLoading = true;
         const { data } = await this.$axios.getCoursePack(this.babyid)
         if (!data.success) throw new Error(data.info)
         const resData = data.data
@@ -188,21 +189,24 @@ export default {
       } catch (err) {
         console.log(err)
         this.$toast.fail(err.message)
+        this.isLoading = false
       }
     },
     async getAsyncUserCourse () {
+      this.isLoading = true;
+      if (!this.babyid) throw new Error('babyId is undefined!');
       try {
-        this.isLoading = true;
         const { data } = await this.$axios.getUserCourse(this.babyid)
         if (!data.success) throw new Error(data.info)
         const resData = data.data
         this.$store.dispatch('setUserCourse', resData)
 
         this.userList = resData
-        this.isLoading = false
+        this.isLoading = false;
       } catch (err) {
         console.log(err)
-        this.$toast.fail(err.message)
+        this.isLoading = false
+        // this.$toast.fail(err.message)
       }
     },
     courseTabCLick (index) {
@@ -297,7 +301,6 @@ export default {
       margin-left: auto;
       display: flex;
       align-items: center;
-      // background-color: #ff0000;
       & > i:first-of-type {
         line-height: 12px;
         font-style: normal;
@@ -307,14 +310,17 @@ export default {
         font-stretch: normal;
         letter-spacing: 0px;
         color: rgba(0, 0, 0, 0.5);
+        vertical-align: bottom;
       }
 
-      & > i:nth-of-type(2) {
-        width: 11px;
-        height: 10px;
+      & > img {
+        width: 12px;
+        height: 12px;
         font-size: 12px !important;
         line-height: 12px !important;
         color: rgba(0, 0, 0, 0.5) !important;
+        position: relative;
+        top: -1.5px;
       }
     }
   }

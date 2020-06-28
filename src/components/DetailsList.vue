@@ -126,36 +126,45 @@ export default {
 
   /deep/ .van-tabs__line {
     width: 30px !important;
-    // display: none;
     border-top: 0 !important;
+    display: none;
   }
 
   /deep/ .van-tabs__wrap {
+    height: 48px;
     overflow-x: auto;
   }
 
   /deep/ .van-tab__text {
     overflow-x: auto;
     white-space: nowrap;
+    // background-color: #fff000;
   }
 
   /deep/ .van-tab {
-    padding: 0 16px !important;
+    line-height: 14px !important;
     font-family: "SourceHanSansCN-Normal" !important;
-    font-size: 16px !important;
+    font-size: 13px !important;
     font-weight: normal !important;
     font-stretch: normal !important;
     letter-spacing: 0px !important;
     color: rgba(0, 0, 0, 0.7) !important;
+    color: #ff0000;
   }
 
   /deep/ .van-tab--active {
+    line-height: 16px !important;
     font-family: "SourceHanSansCN-Medium" !important;
-    font-size: 19px !important;
+    font-size: 16px !important;
     font-weight: normal !important;
     font-stretch: normal !important;
     letter-spacing: 0px !important;
     color: rgba(0, 0, 0, 0.8) !important;
+  }
+
+  /deep/ .van-hairline--top-bottom::after {
+    border: 0 solid #ff0000;
+    border-bottom: 1px solid #f3f3f3;
   }
 }
 </style>

@@ -251,7 +251,7 @@ export default {
 			url: aliloUrl + "course/today-course-data",
 			method: "POST",
 			params: {
-				babyId: localStorage.getItem("babyId"),
+				babyId: localStorage.getItem("courseBaby"),
 				// userId: USER || localStorage.getItem("user"),
 				courseId: localStorage.getItem("cid"),
 				currentDate: time

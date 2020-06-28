@@ -54,9 +54,6 @@ export default {
       let url = 'http://wifi.alilo.com.cn/xiaohai/hht/dist/index.html'
       window.open(url, '_self')
     },
-    deviseText () {
-      this.isDeviseText = !this.isDeviseText
-    },
     // 获取报名时间
     async getSignupTime () {
       try {
@@ -90,6 +87,7 @@ export default {
       }
     },
     async getAsyncUserCourse () {
+      if (!this.babyid) throw new Error('babyId is undefined!');
       try {
         const { data } = await this.$axios.getUserCourse(this.babyid)
         if (!data.success) throw new Error(data.info)
@@ -99,7 +97,7 @@ export default {
         this.isLoading = true
       } catch (err) {
         console.log(err)
-        this.$toast.fail(err.message)
+        // this.$toast.fail(err.message)
       }
     },
   },

@@ -121,6 +121,11 @@ export default {
       for (let i = 0; i < maxWeekCount; i++) {
         arr[i] = new Array()
         for (let j = 0; j < week; j++) {
+          if (i === 0 && dayOfWeek * 1 === 0) {
+            arr[i][j] = ''
+            if (j === week - 1) arr[i][j] = 1;
+            continue;
+          }
           tem++
           if (tem - dayOfWeek > 0 && tem - dayOfWeek <= monthDays) {
             arr[i][j] = tem - dayOfWeek
@@ -136,6 +141,7 @@ export default {
           }
         }
       }
+
       this.dateArr = arr
     },
     nextMonth () {

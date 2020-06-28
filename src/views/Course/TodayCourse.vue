@@ -212,7 +212,7 @@ export default {
               title: '智慧早教第' + this.applyTime + '天',
               coursePackId: 0,
               courseId: localStorage.getItem('cid'),
-              babyId: localStorage.getItem('babyId'),
+              babyId: localStorage.getItem('courseBaby'),
               course: [],
               classHoursIdx: '',
             }

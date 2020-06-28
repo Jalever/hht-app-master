@@ -106,6 +106,6 @@ export default [
   },
   {
     path: '*',
-    redirect: '/'
+    redirect: '/course/smart-course'
   }, //路由按顺序从上到下，依次匹配。最后一个*能匹配全部，然后重定向到主页面
 ]

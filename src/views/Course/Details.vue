@@ -1,12 +1,22 @@
 <template>
   <div class="details-wrapper">
-    <div class="loadingding center" v-show="!isLoading">
-      <van-loading size="30px" color="#ff6666" vertical>加载中</van-loading>
+    <div
+      class="loadingding center"
+      v-show="!isLoading"
+    >
+      <van-loading
+        size="30px"
+        color="#ff6666"
+        vertical
+      >加载中</van-loading>
     </div>
 
-    <div class="details-content" v-show="isLoading">
+    <div
+      class="details-content"
+      v-show="isLoading"
+    >
       <div class="course-box-top">
-        <img :src="detailsList.coverImage" alt="" />
+        <img :src="detailsList.coverImage" />
       </div>
       <div class="course-card-details">
         <div class="course-card">
@@ -16,22 +26,25 @@
             </div>
             <div class="card-time">
               <p>
-                <img src="../../assets/image/course/renshu@2x.png" alt="" />
+                <img src="../../assets/image/course/renshu@2x.png" />
                 适合{{ detailsList.suitedMinAge }}-{{
                   detailsList.suitedMaxAge
                 }}岁
               </p>
               <p>
-                <img src="../../assets/image/course/time@2x.png" alt="" />
+                <img src="../../assets/image/course/time@2x.png" />
                 共 {{ detailsList.classHour }} 课时
               </p>
               <p>
-                <img src="../../assets/image/course/xuexi@2x.png" alt="" />
+                <img src="../../assets/image/course/xuexi@2x.png" />
                 {{ participants }}人学习
               </p>
             </div>
             <div class="card-lable">
-              <span v-for="opt in detailsList.labels" :key="opt.name">{{
+              <span
+                v-for="opt in detailsList.labels"
+                :key="opt.name"
+              >{{
                 opt.name
               }}</span>
             </div>
@@ -40,11 +53,19 @@
       </div>
       <div class="details-tab">
         <div class="details-tab-itme">
-          <p @click="detalsTab(1)" :class="tabAction == 1 ? 'tabAction' : ''">
+          <p
+            @click="detalsTab(1)"
+            :class="tabAction == 1 ? 'tabAction' : ''"
+          >
             课程简介
+            <span></span>
           </p>
-          <p @click="detalsTab(2)" :class="tabAction == 2 ? 'tabAction' : ''">
+          <p
+            @click="detalsTab(2)"
+            :class="tabAction == 2 ? 'tabAction' : ''"
+          >
             课程计划
+            <span></span>
           </p>
         </div>
         <div class="tab-content">
@@ -85,7 +106,7 @@ import FixedButton from '@/components/FixedButton'
 import { getCookies, setCookies } from '@/common/cookie'
 import { mapState } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
       isLoading: false,
       title: '课程详情',
@@ -98,32 +119,32 @@ export default {
   computed: {
     ...mapState(['memberInfoVip', 'userCourseList', 'system']),
     //学习人数: 初始值+课程实际报名人数*3
-    participants() {
+    participants () {
       const list = this.detailsList
       return list.participantOpsCount + list.particiPants
     },
     //当前课程包的课程
-    courseList() {
+    courseList () {
       if (!this.detailsList && !this.detailsList.courseList) return []
       return this.detailsList.courseList
     },
     //课程包ID
-    coursePackageId() {
+    coursePackageId () {
       let isDev = window.location.href.indexOf('localhost:') > -1
       if (isDev) return this.$route.query.id
       return getQueryStringValue('id')
     },
   },
-  created() {
+  created () {
     this.babyid = localStorage.getItem('courseBaby')
     this.getAsyncCourseDetails()
   },
   methods: {
-    detalsTab(index) {
+    detalsTab (index) {
       this.tabAction = index
     },
     //获取该用户所有的宝宝list
-    async getBabyList() {
+    async getBabyList () {
       try {
         const { data } = await this.$axios.getBabyList()
         if (!data.success) throw new Error(data.info)
@@ -133,7 +154,7 @@ export default {
       }
     },
     //添加课程
-    async onAddCourse() {
+    async onAddCourse () {
       const signupCourseLen = this.courseList.length
       const willCourse = this.userCourseList.filter(
         (item) => item.status * 1 !== 20
@@ -169,7 +190,7 @@ export default {
         this.$toast.fail(err.message)
       }
     },
-    async showLackBabyModal() {
+    async showLackBabyModal () {
       const dialog = await this.$createDialog(
         () => import('@/views/Course/LackBabyModal.vue'),
         {
@@ -186,7 +207,7 @@ export default {
       )
     },
     // 课程包详情
-    async getAsyncCourseDetails() {
+    async getAsyncCourseDetails () {
       try {
         const id = this.coursePackageId
         const { data } = await this.$axios.getCourseDetails(id, this.babyid)
@@ -200,7 +221,7 @@ export default {
         this.$toast.fail(err.message)
       }
     },
-    onDelCourse() {
+    onDelCourse () {
       this.$dialog
         .confirm({
           title: '删除课程',
@@ -238,9 +259,9 @@ export default {
               this.$toast.fail(err)
             })
         })
-        .catch(() => {})
+        .catch(() => { })
     },
-    delCourseCookies(ids = []) {
+    delCourseCookies (ids = []) {
       const curUserId = window.localStorage.getItem(
         CONSTANTS.LOCALSTORAGE_COURSEBABY
       )
@@ -256,7 +277,7 @@ export default {
       setCookies(curUserId, JSON.stringify(schoolTimeCookie))
     },
     //添加课程限制 Modal
-    async showOverloadCourseModal() {
+    async showOverloadCourseModal () {
       const dialog = await this.$createDialog(
         () => import('@/views/Course/OverloadCourseModal.vue'),
         {
@@ -280,7 +301,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import './../../assets/css/constants.less';
+@import "./../../assets/css/constants.less";
 .details-wrapper {
   border-bottom: @fixed-bottom-bar solid transparent;
 }
@@ -302,7 +323,7 @@ export default {
 .course-card-details {
   width: 100%;
   background: #fafafa;
-  padding-top: 18px;
+  padding-top: 21px;
 
   .course-card {
     width: 349px;
@@ -318,7 +339,8 @@ export default {
     position: relative;
 
     .card-name {
-      font-family: 'SourceHanSansCN-Medium';
+      line-height: 20px;
+      font-family: "SourceHanSansCN-Medium";
       font-size: 20px;
       font-weight: normal;
       font-stretch: normal;
@@ -333,17 +355,17 @@ export default {
 
     .card-lable {
       display: flex;
-      margin-top: 10px;
-      border-radius: 12px;
+      margin-top: 13px;
 
       span {
         display: inline-block;
-        background-color: rgba(255, 138, 102, 0.08);
+        background-color: rgba(255, 102, 102, 0.08);
         border-radius: 12px;
-        padding: 0px 8px;
+        padding: 4px 8px;
         margin-right: 11px;
-
-        font-family: 'SourceHanSansCN-Normal';
+        line-height: 13px;
+        vertical-align: middle;
+        font-family: "SourceHanSansCN-Normal";
         font-size: 13px;
         font-weight: normal;
         font-stretch: normal;
@@ -354,14 +376,21 @@ export default {
 
     .card-time {
       width: 100%;
+      margin-top: 13px;
       display: flex;
       align-items: center;
 
       p {
-        font-size: 14px;
-        color: rgba(0, 0, 0, 0.5);
         display: flex;
         align-items: center;
+
+        line-height: 14px;
+        font-family: "SourceHanSansCN-Normal";
+        font-size: 14px;
+        font-weight: normal;
+        font-stretch: normal;
+        letter-spacing: 0px;
+        color: rgba(0, 0, 0, 0.5);
 
         img {
           width: 15px;
@@ -387,31 +416,60 @@ export default {
   background: #fafafa;
 
   .details-tab-itme {
-    width: 50%;
+    width: 100%;
     display: flex;
+
+    justify-content: center;
     align-items: center;
-    margin: 0 auto;
-    font-family: 'SourceHanSansCN-Bold';
+    font-family: "SourceHanSansCN-Bold";
     font-weight: normal;
     font-stretch: normal;
     letter-spacing: 0px;
 
     p {
-      width: 50%;
+      line-height: 16px;
+      font-family: SourceHanSansCN-Medium;
       font-size: 16px;
+      font-weight: normal;
+      font-stretch: normal;
+      letter-spacing: 0px;
       color: rgba(0, 0, 0, 0.3);
-      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      & > span {
+        margin-top: 8px;
+      }
+    }
+    & > p:first-of-type {
+      margin-right: 85px;
     }
   }
 }
 
 .details-tab-itme p.tabAction {
-  color: rgba(0, 0, 0, 0.8);
+  // color: rgba(0, 0, 0, 0.8);
+  line-height: 16px;
+  font-family: SourceHanSansCN-Medium;
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  letter-spacing: 0px;
+  color: #ff6666;
+
+  & > span {
+    margin-top: 8px;
+    display: inline-block;
+    width: 22px;
+    height: 4px;
+    background-color: #ff6666;
+    border-radius: 2px;
+  }
 }
 
 .tab-content {
-  margin-top: 20px;
   background-color: #fff;
+  margin-bottom: 10px;
 }
 
 .details-btn {

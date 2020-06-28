@@ -1,7 +1,5 @@
 <template>
   <div class="wisdom-course-index-wrapper">
-    <!-- <v-header title=""></v-header> -->
-
     <div
       class="loadingding center"
       v-show="!isLoading"
@@ -39,7 +37,7 @@
 
       <!-- 今日课程关键词 -->
       <div class="course-key">
-        <v-title :title="title[0]"></v-title>
+        <v-title title="今日课程关键词"></v-title>
         <div class="key-list">
           <ul v-if="keyArray.length != 0">
             <li
@@ -59,7 +57,7 @@
 
       <!-- 今日强化重点 -->
       <div class="course-emphasis">
-        <v-title :title="title[1]"></v-title>
+        <v-title title="今日强化重点"></v-title>
         <div v-if="isPie">
           <v-pie :pieData="keyList"></v-pie>
         </div>
@@ -74,7 +72,7 @@
       <!-- 宝宝关键期 -->
       <div class="course-period">
         <v-title
-          :title="title[2]"
+          title="宝宝关键期"
           :age="countAge(babyYear, babyMonth)"
         ></v-title>
         <div
@@ -762,7 +760,6 @@ export default {
   }
 }
 .key-list {
-  height: 24px;
   ul {
     display: flex;
     flex-wrap: wrap;

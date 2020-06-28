@@ -81,15 +81,11 @@ export default {
 }
 
 .intro-list {
-  // background-color: #fff000;
   margin-top: 40px;
-  // margin-bottom: 28px;
-}
-.list {
   width: 345px;
   margin: 0 auto;
-  // background-color: #ff0000;
-
+}
+.list {
   ul {
     display: flex;
     flex-wrap: wrap;
@@ -99,14 +95,12 @@ export default {
       display: flex;
       align-items: center;
       padding: 10px 0;
-      // background-color: #cff;
       .item-img {
         width: 54px;
         height: 54px;
         img {
           width: 100%;
           height: 100%;
-
           background-image: linear-gradient(90deg),
             linear-gradient(#ffdd84, #ffdd84);
           background-blend-mode: normal, normal;
@@ -115,12 +109,8 @@ export default {
       }
       .item-name {
         padding-left: 12px;
-        // background-color: #fff000;
         p {
           &:nth-of-type(1) {
-            // font-size: 16px;
-            // color: rgba(0, 0, 0, 0.8);
-
             font-family: "SourceHanSansCN-Regular";
             font-size: 15px;
             font-weight: normal;
@@ -129,9 +119,6 @@ export default {
             color: rgba(0, 0, 0, 0.74);
           }
           &:nth-of-type(2) {
-            // font-size: 13px;
-            // color: rgba(0, 0, 0, 0.4);
-
             font-family: "SourceHanSansCN-Normal";
             font-size: 13px;
             font-weight: normal;

@@ -3,11 +3,19 @@
     <div class="apply-img">
       <img src="http://cloud.alilo.com.cn/down/image/smartedu_intro.png" />
     </div>
-    <div class="del-btn" v-if="isSignup">
-      <p @click="onDelCourse">从我的课程中删除</p>
-    </div>
 
-    <div class="apply-btn" v-else><p @click="onUserApply">开启智慧早教</p></div>
+    <fixed-button
+      @clk="onDelCourse"
+      text="从我的课程中删除"
+      v-if="isSignup"
+    ></fixed-button>
+
+    <div
+      class="apply-btn"
+      v-else
+    >
+      <p @click="onUserApply">开启智慧早教</p>
+    </div>
     <v-babaList
       v-if="babyBox"
       @setBabyId="setBabyId"
@@ -21,12 +29,14 @@ import * as CONSTANTS from '@/constants/index'
 import { mapState } from 'vuex'
 import BabaList from '@/components/BabyList.vue'
 import { getCookies, setCookies } from '@/common/cookie'
+import FixedButton from '@/components/FixedButton'
 export default {
   props: {},
   components: {
     'v-babaList': BabaList,
+    FixedButton
   },
-  data() {
+  data () {
     return {
       isSignup: false,
       babyList: [],
@@ -37,15 +47,15 @@ export default {
   computed: {
     ...mapState(['system', 'memberInfoVip']),
   },
-  created() {
+  created () {
     this.getUserSignupTime()
   },
-  mounted() {},
+  mounted () { },
   filters: {},
   watch: {},
   methods: {
     // 立刻报名
-    async onUserApply() {
+    async onUserApply () {
       if (this.memberInfoVip == 0) {
         this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, { path: '/' })
         return this.$toast('请先开通会员')
@@ -58,7 +68,7 @@ export default {
       this.babyBox = true
     },
 
-    async showLackBabyModal() {
+    async showLackBabyModal () {
       const dialog = await this.$createDialog(
         () => import('@/views/Course/LackBabyModal.vue'),
         {
@@ -75,7 +85,7 @@ export default {
       )
     },
     // 取消报名
-    async onDelCourse() {
+    async onDelCourse () {
       const params = {
         title: '删除课程',
         message: '确认要取消该课程的学习吗？',
@@ -113,7 +123,7 @@ export default {
       }
     },
     //删除'智慧早教'cookie
-    onDelCourseCookie() {
+    onDelCourseCookie () {
       const curUserId = window.localStorage.getItem(
         CONSTANTS.LOCALSTORAGE_COURSEBABY
       )
@@ -125,7 +135,7 @@ export default {
     },
 
     //获取用户报名智慧早教的时间
-    async getUserSignupTime() {
+    async getUserSignupTime () {
       let cid = localStorage.getItem('cid')
 
       try {
@@ -142,7 +152,7 @@ export default {
       }
     },
 
-    async getBabyList() {
+    async getBabyList () {
       try {
         const { data } = await this.$axios.getBabyList()
         if (!data.success) throw new Error(data.info)
@@ -152,7 +162,7 @@ export default {
       }
     },
 
-    async setBabyId(list) {
+    async setBabyId (list) {
       this.babyArray = list
 
       this.$toast.loading({
@@ -178,7 +188,7 @@ export default {
       }
     },
 
-    closeBox() {
+    closeBox () {
       this.babyBox = false
     },
   },
@@ -186,7 +196,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import './../../assets/css/constants.less';
+@import "./../../assets/css/constants.less";
 .apply-img {
   width: 100%;
   height: 100%;
@@ -214,7 +224,7 @@ export default {
     border-radius: 24px;
     margin: 14px 15px;
     background-image: linear-gradient(90deg, #ff9043 0%, #ff6666 100%);
-    font-family: 'SourceHanSansCN-Medium';
+    font-family: "SourceHanSansCN-Medium";
     font-size: 17px;
     font-weight: normal;
     font-stretch: normal;
@@ -245,7 +255,7 @@ export default {
     border-radius: 24px;
     border: solid 1px rgba(0, 0, 0, 0.4);
     // opacity: 0.5;
-    font-family: 'SourceHanSansCN-Medium';
+    font-family: "SourceHanSansCN-Medium";
     font-size: 17px;
     color: rgba(0, 0, 0, 0.6);
   }

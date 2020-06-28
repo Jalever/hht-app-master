@@ -1,15 +1,30 @@
 <template>
   <div class="card-wrapper iphonex-bd-bottom">
-    <div class="course-card" @click="onRedirect" v-if="isShowSmartCourse">
+    <div
+      class="course-card"
+      @click="onRedirect"
+      v-if="isShowSmartCourse"
+    >
       <div class="course-card-box">
-        <div class="course-img"><img src="../assets/image/2.png" alt="" /></div>
-        <div class="card-name"><p>智慧早教课程</p></div>
+        <div class="course-img"><img
+            src="../assets/image/2.png"
+            alt=""
+          /></div>
+        <div class="card-name">
+          <p>智慧早教课程</p>
+        </div>
         <div class="card-name-subhead">
           <p>0-6岁+宝宝通识早教课，覆盖宝宝成长关键期</p>
         </div>
         <div class="course-state">
-          <p class="course-state-btn2" v-if="eduData">已添加</p>
-          <p class="course-state-btn1" v-else>会员免费</p>
+          <p
+            class="course-state-btn2"
+            v-if="eduData"
+          >已添加</p>
+          <p
+            class="course-state-btn1"
+            v-else
+          >会员免费</p>
         </div>
       </div>
     </div>
@@ -20,7 +35,10 @@
       :key="item.id"
     >
       <div class="course-card-box">
-        <div class="course-img"><img :src="item.coverImage" alt="" /></div>
+        <div class="course-img"><img
+            :src="item.coverImage"
+            alt=""
+          /></div>
         <div class="card-name">
           <p>{{ item.name }}</p>
         </div>
@@ -29,7 +47,10 @@
         </div>
         <div class="card-time">
           <p>
-            <img src="../assets/image/course/time@2x.png" alt="" />
+            <img
+              src="../assets/image/course/time@2x.png"
+              alt=""
+            />
             共{{ item.classHour }}课时
           </p>
           <p>
@@ -37,10 +58,16 @@
           </p>
         </div>
         <div class="course-state">
-          <p class="course-state-btn2" v-if="item.learningState == 20">
+          <p
+            class="course-state-btn2"
+            v-if="item.learningState == 20"
+          >
             已添加
           </p>
-          <p class="course-state-btn1" v-else>会员免费</p>
+          <p
+            class="course-state-btn1"
+            v-else
+          >会员免费</p>
         </div>
       </div>
     </div>
@@ -55,13 +82,13 @@ export default {
     eduData: false,
     signupBabyId: [String, Number],
   },
-  data() {
+  data () {
     return {
       userId: null,
     }
   },
   computed: {
-    listWith() {
+    listWith () {
       return this.list.map((item) => {
         const participantsWith =
           item.participantOpsCount * 1 + item.particiPants
@@ -71,17 +98,17 @@ export default {
         }
       })
     },
-    isShowSmartCourse() {
+    isShowSmartCourse () {
       if (!this.signupBabyId) return true
       return this.signupBabyId * 1 === this.userId * 1
     },
   },
-  created() {
+  created () {
     this.userId = localStorage.getItem('courseBaby')
   },
-  mounted() {},
+  mounted () { },
   methods: {
-    detailsRouter(id) {
+    detailsRouter (id) {
       this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, {
         path: '/course/details',
         query: {
@@ -89,9 +116,7 @@ export default {
         },
       })
     },
-    onRedirect() {
-      if (!this.userId) return this.$toast('请登录火火兔APP')
-
+    onRedirect () {
       this.$store.dispatch('redirect', {
         path: '/wisdom-course/introduction',
       })
@@ -102,19 +127,18 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import './../assets/css/constants.less';
+@import "./../assets/css/constants.less";
 .card-wrapper {
   margin-top: 10px;
   border-bottom: @bottom-bar-distance-disk solid transparent;
 }
 .course-card {
-  width: 349px;
+  width: calc(100% - 26px);
   background-color: #fff;
   box-shadow: 0px 0px 8px 3px rgba(76, 76, 76, 0.06);
   border-radius: 8px;
   margin: 0 auto;
   margin-bottom: 20px;
-  // background-color: #ff0000;
 }
 .course-card:last-child {
   margin-bottom: 0px;
@@ -134,20 +158,20 @@ export default {
     }
   }
   .card-name {
-    // height: 20px;
-    font-family: 'SourceHanSansCN-Medium';
+    line-height: 20px;
+    font-family: "SourceHanSansCN-Medium";
     font-size: 20px;
     font-weight: normal;
     font-stretch: normal;
     letter-spacing: 0px;
     color: rgba(0, 0, 0, 0.8);
-    padding-top: 10px;
+    padding-top: 14px;
   }
   .card-name-subhead {
-    margin-top: 8px;
-    margin-left: 2px;
-    color: rgba(0, 0, 0, 0.5);
-    font-family: 'SourceHanSansCN-Normal';
+    margin-top: 12px;
+
+    line-height: 14px;
+    font-family: "SourceHanSansCN-Normal";
     font-size: 14px;
     font-weight: normal;
     font-stretch: normal;
@@ -171,8 +195,7 @@ export default {
     width: 100%;
     display: flex;
     align-items: center;
-    margin-top: 9px;
-    // background-color: #ff0000;
+    margin-top: 12px;
     p {
       font-size: 14px;
       color: rgba(0, 0, 0, 0.3);
@@ -184,13 +207,20 @@ export default {
       &:nth-of-type(2) {
         margin-left: auto;
         span {
+          line-height: 14px;
+          font-family: "SourceHanSansCN-Normal";
+          font-size: 14px;
+          font-weight: normal;
+          font-stretch: normal;
+          letter-spacing: 0px;
           color: #ff6666;
         }
       }
     }
 
     & > p:first-child {
-      font-family: 'SourceHanSansCN-Normal';
+      line-height: 14px;
+      font-family: "SourceHanSansCN-Normal";
       font-size: 14px;
       font-weight: normal;
       font-stretch: normal;
@@ -199,7 +229,8 @@ export default {
     }
 
     & > p:nth-of-type(2) {
-      font-family: 'SourceHanSansCN-Normal';
+      line-height: 14px;
+      font-family: "SourceHanSansCN-Normal";
       font-size: 14px;
       font-weight: normal;
       letter-spacing: 0px;
@@ -207,7 +238,7 @@ export default {
     }
   }
   .course-state {
-    margin-top: 15px;
+    margin-top: 22px;
     p {
       text-align: center;
     }
@@ -216,8 +247,7 @@ export default {
       height: 30px;
       background-color: #f9c003;
       border-radius: 15px;
-
-      font-family: 'SourceHanSansCN-Medium';
+      font-family: "SourceHanSansCN-Medium";
       font-size: 16px;
       font-weight: normal;
       font-stretch: normal;
@@ -232,9 +262,7 @@ export default {
       height: 30px;
       border-radius: 14px;
       border: solid 1px rgba(0, 0, 0, 0.4);
-      // opacity: 0.5;
-
-      font-family: 'SourceHanSansCN-Normal';
+      font-family: "SourceHanSansCN-Normal";
       font-size: 16px;
       font-weight: normal;
       font-stretch: normal;

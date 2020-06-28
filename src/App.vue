@@ -1,25 +1,32 @@
 <template>
-  <div id="app" class="hhtApp">
+  <div
+    id="app"
+    class="hhtApp"
+  >
     <transition :name="transitionName">
-      <keep-alive
-        ><router-view v-if="$route.meta.keepAlive"></router-view
-      ></keep-alive>
+      <keep-alive>
+        <router-view v-if="$route.meta.keepAlive"></router-view>
+      </keep-alive>
     </transition>
-    <transition :name="transitionName"
-      ><router-view v-if="!$route.meta.keepAlive"></router-view
-    ></transition>
+    <transition :name="transitionName">
+      <router-view v-if="!$route.meta.keepAlive"></router-view>
+    </transition>
   </div>
 </template>
 <script>
 import { mapActions, mapMutations, mapState } from 'vuex'
 import * as CONSTANTS from '@/constants/index'
 export default {
-  data() {
+  data () {
     return {
       transitionName: 'slide-right', //初始过渡动画方向
     }
   },
-  created() {
+  created () {
+    console.warn('window.location.href');
+    console.log(window.location.href);
+    console.log('\n');
+
     this.type = this.getSystem()
     if (this.type == 'ios') {
       this.$store.dispatch('setBabyInfoAction')
@@ -30,7 +37,7 @@ export default {
     this.$store.dispatch('getUserActivityInfo')
   },
   methods: {
-    getSystem() {
+    getSystem () {
       let ua = navigator.userAgent.toLowerCase()
       //android终端
       let isAndroid = ua.indexOf('Android') > -1 || ua.indexOf('Adr') > -1 //ios终端
@@ -47,7 +54,7 @@ export default {
     },
   },
   watch: {
-    $route(to, from) {
+    $route (to, from) {
       // 切换动画
       // let isBack = this.$router.isBack // 监听路由变化时的状态为前进还是后退
       // if (isBack) {
@@ -65,7 +72,7 @@ export default {
 #app {
   width: 100%;
   // height: 100%;
-  font-family: 'SourceHanSansCN-Regular', Helvetica, STHeiTi, Arial, sans-serif;
+  font-family: "SourceHanSansCN-Regular", Helvetica, STHeiTi, Arial, sans-serif;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
   font-size: 62.5%;

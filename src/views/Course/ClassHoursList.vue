@@ -93,11 +93,9 @@ export default {
 
 <style lang="less" scoped>
 .list-box {
-  // width: 345px;
   background-color: #ffffff;
   box-shadow: 0px 0px 8px 3px rgba(76, 76, 76, 0.06);
   border-radius: 8px;
-  // margin: 0 auto;
   ul {
     width: 100%;
     padding: 18px 12px;

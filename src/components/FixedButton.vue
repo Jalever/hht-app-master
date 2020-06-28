@@ -1,5 +1,8 @@
 <template>
-  <van-row class="fixed-button-wrapper" @click="handleClick">
+  <van-row
+    class="fixed-button-wrapper"
+    @click="handleClick"
+  >
     <div>
       <p></p>
       <span>{{ text }}</span>
@@ -15,15 +18,15 @@ export default {
     },
   },
   components: {},
-  data() {
+  data () {
     return {}
   },
   computed: {},
-  mounted() {},
+  mounted () { },
   filters: {},
   watch: {},
   methods: {
-    handleClick() {
+    handleClick () {
       this.$emit('clk')
     },
   },
@@ -31,7 +34,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import './../assets/css/constants.less';
+@import "./../assets/css/constants.less";
 
 .fixed-button-wrapper {
   width: 100%;
@@ -59,7 +62,7 @@ export default {
     }
 
     & > span {
-      font-family: 'SourceHanSansCN-Medium';
+      font-family: "SourceHanSansCN-Medium";
       font-size: 17px;
       font-weight: normal;
       font-stretch: normal;
@@ -71,30 +74,5 @@ export default {
       transform: translate(-50%, -50%);
     }
   }
-  // & > p {
-  //   width: 345px;
-  //   height: 48px;
-  //   line-height: 48px;
-  //   margin: 14px 15px;
-  //   // font-family: 'SourceHanSansCN-Medium';
-  //   font-weight: normal;
-  //   font-stretch: normal;
-  //   letter-spacing: 0px;
-  //   border-radius: 24px;
-  //   border: solid 1px rgba(0, 0, 0, 0.4);
-  //   opacity: 0.5;
-  //   // font-family: 'SourceHanSansCN-Medium';
-  //   // font-size: 17px;
-  //   // color: rgba(0, 0, 0, 0.6);
-  //   & > span {
-  //     font-family: 'SourceHanSansCN-Medium';
-  //     font-size: 17px;
-  //     font-weight: normal;
-  //     font-stretch: normal;
-  //     letter-spacing: 0px;
-  //     color: rgba(0, 0, 0, 0.6);
-  //     opacity: 1;
-  //   }
-  // }
 }
 </style>
