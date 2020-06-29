@@ -33,7 +33,7 @@
               </p>
               <p>
                 <img src="../../assets/image/course/time@2x.png" />
-                共 {{ detailsList.classHour }} 课时
+                共{{ detailsList.classHour }}课时
               </p>
               <p>
                 <img src="../../assets/image/course/xuexi@2x.png" />
@@ -58,14 +58,14 @@
             :class="tabAction == 1 ? 'tabAction' : ''"
           >
             课程简介
-            <span></span>
+            <span :class="tabAction !== 1 ? 'isActiveTav' : ''"></span>
           </p>
           <p
             @click="detalsTab(2)"
             :class="tabAction == 2 ? 'tabAction' : ''"
           >
             课程计划
-            <span></span>
+            <span :class="tabAction !== 2 ? 'isActiveTav' : ''"></span>
           </p>
         </div>
         <div class="tab-content">
@@ -359,18 +359,20 @@ export default {
 
       span {
         display: inline-block;
-        background-color: rgba(255, 102, 102, 0.08);
+        background-color: rgba(255, 138, 102, 0.08);
         border-radius: 12px;
         padding: 4px 8px;
         margin-right: 11px;
         line-height: 13px;
+
         vertical-align: middle;
+
         font-family: "SourceHanSansCN-Normal";
         font-size: 13px;
         font-weight: normal;
         font-stretch: normal;
         letter-spacing: 0px;
-        color: #ff6666;
+        color: #ff8a66;
       }
     }
 
@@ -439,6 +441,11 @@ export default {
       align-items: center;
       & > span {
         margin-top: 8px;
+        display: inline-block;
+        width: 22px;
+        height: 4px;
+        background-color: #ff6666;
+        border-radius: 2px;
       }
     }
     & > p:first-of-type {
@@ -458,13 +465,17 @@ export default {
   color: #ff6666;
 
   & > span {
-    margin-top: 8px;
-    display: inline-block;
-    width: 22px;
-    height: 4px;
-    background-color: #ff6666;
-    border-radius: 2px;
+    // margin-top: 8px;
+    // display: inline-block;
+    // width: 22px;
+    // height: 4px;
+    // background-color: #ff6666;
+    // border-radius: 2px;
   }
+}
+
+.isActiveTav {
+  visibility: hidden;
 }
 
 .tab-content {

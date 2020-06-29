@@ -82,7 +82,6 @@ export default {
 <style lang="less" scoped>
 @import "./../assets/css/constants.less";
 .details-list-wrapper {
-  // background-color: #ff0000;
 }
 .list-content {
   width: 345px;
@@ -116,11 +115,29 @@ export default {
   }
 
   /deep/ .van-tabs__nav {
+    height: 14px !important;
+    & > div {
+      flex-grow: 0 !important;
+      justify-content: space-between;
+    }
     & > div:first-of-type {
       padding-left: 15px;
     }
     & > div:nth-last-of-type(2) {
       padding-right: 15px;
+    }
+  }
+
+  /deep/ .van-tabs__nav--line {
+    display: inline-block;
+    height: 14px !important;
+    padding-bottom: 0;
+    & > div {
+      display: inline-block;
+    }
+
+    & > div:last-child {
+      display: none;
     }
   }
 
@@ -133,16 +150,19 @@ export default {
   /deep/ .van-tabs__wrap {
     height: 48px;
     overflow-x: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   /deep/ .van-tab__text {
     overflow-x: auto;
     white-space: nowrap;
-    // background-color: #fff000;
   }
 
   /deep/ .van-tab {
-    line-height: 14px !important;
+    line-height: 16px !important;
+    vertical-align: middle;
     font-family: "SourceHanSansCN-Normal" !important;
     font-size: 13px !important;
     font-weight: normal !important;

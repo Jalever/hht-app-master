@@ -3,10 +3,14 @@
     class="fixed-button-wrapper"
     @click="handleClick"
   >
+    <!-- content -->
     <div>
       <p></p>
       <span>{{ text }}</span>
+      <!-- border -->
+      <div></div>
     </div>
+
   </van-row>
 </template>
 <script>
@@ -45,6 +49,7 @@ export default {
   left: 0;
   text-align: center;
   background-color: #fff;
+
   & > div:first-child {
     width: 100%;
     height: 100%;
@@ -72,6 +77,17 @@ export default {
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
+    }
+
+    & > div {
+      width: 100%;
+      height: 1px;
+      background-color: rgba(0, 0, 0, 0.08);
+      position: absolute;
+      left: 0;
+      top: 0;
+      transform: scaleY(0.5);
+      transform-origin: 50% 100%;
     }
   }
 }
