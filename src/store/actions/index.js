@@ -4,11 +4,6 @@ import router from '@/router/index';
 import ROUTEACTIONS from "./route";
 import * as CONSTANTS from "@/constants/index";
 
-
-import {
-  Toast,
-} from 'vant'
-
 export default {
 	...ROUTEACTIONS,
 	/*
@@ -71,6 +66,7 @@ export default {
 					.catch(err => console.error(err));
 			};
 			window['getCurrentBaby'] = res => {
+				if(!res) window.localStorage.removeItem("courseBaby")
 				localStorage.setItem("courseBaby", res.babyId)
 			}
 		} catch (e) {
@@ -84,9 +80,8 @@ export default {
 		try {
 			let user = window.android.getUserInfo();
 			let babyid = window.android.getCurrentBaby();
-			console.warn('user');
-			console.log(user);
-			console.log('\n');
+			if (!babyid) window.localStorage.removeItem("courseBaby")
+
 			user = JSON.parse(user);
 			if (user.uid == "") return router.push({ name: 'course-login' });
 

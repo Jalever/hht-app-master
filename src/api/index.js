@@ -34,7 +34,7 @@ export function fetch(options) {
 		});
 		instance.defaults.headers.common["token"] = AUTH_TOKEN;
 		instance.interceptors.request.use(function(config) {
-			// console.log("AUTH_TOKEN")
+			
 			if (AUTH_TOKEN == null) {
 				let promisefresh = new Promise(function(resolve, reject) {
 					//刷新token
@@ -59,9 +59,7 @@ export function fetch(options) {
 			return Promise.reject(err);
 		});
 		instance.interceptors.response.use(function(res) {
-			// console.log(res)
 			if (res.data.code == 2) {
-				// console.log("token过期了", Router);
 				Router.push({
 					name: 'login'
 				})

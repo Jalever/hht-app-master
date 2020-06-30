@@ -15,8 +15,8 @@
 
     <div class="list-content">
       <p class="list-content-title">
-        <span @click="EbbinghausClick">艾宾浩斯曲线学习计划
-          <img src="../assets/image/course/icon_tips@2x.png" /></span>
+        <span @click="EbbinghausClick">艾宾浩斯曲线学习计划</span>
+        <img src="../assets/image/course/icon_tips@2x.png" />
       </p>
       <class-hours-list :class-hours="tabData.classHours"></class-hours-list>
     </div>
@@ -88,29 +88,31 @@ export default {
   margin: 0 auto;
   margin-top: 13px;
   .list-content-title {
+    line-height: 12px;
+    vertical-align: middle;
     font-size: 12px;
     color: rgba(0, 0, 0, 0.3);
     margin-bottom: 10px;
     font-family: "SourceHanSansCN-Regular";
-    font-size: 12px;
     font-weight: normal;
     font-stretch: normal;
     letter-spacing: 0px;
     color: rgba(0, 0, 0, 0.3);
     display: flex;
     align-items: center;
+    // background-color: #ff0000;
     img {
       width: 14px;
       height: 14px;
-      margin-left: 4px;
-      position: relative;
-      top: -1px;
+      margin-left: 3px;
+      // position: relative;
+      // top: -1px;
     }
   }
 }
 
 .details-list-tab {
-  overflow-x: scroll;
+  // overflow-x: scroll;
   /deep/ .details-list-tab {
   }
 
@@ -120,25 +122,32 @@ export default {
       flex-grow: 0 !important;
       justify-content: space-between;
     }
-    & > div:first-of-type {
-      padding-left: 15px;
-    }
-    & > div:nth-last-of-type(2) {
-      padding-right: 15px;
-    }
   }
 
   /deep/ .van-tabs__nav--line {
-    display: inline-block;
-    height: 14px !important;
-    padding-bottom: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    // -ms-overflow-style: none;
+    flex-wrap: nowrap;
+    height: 48px !important;
+    line-height: 48px !important;
+    vertical-align: middle;
+    padding-bottom: 0px;
+
     & > div {
+      padding-top: 17px;
+      padding-left: 16px;
+      padding-right: 16px;
       display: inline-block;
     }
 
     & > div:last-child {
       display: none;
     }
+  }
+
+  /deep/ .van-tabs__nav--line::-webkit-scrollbar {
+    display: none;
   }
 
   /deep/ .van-tabs__line {
@@ -149,14 +158,19 @@ export default {
 
   /deep/ .van-tabs__wrap {
     height: 48px;
-    overflow-x: auto;
+    max-height: 48px;
+    // overflow-x: auto;
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
+  }
+
+  /deep/ .van-tabs__wrap::-webkit-scrollbar {
+    display: none;
   }
 
   /deep/ .van-tab__text {
-    overflow-x: auto;
     white-space: nowrap;
   }
 
@@ -186,5 +200,9 @@ export default {
     border: 0 solid #ff0000;
     border-bottom: 1px solid #f3f3f3;
   }
+}
+
+.details-list-tab::-webkit-scrollbar {
+  display: none;
 }
 </style>

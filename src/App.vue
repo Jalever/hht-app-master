@@ -23,10 +23,6 @@ export default {
     }
   },
   created () {
-    console.warn('window.location.href');
-    console.log(window.location.href);
-    console.log('\n');
-
     this.type = this.getSystem()
     if (this.type == 'ios') {
       this.$store.dispatch('setBabyInfoAction')

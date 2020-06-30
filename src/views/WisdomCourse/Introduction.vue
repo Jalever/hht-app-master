@@ -30,6 +30,7 @@ import { mapState } from 'vuex'
 import BabaList from '@/components/BabyList.vue'
 import { getCookies, setCookies } from '@/common/cookie'
 import FixedButton from '@/components/FixedButton'
+import { MEMBERSHIP_URL } from "@/constants/setting";
 export default {
   props: {},
   components: {
@@ -57,8 +58,9 @@ export default {
     // 立刻报名
     async onUserApply () {
       if (this.memberInfoVip == 0) {
-        this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, { path: '/' })
-        return this.$toast('请先开通会员')
+        this.$toast('请先开通会员');
+        window.open(MEMBERSHIP_URL, '_self');
+        return;
       }
 
       //filter: 未添加宝贝

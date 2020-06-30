@@ -96,6 +96,7 @@ export default {
   background-color: #ffffff;
   box-shadow: 0px 0px 8px 3px rgba(76, 76, 76, 0.06);
   border-radius: 8px;
+  padding: 23px 0;
   ul {
     width: 100%;
     padding: 18px 12px;
@@ -160,13 +161,20 @@ export default {
       }
     }
   }
+  & > ul:first-of-type {
+    padding-top: 0px;
+  }
+  & > ul:last-of-type {
+    & > div:last-of-type {
+      display: none;
+    }
+  }
 }
 .list-box-divider {
   width: 100%;
   height: 1px;
   margin-top: 18px;
   background-color: #f3f3f3;
-  // background-color: #ff0000;
   transform: scaleY(0.5);
   transform-origin: 50% 100%;
 }

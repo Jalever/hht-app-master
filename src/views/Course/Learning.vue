@@ -29,8 +29,8 @@
       <div class="learnig-list mbot">
         <v-title
           :title="titleNmae"
-          top="26"
-          bottom="14"
+          top="34"
+          bottom="17"
           :courseCount="courseData.classHourCount"
         ></v-title>
         <class-hours-list :class-hours="courseData.classHours"></class-hours-list>
@@ -57,7 +57,7 @@ export default {
     return {
       title: '',
       isLoading: false,
-      titleNmae: '今日课程关键词',
+      titleNmae: '课程安排',
       courseData: [],
       babyid: 0,
     }
@@ -144,9 +144,11 @@ export default {
 @import "./../../assets/css/constants.less";
 .learning-wrapper {
   margin: 0 14px;
+  margin-top: 20px;
 }
 .learning-content {
-  margin-bottom: 84px;
+  // margin-bottom: 84px;
+  border-bottom: 84px solid transparent;
 }
 .learning-top {
   margin-top: 5px;
@@ -266,31 +268,24 @@ export default {
     width: 100%;
     padding: 18px 15px 18px 15px;
     border-bottom: 1px #f3f3f3 solid;
-    // background-color: #fff000;
     .list-item-title {
       width: 100%;
       display: flex;
       align-items: center;
       p {
         &:nth-of-type(1) {
-          // font-size: 15px;
-          // color: rgba(0, 0, 0, 0.8);
-
           font-family: "SourceHanSansCN-Medium";
           font-size: 15px;
           font-weight: normal;
           font-stretch: normal;
           letter-spacing: 0px;
           color: rgba(0, 0, 0, 0.8);
-          // vertical-align: bottom;
-          // background-color: #ff0000;
         }
 
         &:nth-of-type(2) {
           font-size: 12px;
           color: rgba(0, 0, 0, 0.3);
           margin-left: auto;
-          // background-color: #ff0000;
         }
       }
     }
@@ -327,6 +322,8 @@ export default {
       }
     }
   }
+}
+.learnig-list {
 }
 .mbot {
   margin-bottom: 40px;

@@ -11,6 +11,7 @@
       >加载中</van-loading>
     </div>
     <button @click="onRedirect">会员中心</button>
+    <button @click="onRedirectDPR">设备像素比</button>
     <v-card
       :list="lsit"
       :eduData="educationData"
@@ -53,6 +54,9 @@ export default {
     onRedirect () {
       let url = 'http://wifi.alilo.com.cn/xiaohai/hht/dist/index.html'
       window.open(url, '_self')
+    },
+    onRedirectDPR() {
+      
     },
     // 获取报名时间
     async getSignupTime () {

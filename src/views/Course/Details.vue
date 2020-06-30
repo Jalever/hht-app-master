@@ -105,6 +105,7 @@ import { getQueryStringValue } from '@/common/util'
 import FixedButton from '@/components/FixedButton'
 import { getCookies, setCookies } from '@/common/cookie'
 import { mapState } from 'vuex'
+import { MEMBERSHIP_URL } from "@/constants/setting";
 export default {
   data () {
     return {
@@ -166,8 +167,10 @@ export default {
       if (courseLength > 10) return this.showOverloadCourseModal()
 
       if (this.memberInfoVip == 0) {
-        this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, { path: '/' })
-        return this.$toast('请先开通会员')
+        this.$toast('请先开通会员')
+        window.open(MEMBERSHIP_URL, '_self');
+        // this.$store.dispatch(CONSTANTS.DISPATCH_REDIRECT, { path: '/' })
+        return;
       }
 
       // 验证宝宝id是否有效

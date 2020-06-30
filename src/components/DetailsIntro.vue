@@ -94,7 +94,10 @@ export default {
       height: 80px;
       display: flex;
       align-items: center;
-      padding: 10px 0;
+      // padding: 10px 0;
+      // background-color: #ff0000;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
       .item-img {
         width: 54px;
         height: 54px;
@@ -125,7 +128,6 @@ export default {
             font-stretch: normal;
             letter-spacing: 0px;
             color: rgba(0, 0, 0, 0.5);
-            // background-color: #fff000;
             & > span {
               margin: 0 3px;
             }
@@ -135,12 +137,9 @@ export default {
     }
 
     & > li:first-child {
-      padding-top: 0;
+      // padding-top: 0;
+      border-top: 0;
     }
-
-    // & > li:nth-child(2) {
-    //   background-color: #f88;
-    // }
   }
 }
 </style>
